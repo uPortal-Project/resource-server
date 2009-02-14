@@ -1,0 +1,28 @@
+<ehcache>
+    
+    <!--
+        | Required by EHcache
+        +-->
+    <defaultCache
+        maxElementsInMemory="1024"
+        eternal="false"
+        overflowToDisk="false"
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="600"
+        memoryStoreEvictionPolicy="LRU"
+    />
+    
+    <!--
+        | Cache for Entries
+        +-->
+    <cache name="SimplePageCachingFilter"
+        maxElementsInMemory="7680"
+        eternal="false"
+        overflowToDisk="false"
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="600"
+        diskPersistent="false"
+        memoryStoreEvictionPolicy="LRU"
+    />
+
+</ehcache>

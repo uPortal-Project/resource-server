@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd" 
+    version="2.5">
+    
+    <display-name>Jasig Resource Server Web Application</display-name>
+    <description>Serves Javascript and CSS library resources</description>
+
+    <!-- Gzips and caches http resources -->
+    <filter>
+        <filter-name>SimplePageCachingFilter</filter-name>
+        <filter-class>net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter</filter-class>
+    </filter>
+    
+    <!-- Applies a far-future expiration header to the response -->
+    <filter>
+        <filter-name>CacheExpiresFilter</filter-name>
+        <filter-class>org.jasig.portal.resourceserver.utils.filter.CacheExpirationFilter</filter-class>
+    </filter>
+    
+    <!-- filter mappings for javascript and css resources -->
+    
+    <filter-mapping>
+        <filter-name>SimplePageCachingFilter</filter-name>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.css</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CacheExpiresFilter</filter-name>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.css</url-pattern>
+    </filter-mapping>
+
+</web-app>
