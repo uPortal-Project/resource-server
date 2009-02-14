@@ -30,11 +30,6 @@
             <version>1.1.2</version>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-        </dependency>
-        <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
             <version>1.1.2</version>
@@ -52,6 +47,7 @@
 
     <build>
         <plugins>
+            <!-- Minify Javascript and CSS resource -->
             <plugin>
                 <groupId>net.sf.alchim</groupId>
                 <artifactId>yuicompressor-maven-plugin</artifactId>
@@ -72,6 +68,8 @@
                     <suffix>.min</suffix>
                 </configuration>
             </plugin>
+            
+            <!-- Create project war -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
