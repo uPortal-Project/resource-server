@@ -69,7 +69,6 @@ public class ResourceIncludeTag extends TagSupport {
 				throw new JspTagException("Error: IOException while writing");
 			}
 		} else {
-			System.out.println("url: " + _url);
 			pageContext.setAttribute(_var, _url);
 		}
 		return EVAL_PAGE;
