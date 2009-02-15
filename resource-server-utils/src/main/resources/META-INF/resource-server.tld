@@ -9,7 +9,7 @@
     <uri>http://www.jasig.org/resource-server</uri>
     <tag>
         <name>resourceURL</name>
-        <tagclass>org.jasig.portal.resourceserver.utils.taglib.ResourceIncludeTag</tagclass>
+        <tagclass>org.jasig.resourceserver.utils.taglib.ResourceIncludeTag</tagclass>
         <bodycontent>empty</bodycontent>
         <attribute>
             <name>value</name>

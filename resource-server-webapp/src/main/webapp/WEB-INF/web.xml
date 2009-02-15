@@ -15,7 +15,7 @@
     <!-- Applies a far-future expiration header to the response -->
     <filter>
         <filter-name>CacheExpiresFilter</filter-name>
-        <filter-class>org.jasig.portal.resourceserver.utils.filter.CacheExpirationFilter</filter-class>
+        <filter-class>org.jasig.resourceserver.utils.filter.CacheExpirationFilter</filter-class>
     </filter>
     
     <!-- filter mappings for javascript and css resources -->

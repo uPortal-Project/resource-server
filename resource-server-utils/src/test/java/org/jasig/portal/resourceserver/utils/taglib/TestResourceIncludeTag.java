@@ -3,12 +3,15 @@ package org.jasig.portal.resourceserver.utils.taglib;
 import java.io.IOException;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import junit.framework.TestCase;
 
+import org.jasig.resourceserver.utils.taglib.ResourceIncludeTag;
 import org.mockito.Mockito;
 
 /**
@@ -29,6 +32,8 @@ public class TestResourceIncludeTag extends TestCase {
 	private ResourceIncludeTag tag = new ResourceIncludeTag();
 	private final PageContext pageContext = Mockito.mock(PageContext.class);
 	private final ServletContext servletContext = Mockito.mock(ServletContext.class);
+	private final HttpServletRequest httpServletRequest = Mockito.mock(HttpServletRequest.class);
+	private final HttpServletResponse httpServletResponse = Mockito.mock(HttpServletResponse.class);
 	private final JspWriter jspWriter = Mockito.mock(JspWriter.class);
 	
 	@Override
@@ -38,9 +43,11 @@ public class TestResourceIncludeTag extends TestCase {
 		// set our tag to produce a mock ServletContext
 		tag.setPageContext(pageContext);
 		Mockito.when(pageContext.getServletContext()).thenReturn(servletContext);
+		Mockito.when(pageContext.getRequest()).thenReturn(httpServletRequest);
+		Mockito.when(pageContext.getResponse()).thenReturn(httpServletResponse);
 
 		// give us a current context path
-		Mockito.when(servletContext.getContextPath()).thenReturn(CURRENT_CONTEXT);
+		Mockito.when(httpServletRequest.getContextPath()).thenReturn(CURRENT_CONTEXT);
 		
 		// set our mock JspWriter
 		Mockito.when(pageContext.getOut()).thenReturn(jspWriter);
@@ -58,7 +65,7 @@ public class TestResourceIncludeTag extends TestCase {
 		tag.setValue("/test/resource");
 		tag.doStartTag();
 		
-		assert(tag.getUrl().equals(CURRENT_CONTEXT.concat("/test/resource")));
+		assertEquals(CURRENT_CONTEXT.concat("/test/resource"), tag.getUrl());
 		
 	}
 	
@@ -78,7 +85,7 @@ public class TestResourceIncludeTag extends TestCase {
 		
 		tag.doStartTag();
 		
-		assert(tag.getUrl().equals(DEFAULT_RESOURCE_CONTEXT.concat("/test/resource")));
+		assertEquals(DEFAULT_RESOURCE_CONTEXT.concat("/test/resource"), tag.getUrl());
 
 	}
 	
@@ -101,7 +108,7 @@ public class TestResourceIncludeTag extends TestCase {
 		
 		tag.doStartTag();
 
-		assert(tag.getUrl().equals("/OverrideResourceWebapp".concat("/test/resource")));
+		assertEquals("/OverrideResourceWebapp".concat("/test/resource"), tag.getUrl());
 
 	}
 	
@@ -124,7 +131,7 @@ public class TestResourceIncludeTag extends TestCase {
 		tag.doStartTag();
 		
 		// tag should properly handle missing slashes
-		assert(tag.getUrl().equals(DEFAULT_RESOURCE_CONTEXT.concat("/test/resource")));
+		assertEquals(DEFAULT_RESOURCE_CONTEXT.concat("/test/resource"), tag.getUrl());
 		
 	}
 	
@@ -150,6 +157,8 @@ public class TestResourceIncludeTag extends TestCase {
 	 * @throws IOException
 	 */
 	public void testUnSetVariable() throws JspException, IOException {
+	    Mockito.when(httpServletResponse.encodeURL("/TestContext/test/resource")).thenReturn("/TestContext/test/resource");
+	    
 		tag.setValue("/test/resource");
 		tag.doStartTag();
 		tag.doEndTag();

@@ -22,30 +22,24 @@
         <dependency>
             <groupId>org.jasig.resource-server</groupId>
             <artifactId>resource-server-utils</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.1.2</version>
         </dependency>
         <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
-            <version>1.1.2</version>
-            <type>jar</type>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
-            <version>1.5.0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
-
     <build>
+        <finalName>ResourceServingWebapp</finalName>
         <plugins>
             <!-- Minify Javascript and CSS resource -->
             <plugin>
@@ -66,16 +60,6 @@
                     </excludes>
                     <linebreakpos>10000</linebreakpos>
                     <suffix>.min</suffix>
-                </configuration>
-            </plugin>
-            
-            <!-- Create project war -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <warName>ResourceServingWebapp</warName>
-                    <webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
                 </configuration>
             </plugin>
         </plugins>
