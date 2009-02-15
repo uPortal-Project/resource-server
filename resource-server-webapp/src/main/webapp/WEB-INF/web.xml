@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd" 
-    version="2.5">
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" 
+    version="2.4">
     
     <display-name>Jasig Resource Server Web Application</display-name>
     <description>Serves Javascript and CSS library resources</description>
+    
+    <!-- Registers the default CacheManager with the JMX Server  -->
+    <listener>
+        <listener-class>org.jasig.resourceserver.web.EhCacheJmxRegistrationListener</listener-class>
+    </listener>
+    
+    <!-- Ensures the EhCache managers in the webapp are cleanly shutdown -->
+    <listener>
+        <listener-class>net.sf.ehcache.constructs.web.ShutdownListener</listener-class>
+    </listener>
 
     <!-- Gzips and caches http resources -->
     <filter>
@@ -23,12 +33,19 @@
     <filter-mapping>
         <filter-name>SimplePageCachingFilter</filter-name>
         <url-pattern>*.js</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>SimplePageCachingFilter</filter-name>
         <url-pattern>*.css</url-pattern>
     </filter-mapping>
+    
     <filter-mapping>
         <filter-name>CacheExpiresFilter</filter-name>
         <url-pattern>*.js</url-pattern>
+    </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>CacheExpiresFilter</filter-name>
         <url-pattern>*.css</url-pattern>
     </filter-mapping>
-
 </web-app>
