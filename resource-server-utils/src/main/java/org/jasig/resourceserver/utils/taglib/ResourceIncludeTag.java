@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
@@ -79,12 +78,9 @@ public class ResourceIncludeTag extends TagSupport {
     @Override
     public int doEndTag() throws JspException {
         if (_var == null) {
-            final HttpServletResponse httpResponse = (HttpServletResponse)pageContext.getResponse();
-            final String encodedUrl = httpResponse.encodeURL(_url);
-
             final JspWriter out = pageContext.getOut();
             try {
-                out.print(encodedUrl);
+                out.print(_url);
             } catch (IOException e) {
                 throw new JspTagException("Error writing URL to page.", e);
             }

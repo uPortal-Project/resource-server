@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -33,7 +32,6 @@ public class TestResourceIncludeTag extends TestCase {
 	private final PageContext pageContext = Mockito.mock(PageContext.class);
 	private final ServletContext servletContext = Mockito.mock(ServletContext.class);
 	private final HttpServletRequest httpServletRequest = Mockito.mock(HttpServletRequest.class);
-	private final HttpServletResponse httpServletResponse = Mockito.mock(HttpServletResponse.class);
 	private final JspWriter jspWriter = Mockito.mock(JspWriter.class);
 	
 	@Override
@@ -44,7 +42,6 @@ public class TestResourceIncludeTag extends TestCase {
 		tag.setPageContext(pageContext);
 		Mockito.when(pageContext.getServletContext()).thenReturn(servletContext);
 		Mockito.when(pageContext.getRequest()).thenReturn(httpServletRequest);
-		Mockito.when(pageContext.getResponse()).thenReturn(httpServletResponse);
 
 		// give us a current context path
 		Mockito.when(httpServletRequest.getContextPath()).thenReturn(CURRENT_CONTEXT);
@@ -157,8 +154,6 @@ public class TestResourceIncludeTag extends TestCase {
 	 * @throws IOException
 	 */
 	public void testUnSetVariable() throws JspException, IOException {
-	    Mockito.when(httpServletResponse.encodeURL("/TestContext/test/resource")).thenReturn("/TestContext/test/resource");
-	    
 		tag.setValue("/test/resource");
 		tag.doStartTag();
 		tag.doEndTag();
