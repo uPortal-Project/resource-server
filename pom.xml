@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.jasig.resource-server</groupId>
+    <groupId>org.jasig.resourceserver</groupId>
     <artifactId>resource-server-parent</artifactId>
     <packaging>pom</packaging>
 

@@ -4,13 +4,13 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <groupId>org.jasig.resource-server</groupId>
-        <artifactId>resource-server</artifactId>
+        <groupId>org.jasig.resourceserver</groupId>
+        <artifactId>resource-server-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.jasig.resource-server</groupId>
+    <groupId>org.jasig.resourceserver</groupId>
     <artifactId>resource-server-webapp</artifactId>
     <packaging>war</packaging>
 
@@ -47,7 +47,7 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.jasig.resource-server</groupId>
+            <groupId>org.jasig.resourceserver</groupId>
             <artifactId>resource-server-utils</artifactId>
             <version>${pom.version}</version>
             <scope>runtime</scope>
