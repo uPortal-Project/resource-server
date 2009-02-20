@@ -6,17 +6,17 @@
     <parent>
         <groupId>org.jasig</groupId>
         <artifactId>jasig-parent</artifactId>
-        <version>7</version>
+        <version>10</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.resource-server</groupId>
-    <artifactId>resource-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>resource-server-parent</artifactId>
     <packaging>pom</packaging>
 
     <name>Resource Server</name>
-    <description>The JS Server project.</description>
+    <description>The root project definition for the Resource Server project.</description>
+    <version>0.0.1-SNAPSHOT</version>
 
     <licenses>
         <license>
@@ -35,9 +35,9 @@
 
     <repositories>
         <repository>
-            <id>jasig-repository</id>
+            <id>jasig-m2</id>
             <name>JA-SIG Maven2 Repository</name>
-            <url>http://developer.ja-sig.org/maven2</url>
+            <url>http://developer.jasig.org/repo/content/repositories/m2</url>
         </repository>
     </repositories>
 
