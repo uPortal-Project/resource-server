@@ -26,13 +26,6 @@
         </license>
     </licenses>
 
-    <distributionManagement>
-        <site>
-            <id>developer.jasig</id>
-            <url>scp://developer.ja-sig.org/jasig/htdocs/developer/projects/uportal/3.1.0-SNAPSHOT/</url>
-        </site>
-    </distributionManagement>
-
     <repositories>
         <repository>
             <id>jasig-m2</id>
