@@ -41,7 +41,7 @@
                     <li>
                         <div>${cssResource}</div>
 <pre id="jsEx_${forStatus.index}" class="cssExample">&lt;rs:resourceURL var="cssPath" value="${cssResource}"/>
-&lt;link rel="stylesheet" type="text/css" href="${'${'cssPath}" /></pre>
+&lt;link rel="stylesheet" type="text/css" href="${'${'}cssPath}" /></pre>
                     </li>
                 </c:forEach>
             </ul>
