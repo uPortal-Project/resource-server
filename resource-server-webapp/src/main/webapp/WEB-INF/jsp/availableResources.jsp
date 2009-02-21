@@ -6,7 +6,7 @@
     <head>
         <title>Available Resources</title>
         
-        <rs:resourceURL var="jQueryPath" value="/jquery/1.3.1/jquery-1.3.1.js"/>
+        <rs:resourceURL var="jQueryPath" value="/rs/jquery/1.3.1/jquery-1.3.1.js"/>
         <script type="text/javascript" language="javascript" src="${jQueryPath}"></script>
         
         <script type="text/javascript">
