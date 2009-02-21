@@ -40,7 +40,7 @@
                 <c:forEach var="cssResource" items="${cssResources}">
                     <li>
                         <div>${cssResource}</div>
-<pre id="jsEx_${forStatus.index}" class="cssExample">&lt;rs:resourceURL var="cssPath" value="${cssResource}"/>
+<pre id="cssEx_${forStatus.index}" class="cssExample">&lt;rs:resourceURL var="cssPath" value="${cssResource}"/>
 &lt;link rel="stylesheet" type="text/css" href="${'${'}cssPath}" /></pre>
                     </li>
                 </c:forEach>
