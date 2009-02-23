@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.jasig.resourceserver</groupId>
         <artifactId>resource-server-parent</artifactId>
-        <version>1.0.0-RC1</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -13,7 +13,7 @@
 
     <name>js-server</name>
     <description>The JS Server project.</description>
-    <version>1.0.0-RC1</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
