@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
         <groupId>org.jasig</groupId>
@@ -16,7 +13,7 @@
 
     <name>Resource Server</name>
     <description>The root project definition for the Resource Server project.</description>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-RC1</version>
 
     <licenses>
         <license>
@@ -141,4 +138,10 @@
             </plugins>
         </pluginManagement>
     </build>
+
+  <scm>
+    <connection>scm:svn:https://www.ja-sig.org/svn/jasig-parent/tags/rel-1.0.0-RC1</connection>
+    <developerConnection>scm:svn:https://www.ja-sig.org/svn/jasig-parent/tags/rel-1.0.0-RC1</developerConnection>
+    <url>http://developer.jasig.org/source/browse/jasigsvn/jasig-parent/tags/rel-1.0.0-RC1</url>
+  </scm>
 </project>
