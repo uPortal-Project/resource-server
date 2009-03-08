@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -96,7 +97,9 @@ public class CacheExpirationFilter extends GenericFilterBean {
         this.updateCacheHeader();
         
         //Start timer to periodically refresh the cache header
-        this.headerUpdateTimer = new Timer("CacheHeaderUpdateTimer", true);
+        final ServletContext servletContext = this.getServletContext();
+        final String servletContextName = servletContext.getServletContextName();
+        this.headerUpdateTimer = new Timer(servletContextName + "-CacheHeaderUpdateTimer", true);
         this.headerUpdateTimer.schedule(new CacheHeaderUpdater(), this.regenerateHeadersInterval, this.regenerateHeadersInterval);
     }
     
