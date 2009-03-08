@@ -14,15 +14,21 @@
     <name>Resource Server Parent</name>
     <description>The Resource Server project.</description>
     <version>1.0.0-SNAPSHOT</version>
+    <url>${jasig-site-base}/resource-server/${project.version}</url>
+    
+    <scm>
+        <connection>scm:svn:https://www.ja-sig.org/svn/sandbox/resource-server/trunk</connection>
+        <developerConnection>scm:svn:https://www.ja-sig.org/svn/sandbox/resource-server/trunk</developerConnection>
+        <url>http://developer.jasig.org/source/browse/jasigsvn/sandbox/resource-server/trunk</url>
+    </scm>
 
-    <licenses>
-        <license>
-            <name>JA-SIG Collaborative Licence</name>
-            <url>http://www.uportal.org/license.html</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
+    <distributionManagement>
+        <site>
+            <id>developer.jasig</id>
+            <url>${jasig-site-dist-base}/resource-server/${project.version}</url>
+        </site>
+    </distributionManagement>
+    
     <repositories>
         <repository>
             <id>jasig-m2</id>
