@@ -49,11 +49,11 @@
     <!-- filter mappings for javascript and css resources -->
     
     <filter-mapping>
-        <filter-name>SimplePageCachingFilter</filter-name>
+        <filter-name>pageCachingFilter</filter-name>
         <url-pattern>*.js</url-pattern>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>SimplePageCachingFilter</filter-name>
+        <filter-name>pageCachingFilter</filter-name>
         <url-pattern>*.css</url-pattern>
     </filter-mapping>
     
