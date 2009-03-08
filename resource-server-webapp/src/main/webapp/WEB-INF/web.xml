@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" 
     version="2.4">
     
-    <display-name>Jasig Resource Server Web Application</display-name>
+    <display-name>ResourceServer</display-name>
     <description>Serves Javascript and CSS library resources</description>
 
     <context-param>
