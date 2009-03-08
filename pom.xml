@@ -11,8 +11,8 @@
     <artifactId>resource-server-parent</artifactId>
     <packaging>pom</packaging>
 
-    <name>Resource Server</name>
-    <description>The root project definition for the Resource Server project.</description>
+    <name>Resource Server Parent</name>
+    <description>The Resource Server project.</description>
     <version>1.0.0-SNAPSHOT</version>
 
     <licenses>
@@ -109,6 +109,11 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
+                <version>2.5.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
                 <version>2.5.6</version>
             </dependency>
             <dependency>

@@ -12,7 +12,6 @@
     <packaging>jar</packaging>
 
     <name>Resource Server Utilities</name>
-    <description>The JS Server project.</description>
     <version>1.0.0-SNAPSHOT</version>
 
     <dependencies>
@@ -20,12 +19,13 @@
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
-    
-    
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
-            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
         </dependency>
         
     

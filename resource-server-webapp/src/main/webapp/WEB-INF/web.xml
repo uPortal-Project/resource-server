@@ -11,11 +11,6 @@
         <param-value>/WEB-INF/applicationContext.xml</param-value>
     </context-param>
     
-    <context-param>
-        <param-name>cacheManagerName</param-name>
-        <param-value>ResourceServer.cacheManager</param-value>
-    </context-param>
-    
     <!-- Length of time to set in cache headers (in seconds) -->
     <!-- 
     <context-param>
@@ -28,7 +23,7 @@
     <!-- 
     <context-param>
         <param-name>regenerateHeadersInterval</param-name>
-        <param-value>60000</param-value>
+        <param-value>1000</param-value>
     </context-param>
     -->
     
@@ -39,20 +34,10 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     
-    <!-- Registers the default CacheManager with the JMX Server  -->
-    <listener>
-        <listener-class>org.jasig.resourceserver.web.EhCacheJmxRegistrationListener</listener-class>
-    </listener>
-    
-    <!-- Ensures the EhCache managers in the webapp are cleanly shutdown -->
-    <listener>
-        <listener-class>net.sf.ehcache.constructs.web.ShutdownListener</listener-class>
-    </listener>
-
     <!-- Gzips and caches http resources -->
     <filter>
-        <filter-name>SimplePageCachingFilter</filter-name>
-        <filter-class>net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter</filter-class>
+        <filter-name>pageCachingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
     
     <!-- Applies a far-future expiration header to the response -->

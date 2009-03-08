@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+    <bean id="pageCachingFilter" class="org.jasig.resourceserver.utils.cache.ConfigurablePageCachingFilter">
+        <constructor-arg ref="cacheManager"/>
+        <constructor-arg value="SimplePageCachingFilter"/>
+    </bean>
+    
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="cacheManagerName" value="ResourceServer.cacheManager" />
+    </bean>
 
     <bean id="availableResourcesController" class="org.jasig.resourceserver.web.AvailableResourcesController">
         <property name="cacheSeconds" value="60" />
@@ -12,6 +21,27 @@
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
+    </bean>
+    
+    <!-- Ref to the mbean server -->
+    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
+        <property name="locateExistingServerIfPossible" value="true" />
+    </bean>
+
+    <!-- EhCache management and statistics -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="net.sf.ehcache.management.ManagementService" />
+        <property name="targetMethod" value="registerMBeans" />
+        <property name="arguments">
+            <list>
+                <ref bean="cacheManager" />
+                <ref bean="mbeanServer" />
+                <value>true</value>
+                <value>true</value>
+                <value>true</value>
+                <value>true</value>
+            </list>
+        </property>
     </bean>
 
     <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" lazy-init="false" />
