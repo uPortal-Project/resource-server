@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,7 +39,7 @@ public class CacheExpirationFilter extends GenericFilterBean {
     private static final int YEAR_OF_SECONDS = 365 * 24 * 60 * 60;
         
     protected final Log logger = LogFactory.getLog(this.getClass());
-    private final DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss z");
+    private final DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss z", new Locale("en"));
     
     private Timer headerUpdateTimer;
     private String cachedControlString;
