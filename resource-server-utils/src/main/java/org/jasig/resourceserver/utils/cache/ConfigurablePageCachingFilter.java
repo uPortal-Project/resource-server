@@ -30,7 +30,6 @@ public class ConfigurablePageCachingFilter extends SimplePageCachingFilter {
 	public ConfigurablePageCachingFilter(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 		this.cacheName = DEFAULT_CACHE_NAME;
-		super.doInit(this.filterConfig);
 	}
 	
 	/**
@@ -41,7 +40,6 @@ public class ConfigurablePageCachingFilter extends SimplePageCachingFilter {
 	public ConfigurablePageCachingFilter(CacheManager cacheManager, String cacheName) {
 		this.cacheManager = cacheManager;
 		this.cacheName = cacheName;
-		super.doInit(this.filterConfig);
 	}
 	
 	/**

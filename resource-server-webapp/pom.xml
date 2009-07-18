@@ -12,9 +12,15 @@
     <packaging>war</packaging>
 
     <name>Resource Server Webapp</name>
-    <version>1.0.0-SNAPSHOT</version>
 
     <dependencies>
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>resource-server-content</artifactId>
+            <version>${pom.version}</version>
+            <type>war</type>
+        </dependency>
+    
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -64,29 +70,6 @@
 
     <build>
         <finalName>ResourceServingWebapp</finalName>
-        <plugins>
-            <!-- Minify Javascript and CSS resource -->
-            <plugin>
-                <groupId>net.sf.alchim</groupId>
-                <artifactId>yuicompressor-maven-plugin</artifactId>
-                <version>0.7.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compress</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <excludes>
-                        <exclude>**/*.min.js</exclude>
-                        <exclude>**/*.min.css</exclude>
-                    </excludes>
-                    <linebreakpos>10000</linebreakpos>
-                    <suffix>.min</suffix>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
 
 </project>

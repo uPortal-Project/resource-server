@@ -38,6 +38,7 @@
     </repositories>
 
     <modules>
+        <module>resource-server-content</module>
         <module>resource-server-webapp</module>
         <module>resource-server-utils</module>
     </modules>
