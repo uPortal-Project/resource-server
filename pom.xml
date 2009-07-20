@@ -13,13 +13,13 @@
 
     <name>Resource Server Parent</name>
     <description>The Resource Server project.</description>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <url>${jasig-site-base}/resource-server/${project.version}</url>
     
     <scm>
-        <connection>scm:svn:https://www.ja-sig.org/svn/sandbox/resource-server/tags/rel-1.0.0</connection>
-        <developerConnection>scm:svn:https://www.ja-sig.org/svn/sandbox/resource-server/tags/rel-1.0.0</developerConnection>
-        <url>http://developer.jasig.org/source/browse/jasigsvn/sandbox/resource-server/tags/rel-1.0.0</url>
+        <connection>scm:svn:https://www.ja-sig.org/svn/sandbox/resource-server/trunk</connection>
+        <developerConnection>scm:svn:https://www.ja-sig.org/svn/sandbox/resource-server/trunk</developerConnection>
+        <url>http://developer.jasig.org/source/browse/jasigsvn/sandbox/resource-server/trunk</url>
     </scm>
 
     <distributionManagement>
