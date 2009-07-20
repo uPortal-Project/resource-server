@@ -6,7 +6,7 @@
     <head>
         <title>Available Resources</title>
         
-        <rs:resourceURL var="jQueryPath" value="/rs/jquery/1.3.1/jquery-1.3.1.js"/>
+        <rs:resourceURL var="jQueryPath" value="/rs/jquery/1.3.2/jquery-1.3.2.min.js"/>
         <script type="text/javascript" language="javascript" src="${jQueryPath}"></script>
         
         <script type="text/javascript">
@@ -21,30 +21,36 @@
     </head>
     <body>
         <div id="test">Tag library is not working</div>
-        <div>
-            <h2>JavaScript Resources</h2>
-            <ul>
-                <c:forEach var="jsResource" items="${jsResources}" varStatus="forStatus">
-                    <li>
-                        <div>${jsResource}</div>
-<pre id="jsEx_${forStatus.index}" class="jsExample">&lt;rs:resourceURL var="scriptPath" value="${jsResource}"/>
-&lt;script type="text/javascript" language="javascript" src="${'${'}scriptPath}">&lt;/script></pre>
-                    </li>
-                </c:forEach>
-            </ul>
-        </div>
         
-        <div>
-            <h2>CSS Resources</h2>
-            <ul>
-                <c:forEach var="cssResource" items="${cssResources}">
-                    <li>
-                        <div>${cssResource}</div>
-<pre id="cssEx_${forStatus.index}" class="cssExample">&lt;rs:resourceURL var="cssPath" value="${cssResource}"/>
+        <h2>Available Resources</h2>
+        <ul>
+            <c:forEach var="library" items="${libraries}">
+                <li>${library.key}
+                    <ul>
+                        <c:forEach var="version" items="${library.value}">
+                            <li>${version.key}
+                                <ul>
+                                    <c:forEach var="jsResource" items="${version.value['js']}">
+                                        <li>
+                                            <div>${jsResource.pathWithinContext}</div>
+<pre id="jsEx_${forStatus.index}" class="jsExample">&lt;rs:resourceURL var="scriptPath" value="${jsResource.pathWithinContext}"/>
+&lt;script type="text/javascript" language="javascript" src="${'${'}scriptPath}">&lt;/script></pre>
+                                        </li>
+                                    </c:forEach>
+                                    
+                                    <c:forEach var="cssResource" items="${version.value['css']}">
+                                        <li>
+                                            <div>${cssResource.pathWithinContext}</div>
+<pre class="cssExample">&lt;rs:resourceURL var="cssPath" value="${cssResource.pathWithinContext}"/>
 &lt;link rel="stylesheet" type="text/css" href="${'${'}cssPath}" /></pre>
-                    </li>
-                </c:forEach>
-            </ul>
-        </div>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </li>
+            </c:forEach>
+        </ul>
     </body>
 </html>

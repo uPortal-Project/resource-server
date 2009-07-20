@@ -5,16 +5,15 @@
  */
 package org.jasig.resourceserver.web;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Set;
+import java.util.TreeMap;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.ContextResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -24,36 +23,54 @@ import org.springframework.web.servlet.mvc.AbstractController;
  * @version $Revision$
  */
 public class AvailableResourcesController extends AbstractController {
+    private static final String BASE_PATH = "/rs/";
+    
 
     /* (non-Javadoc)
      * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @SuppressWarnings("unchecked")
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final Map<String, Object> model = new HashMap<String, Object>();
-        
         final ApplicationContext applicationContext = this.getApplicationContext();
+        final ServletContext servletContext = this.getServletContext();
         
-        final Resource[] jsResources = applicationContext.getResources("**/*.js");
-        final SortedSet<String> jsContextResources = this.getContextResources(jsResources);
-        model.put("jsResources", jsContextResources);
+        final Map<String, Map<String, Map<String, Resource[]>>> libraries = new TreeMap<String, Map<String, Map<String, Resource[]>>>();
         
-        final Resource[] cssResources = applicationContext.getResources("**/*.css");
-        final SortedSet<String> cssContextResources = this.getContextResources(cssResources);
-        model.put("cssResources", cssContextResources);
-        
-        return new ModelAndView("availableResources", model);
-    }
-
-    protected SortedSet<String> getContextResources(final Resource[] resources) {
-        final SortedSet<String> jsContextResources = new TreeSet<String>();
-        for (final Resource resource : resources) {
-            if (resource instanceof ContextResource) {
-                final ContextResource contextResource = (ContextResource)resource;
-                jsContextResources.add(contextResource.getPathWithinContext());
+        final Set<String> libraryPaths = servletContext.getResourcePaths(BASE_PATH);
+        for (final String libraryPath : libraryPaths) {
+            if (!libraryPath.endsWith("/")) {
+                continue;
+            }
+            
+            final String libraryName = libraryPath.substring(BASE_PATH.length(), libraryPath.length() - 1);
+            if (!libraries.containsKey(libraryName)) {
+                libraries.put(libraryName, new TreeMap<String, Map<String, Resource[]>>());
+            }
+            final Map<String, Map<String, Resource[]>> versions = libraries.get(libraryName);
+            
+            
+            final Set<String> versionPaths = servletContext.getResourcePaths(libraryPath);
+            for (final String versionPath : versionPaths) {
+                if (!versionPath.endsWith("/")) {
+                    continue;
+                }
+                
+                final String libraryVersion = versionPath.substring(libraryPath.length(), versionPath.length() - 1);
+                if (!versions.containsKey(libraryVersion)) {
+                    versions.put(libraryVersion, new TreeMap<String, Resource[]>());
+                }
+                final Map<String, Resource[]> resources = versions.get(libraryVersion);
+                
+                final Resource[] jsResources = applicationContext.getResources(versionPath + "**/*.js");
+                resources.put("js", jsResources);
+                
+                final Resource[] cssResources = applicationContext.getResources(versionPath + "**/*.css");
+                resources.put("css", cssResources);
+                
             }
         }
-        return jsContextResources;
+        
+        return new ModelAndView("availableResources", "libraries", libraries);
     }
-
 }
