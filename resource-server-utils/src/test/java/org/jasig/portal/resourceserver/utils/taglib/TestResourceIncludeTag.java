@@ -2,6 +2,7 @@ package org.jasig.portal.resourceserver.utils.taglib;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -31,6 +32,7 @@ public class TestResourceIncludeTag extends TestCase {
 	private ResourceIncludeTag tag = new ResourceIncludeTag();
 	private final PageContext pageContext = Mockito.mock(PageContext.class);
 	private final ServletContext servletContext = Mockito.mock(ServletContext.class);
+	private final RequestDispatcher requestDispatcher = Mockito.mock(RequestDispatcher.class);
 	private final HttpServletRequest httpServletRequest = Mockito.mock(HttpServletRequest.class);
 	private final JspWriter jspWriter = Mockito.mock(JspWriter.class);
 	
@@ -80,6 +82,10 @@ public class TestResourceIncludeTag extends TestCase {
 			.when(servletContext.getContext(DEFAULT_RESOURCE_CONTEXT))
 			.thenReturn(servletContext);
 		
+		Mockito
+        .when(servletContext.getRequestDispatcher("/test/resource"))
+        .thenReturn(requestDispatcher);
+		
 		tag.doStartTag();
 		
 		assertEquals(DEFAULT_RESOURCE_CONTEXT.concat("/test/resource"), tag.getUrl());
@@ -102,6 +108,9 @@ public class TestResourceIncludeTag extends TestCase {
 		Mockito
 			.when(servletContext.getContext("/OverrideResourceWebapp"))
 			.thenReturn(servletContext);
+        Mockito
+            .when(servletContext.getRequestDispatcher("/test/resource"))
+            .thenReturn(requestDispatcher);
 		
 		tag.doStartTag();
 
@@ -119,6 +128,9 @@ public class TestResourceIncludeTag extends TestCase {
 		
 		Mockito.when(servletContext.getContext(DEFAULT_RESOURCE_CONTEXT))
 			.thenReturn(servletContext);
+        Mockito
+            .when(servletContext.getRequestDispatcher("/test/resource"))
+            .thenReturn(requestDispatcher);
 
 		// set both the resource string and the specified resource server context
 		// without leading forward slashes

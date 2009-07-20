@@ -49,7 +49,7 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.jasig.resourceserver</groupId>
+            <groupId>${pom.groupId}</groupId>
             <artifactId>resource-server-utils</artifactId>
             <version>${pom.version}</version>
             <scope>runtime</scope>

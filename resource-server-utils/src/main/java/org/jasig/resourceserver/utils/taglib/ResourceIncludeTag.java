@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
@@ -27,7 +28,7 @@ public class ResourceIncludeTag extends TagSupport {
     public static final String RESOURCE_CONTEXT_INIT_PARAM = "resourceContextPath";
     public static final String DEFAULT_RESOURCE_CONTEXT = "/ResourceServingWebapp";
     
-    private static final String RESOURCE_CONTEXT_ATTR = ResourceIncludeTag.class.getName() + "." + RESOURCE_CONTEXT_INIT_PARAM;
+    private static final String RESOURCE_URL_ATTR_BASE = ResourceIncludeTag.class.getName() + ".resourceUrlBase.";
 
     protected String _var;
     protected String _url;
@@ -44,34 +45,58 @@ public class ResourceIncludeTag extends TagSupport {
     }
 
     private String getRelativeUrlString(HttpServletRequest httpServletRequest, ServletContext servletContext, String resource) {
+        final String resourceAttributeName = RESOURCE_URL_ATTR_BASE + resource;
+        
         // Look in the request to see if the resourceContext has already been determined
-        String resourceContext = (String)httpServletRequest.getAttribute(RESOURCE_CONTEXT_ATTR);
-        if (resourceContext == null) {
-            // attempt to get the servlet context of the resource serving webapp
-            resourceContext = servletContext.getInitParameter(RESOURCE_CONTEXT_INIT_PARAM);
-            if (resourceContext == null) {
-                // if no resource context path was defined in the web.xml, use the
-                // default
-                resourceContext = DEFAULT_RESOURCE_CONTEXT;
-            } else if (!resourceContext.startsWith("/")) {
-                // ensure that our context starts with a slash
-                resourceContext = "/".concat(resourceContext);
-            }
-            
-            // If the resource serving servlet context is available, create a URL
-            // to the resource in that context.  If not, create a local URL for 
-            // the requested resource.
-            if (servletContext.getContext(resourceContext) == null) {
-                resourceContext = httpServletRequest.getContextPath();
-            }
-            
-            // Cache the resourceContext as a request attribute
-            httpServletRequest.setAttribute(RESOURCE_CONTEXT_ATTR, resourceContext);
+        String resourceUrl = (String)httpServletRequest.getAttribute(resourceAttributeName);
+        if (resourceUrl != null) {
+            return resourceUrl;
         }
         
+        //Look in the session for the resolved resource URL or resource context
+        final HttpSession session = httpServletRequest.getSession(false);
+        if (session != null) {
+            resourceUrl = (String)session.getAttribute(resourceAttributeName);
+            if (resourceUrl != null) {
+                return resourceUrl;
+            }
+        }
+        
+        // attempt to get the servlet context of the resource serving webapp
+        String resourceContextPath = servletContext.getInitParameter(RESOURCE_CONTEXT_INIT_PARAM);
+        if (resourceContextPath == null) {
+            // if no resource context path was defined in the web.xml, use the
+            // default
+            resourceContextPath = DEFAULT_RESOURCE_CONTEXT;
+        } else if (!resourceContextPath.startsWith("/")) {
+            // ensure that our context starts with a slash
+            resourceContextPath = "/".concat(resourceContextPath);
+        }
+        
+        // If the resource serving servlet context is available and the resource
+        // is available in the context, create a URL to the resource in that context.
+        // If not, create a local URL for the requested resource.
+        final ServletContext resourceContext = servletContext.getContext(resourceContextPath);
+        if (resourceContext != null) {
+            if (resourceContext.getRequestDispatcher(resource) == null) {
+                resourceContextPath = httpServletRequest.getContextPath();
+            }
+        }
+        else {
+            resourceContextPath = httpServletRequest.getContextPath();
+        }
 
-        // create a URL object from our url string
-        return resourceContext.concat(resource);
+        
+        //build the URL
+        resourceUrl = resourceContextPath.concat(resource);
+        
+        // Cache the resourceContext as a request and session attribute
+        httpServletRequest.setAttribute(resourceAttributeName, resourceContextPath);
+        if (session != null) {
+            session.setAttribute(resourceAttributeName, resourceUrl);
+        }
+
+        return resourceUrl;
 
     }
 
