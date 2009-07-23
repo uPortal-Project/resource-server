@@ -1,6 +1,8 @@
 package org.jasig.resourceserver.utils.taglib;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -77,8 +79,16 @@ public class ResourceIncludeTag extends TagSupport {
         // is available in the context, create a URL to the resource in that context.
         // If not, create a local URL for the requested resource.
         final ServletContext resourceContext = servletContext.getContext(resourceContextPath);
-        if (resourceContext != null) {
-            if (resourceContext.getRequestDispatcher(resource) == null) {
+        if (resourceContext != null && resourceContextPath.equals(resourceContext.getContextPath())) {
+            URL url = null;
+            try {
+                url = resourceContext.getResource(resource);
+            }
+            catch (MalformedURLException e) {
+                //Ignore
+            }
+            
+            if (url == null) {
                 resourceContextPath = httpServletRequest.getContextPath();
             }
         }
