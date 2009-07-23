@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,7 +40,7 @@ public class CacheExpirationFilter extends GenericFilterBean {
     private static final int YEAR_OF_SECONDS = 365 * 24 * 60 * 60;
         
     protected final Log logger = LogFactory.getLog(this.getClass());
-    private final DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss z", new Locale("en"));
+    private final DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", new Locale("en"));
     
     private Timer headerUpdateTimer;
     private String cachedControlString;
@@ -50,6 +51,11 @@ public class CacheExpirationFilter extends GenericFilterBean {
     
     //Default header cache time is 1 second
     private long regenerateHeadersInterval = 1000;
+    
+    public CacheExpirationFilter() {
+        final TimeZone timeZone = TimeZone.getTimeZone("GMT");
+        this.dateFormat.setTimeZone(timeZone);
+    }
     
 
     public int getCacheMaxAge() {
@@ -99,8 +105,8 @@ public class CacheExpirationFilter extends GenericFilterBean {
         
         //Start timer to periodically refresh the cache header
         final ServletContext servletContext = this.getServletContext();
-        final String servletContextName = servletContext.getServletContextName();
-        this.headerUpdateTimer = new Timer(servletContextName + "-CacheHeaderUpdateTimer", true);
+        final String servletContextPath = servletContext.getContextPath();
+        this.headerUpdateTimer = new Timer(servletContextPath + "-CacheHeaderUpdateTimer", true);
         this.headerUpdateTimer.schedule(new CacheHeaderUpdater(), this.regenerateHeadersInterval, this.regenerateHeadersInterval);
     }
     

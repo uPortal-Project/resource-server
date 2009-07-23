@@ -1,9 +1,8 @@
-package org.jasig.portal.resourceserver.utils.taglib;
+package org.jasig.resourceserver.utils.taglib;
 
 import java.io.IOException;
 import java.net.URL;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
