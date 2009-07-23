@@ -11,22 +11,6 @@
         <param-value>/WEB-INF/applicationContext.xml</param-value>
     </context-param>
     
-    <!-- Length of time to set in cache headers (in seconds) -->
-    <!-- 
-    <context-param>
-        <param-name>cacheMaxAge</param-name>
-        <param-value>31536000</param-value>
-    </context-param>
-    -->
-    
-    <!-- Time between regenerating cache header strings (in milliseconds) -->
-    <!-- 
-    <context-param>
-        <param-name>regenerateHeadersInterval</param-name>
-        <param-value>1000</param-value>
-    </context-param>
-    -->
-    
     <!-- 
      | Loads/Unloads the Spring WebApplicationContext
      +-->
@@ -48,6 +32,21 @@
     <filter>
         <filter-name>CacheExpiresFilter</filter-name>
         <filter-class>org.jasig.resourceserver.utils.filter.CacheExpirationFilter</filter-class>
+        <!-- Length of time to set in cache headers (in seconds) -->
+        <!-- 
+        <init-param>
+            <param-name>cacheMaxAge</param-name>
+            <param-value>31536000</param-value>
+        </init-param>
+        -->
+        
+        <!-- Time between regenerating cache header strings (in milliseconds) -->
+        <!-- 
+        <init-param>
+            <param-name>regenerateHeadersInterval</param-name>
+            <param-value>1000</param-value>
+        </init-param>
+        -->
     </filter>
     
     <!-- filter mappings for javascript and css resources -->
