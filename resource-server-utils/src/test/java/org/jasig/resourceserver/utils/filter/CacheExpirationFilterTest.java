@@ -31,7 +31,7 @@ public class CacheExpirationFilterTest extends TestCase {
      */
     @Override
     protected void setUp() throws Exception {
-        Mockito.when(filterConfig.getInitParameterNames()).thenReturn(new Enumeration<?>() {
+        Mockito.when(filterConfig.getInitParameterNames()).thenReturn(new Enumeration<Object>() {
             public boolean hasMoreElements() {
                 return false;
             }
