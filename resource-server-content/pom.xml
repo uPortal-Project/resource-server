@@ -33,6 +33,7 @@
                     </excludes>
                     <linebreakpos>10000</linebreakpos>
                     <suffix>.min</suffix>
+                    <jswarn>false</jswarn>
                 </configuration>
             </plugin>
         </plugins>
