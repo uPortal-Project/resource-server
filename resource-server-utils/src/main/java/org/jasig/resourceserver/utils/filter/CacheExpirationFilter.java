@@ -35,8 +35,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.GenericFilterBean;
 
 /**
@@ -57,7 +57,7 @@ import org.springframework.web.filter.GenericFilterBean;
 public class CacheExpirationFilter extends GenericFilterBean {
     private static final int YEAR_OF_SECONDS = 365 * 24 * 60 * 60;
         
-    protected final Log logger = LogFactory.getLog(this.getClass());
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", new Locale("en"));
     
     private Timer headerUpdateTimer;
