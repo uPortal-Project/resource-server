@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.jasig.resourceserver</groupId>
+        <artifactId>resource-server-parent</artifactId>
+        <version>1.0.9</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>resource-server-content</artifactId>
+    <packaging>war</packaging>
+
+    <name>Resource Server Content</name>
+
+    <build>
+        <plugins>
+            <!-- Minify Javascript and CSS resource -->
+            <plugin>
+                <groupId>net.sf.alchim</groupId>
+                <artifactId>yuicompressor-maven-plugin</artifactId>
+                <version>0.7.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compress</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*.min.js</exclude>
+                        <exclude>**/*.min.css</exclude>
+                    </excludes>
+                    <linebreakpos>10000</linebreakpos>
+                    <suffix>.min</suffix>
+                    <jswarn>false</jswarn>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
