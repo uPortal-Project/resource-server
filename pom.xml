@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <groupId>org.jasig</groupId>
+        <groupId>org.jasig.parent</groupId>
         <artifactId>jasig-parent</artifactId>
-        <version>15</version>
+        <version>17</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -13,12 +13,12 @@
 
     <name>Resource Server Parent</name>
     <description>The Resource Server project.</description>
-    <version>1.0.9-SNAPSHOT</version>
+    <version>1.0.9</version>
     
     <scm>
-        <connection>scm:svn:https://www.ja-sig.org/svn/resource-server/trunk</connection>
-        <developerConnection>scm:svn:https://www.ja-sig.org/svn/resource-server/trunk</developerConnection>
-        <url>http://developer.jasig.org/source/browse/jasigsvn/resource-server/trunk</url>
+        <connection>scm:svn:https://www.ja-sig.org/svn/resource-server/tags/resource-server-1.0.9</connection>
+        <developerConnection>scm:svn:https://www.ja-sig.org/svn/resource-server/tags/resource-server-1.0.9</developerConnection>
+        <url>http://developer.jasig.org/source/browse/jasigsvn/resource-server/tags/resource-server-1.0.9</url>
     </scm>
     
     <repositories>
@@ -101,13 +101,13 @@
             </dependency> 
             <dependency>
                 <groupId>net.sf.ehcache</groupId>
-                <artifactId>ehcache-core</artifactId>
-                <version>2.0.0</version>
+                <artifactId>ehcache</artifactId>
+                <version>1.6.0</version>
             </dependency>
             <dependency>
                 <groupId>net.sf.ehcache</groupId>
                 <artifactId>ehcache-web</artifactId>
-                <version>2.0.0</version>
+                <version>1.6.0-beta2</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>

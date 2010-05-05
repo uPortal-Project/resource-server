@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.jasig.resourceserver</groupId>
         <artifactId>resource-server-parent</artifactId>
-        <version>1.0.9-SNAPSHOT</version>
+        <version>1.0.9</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -59,7 +59,7 @@
         </dependency>
         <dependency>
             <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache-core</artifactId>
+            <artifactId>ehcache</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
