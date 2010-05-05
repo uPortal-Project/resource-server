@@ -13,7 +13,7 @@
 
     <name>Resource Server Parent</name>
     <description>The Resource Server project.</description>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>1.0.9-SNAPSHOT</version>
     
     <scm>
         <connection>scm:svn:https://www.ja-sig.org/svn/resource-server/trunk</connection>
