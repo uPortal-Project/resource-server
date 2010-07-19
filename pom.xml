@@ -16,8 +16,8 @@
     <version>1.0.10-SNAPSHOT</version>
     
     <scm>
-        <connection>scm:svn:https://www.ja-sig.org/svn/resource-server/trunk</connection>
-        <developerConnection>scm:svn:https://www.ja-sig.org/svn/resource-server/trunk</developerConnection>
+        <connection>scm:svn:https://source.jasig.org/resource-server/trunk</connection>
+        <developerConnection>scm:svn:https://source.jasig.org/resource-server/trunk</developerConnection>
         <url>http://developer.jasig.org/source/browse/jasigsvn/resource-server/trunk</url>
     </scm>
     
