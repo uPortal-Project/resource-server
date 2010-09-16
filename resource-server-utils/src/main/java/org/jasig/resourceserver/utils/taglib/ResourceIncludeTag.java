@@ -119,7 +119,7 @@ public class ResourceIncludeTag extends TagSupport {
         resourceUrl = resourceContextPath.concat(resource);
         
         // Cache the resourceContext as a request and session attribute
-        httpServletRequest.setAttribute(resourceAttributeName, resourceContextPath);
+        httpServletRequest.setAttribute(resourceAttributeName, resourceUrl);
         if (session != null) {
             session.setAttribute(resourceAttributeName, resourceUrl);
         }
