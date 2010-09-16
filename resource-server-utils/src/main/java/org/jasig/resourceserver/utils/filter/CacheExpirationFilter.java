@@ -19,16 +19,8 @@
 package org.jasig.resourceserver.utils.filter;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -55,29 +47,17 @@ import org.springframework.web.filter.GenericFilterBean;
  * @author Jen Bourey
  */
 public class CacheExpirationFilter extends GenericFilterBean {
-    private static final int YEAR_OF_SECONDS = 365 * 24 * 60 * 60;
+    private static final long YEAR_OF_MILLISECONDS = 365l * 24l * 60l * 60l * 1000l;
         
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", new Locale("en"));
     
-    private Timer headerUpdateTimer;
     private String cachedControlString;
-    private String cachedExpiresString;
     
     //Default resource cache time is 1 year
-    private int cacheMaxAge = YEAR_OF_SECONDS;
+    private long cacheMaxAge = YEAR_OF_MILLISECONDS;
     
-    //Default header cache time is 1 second
-    private long regenerateHeadersInterval = 1000;
-    
-    public CacheExpirationFilter() {
-        final TimeZone timeZone = TimeZone.getTimeZone("GMT");
-        this.dateFormat.setTimeZone(timeZone);
-    }
-    
-
     public int getCacheMaxAge() {
-        return this.cacheMaxAge;
+        return (int)(this.cacheMaxAge / 1000l);
     }
     /**
      * @param cacheMaxAge Sets the max age in seconds to be used in the cache headers for cached resources, defaults to 1 year (31536000)
@@ -87,55 +67,26 @@ public class CacheExpirationFilter extends GenericFilterBean {
             throw new IllegalArgumentException("Specified initParamter 'cacheMaxAge' must be greater than 0, (" + cacheMaxAge + ")");
         }
 
-        if (cacheMaxAge < YEAR_OF_SECONDS ) {
-            this.logger.warn("Cache cacheMaxAge is set to " + cacheMaxAge + " which is below the recommended minimum setting of " + YEAR_OF_SECONDS);
-        }
+        this.cacheMaxAge = cacheMaxAge * 1000;
         
-        this.cacheMaxAge = cacheMaxAge;
+        updateHeaders();
     }
 
-    public long getRegenerateHeadersInterval() {
-        return this.regenerateHeadersInterval;
-    }
-    /**
-     * @param regenerateHeadersInterval The interval in milliseconds to regenerate the cache headers, defaults to 1 second (1000).
-     */
-    public void setRegenerateHeadersInterval(long regenerateHeadersInterval) {
-        if (regenerateHeadersInterval < 1) {
-            throw new IllegalArgumentException("'regenerateHeadersInterval' must be greater than 0, (" + regenerateHeadersInterval + ")");
-        }
-        
-        this.regenerateHeadersInterval = regenerateHeadersInterval;
-    }
-    
-    
     
     /* (non-Javadoc)
      * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
      */
     @Override
     protected void initFilterBean() throws ServletException {
-        //Generate cache control value
-        this.cachedControlString = "public, max-age=" + this.cacheMaxAge;
-        
-        //Initialize cache header
-        this.updateCacheHeader();
-        
-        //Start timer to periodically refresh the cache header
-        final ServletContext servletContext = this.getServletContext();
-        final String servletContextPath = servletContext.getContextPath();
-        this.headerUpdateTimer = new Timer(servletContextPath + "-CacheHeaderUpdateTimer", true);
-        this.headerUpdateTimer.schedule(new CacheHeaderUpdater(), this.regenerateHeadersInterval, this.regenerateHeadersInterval);
+        updateHeaders();
     }
-    
     /**
-	 * {@inheritDoc}
-	 */
-    @Override
-	public void destroy() {
-	    this.headerUpdateTimer.cancel();
-	    this.headerUpdateTimer = null;
-	}
+     * 
+     */
+    private void updateHeaders() {
+        //Generate cache control value
+        this.cachedControlString = "public, max-age=" + (this.cacheMaxAge / 1000);
+    }
 
 	/**
 	 * {@inheritDoc}
@@ -147,38 +98,11 @@ public class CacheExpirationFilter extends GenericFilterBean {
         if (response instanceof HttpServletResponse && request instanceof HttpServletRequest) {
 			final HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-			final String expires = this.getExpiresHeader();
-			httpResponse.setHeader("Expires", expires);
-			
+			httpResponse.setDateHeader("Expires", this.cacheMaxAge + System.currentTimeMillis());
 			httpResponse.setHeader("Cache-Control", this.cachedControlString);
 		}
 		
 		// continue
 		chain.doFilter(request, response);
 	}
-
-	protected String getExpiresHeader() {
-	    return this.cachedExpiresString;
-	}
-
-    protected void updateCacheHeader() {
-        synchronized (this.dateFormat) {
-            final Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.SECOND, this.cacheMaxAge);
-            this.cachedExpiresString = this.dateFormat.format(cal.getTime());
-        }
-    }
-    
-    /**
-     * Simple task that calls {@link CacheExpirationFilter#updateCacheHeader()}
-     */
-    private final class CacheHeaderUpdater extends TimerTask {
-        /* (non-Javadoc)
-         * @see java.util.TimerTask#run()
-         */
-        @Override
-        public void run() {
-            updateCacheHeader();
-        }
-    }
 }

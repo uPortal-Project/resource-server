@@ -26,6 +26,9 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.mockito.Mockito;
+import org.springframework.mock.web.MockFilterChain;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 /**
  * @author Eric Dalquist
@@ -52,6 +55,7 @@ public class CacheExpirationFilterTest extends TestCase {
             }
         });
         Mockito.when(filterConfig.getServletContext()).thenReturn(servletContext);
+        Mockito.when(filterConfig.getFilterName()).thenReturn("CacheExpirationFilter");
         Mockito.when(servletContext.getContextPath()).thenReturn("/ResourceServingWebapp");
         
         this.cacheExpirationFilter = new CacheExpirationFilter();
@@ -68,11 +72,17 @@ public class CacheExpirationFilterTest extends TestCase {
         this.cacheExpirationFilter.destroy();
     }
 
-
-
     public void testTimezoneFormat() throws Exception {
-        final String expiresHeader = this.cacheExpirationFilter.getExpiresHeader();
-        assertNotNull(expiresHeader);
-        assertTrue(expiresHeader.endsWith(" GMT"));
+        final MockHttpServletRequest request = new MockHttpServletRequest();
+        final MockHttpServletResponse response = new MockHttpServletResponse();
+        final MockFilterChain chain = new MockFilterChain();
+        
+        this.cacheExpirationFilter.doFilter(request, response, chain);
+        
+        final Long expires = (Long)response.getHeader("Expires");
+        final String cacheControl = (String)response.getHeader("Cache-Control");
+        
+        assertTrue(expires > System.currentTimeMillis());
+        assertEquals("public, max-age=31536000", cacheControl);
     }
 }

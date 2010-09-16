@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
     Licensed to Jasig under one or more contributor license
@@ -18,8 +19,9 @@
     under the License.
 
 -->
-<ehcache>
-    
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="false">
+
     <!--
      | Required by EHcache
      +-->
@@ -30,19 +32,21 @@
         timeToIdleSeconds="300"
         timeToLiveSeconds="600"
         memoryStoreEvictionPolicy="LRU"
+        statistics="true"
     />
     
     <!--
      | Cache of filtered resources, one entry per URL. Entries are cached for one hour.
      +-->
     <cache name="SimplePageCachingFilter"
-        maxElementsInMemory="7680"
+        maxElementsInMemory="10000"
         eternal="false"
         overflowToDisk="false"
         timeToIdleSeconds="0"
         timeToLiveSeconds="3600"
         diskPersistent="false"
         memoryStoreEvictionPolicy="LRU"
+        statistics="true"
     />
 
 </ehcache>
