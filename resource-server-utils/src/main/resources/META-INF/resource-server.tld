@@ -42,4 +42,29 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
+    <tag>
+        <name>compressJs</name>
+        <tag-class>org.jasig.resourceserver.utils.taglib.JavaScriptMinificationTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+           <name>lineBreakColumnNumber</name>
+           <required>false</required>
+           <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+          <name>obfuscate</name>
+          <required>false</required>
+          <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+          <name>preserveAllSemiColons</name>
+          <required>false</required>
+          <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+          <name>disableOptimizations</name>
+          <required>false</required>
+          <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
 </taglib>
