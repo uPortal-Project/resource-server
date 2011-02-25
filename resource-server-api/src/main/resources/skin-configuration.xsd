@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Licensed to Jasig under one or more contributor license
+    agreements. See the NOTICE file distributed with this work
+    for additional information regarding copyright ownership.
+    Jasig licenses this file to you under the Apache License,
+    Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License. You may obtain a
+    copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on
+    an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+
+<xs:schema xmlns="http://www.jasig.org/uportal/web/skin"
+           targetNamespace="http://www.jasig.org/uportal/web/skin"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    
+    <xs:element name="resources">
+        <xs:complexType>
+            <xs:sequence> 
+                <xs:element name="parameter" type="parameter" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="css" type="css" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="js" type="js" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="basicInclude">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="compressed" type="xs:boolean" use="optional" default="false">
+                    <xs:annotation>
+                        <xs:documentation>If the resource is already compressed and should be included in the aggreate file as is</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="conditional" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>A conditional HTML comment to wrap around the tag</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="included" type="included" use="optional" default="both">
+                    <xs:annotation>
+                        <xs:documentation>When the resource should be included.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="import" type="xs:boolean" use="optional" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Import the related elments from the specified Resources XML file at this location.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:complexType name="js">
+        <xs:annotation>
+            <xs:documentation>Define a JavaScript file to include</xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="basicInclude">
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:complexType name="css">
+        <xs:annotation>
+            <xs:documentation>Define a CSS file to include</xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="basicInclude">
+                <xs:attribute name="media" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>The standard HTML media attribute for the &lt;link&gt; tag</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:complexType name="parameter">
+        <xs:annotation>
+            <xs:documentation>A parameter provided to the XSL for this skin</xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="name" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>The parameter name</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:simpleType name="included">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="both">
+                <xs:annotation>
+                    <xs:documentation>Include the resource when using both aggregated and plain resources</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="aggregated">
+                <xs:annotation>
+                    <xs:documentation>Only include the resource when using aggregated resources</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="plain">
+                <xs:annotation>
+                    <xs:documentation>Only include the resource when using plain resources</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
