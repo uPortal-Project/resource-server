@@ -22,7 +22,7 @@
  */
 package org.jasig.resource.aggr;
 
-import org.jasig.resource.aggr.om.Css;
+import org.jasig.resourceserver.aggr.om.Css;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

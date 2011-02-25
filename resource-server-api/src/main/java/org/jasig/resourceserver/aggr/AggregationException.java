@@ -20,7 +20,7 @@
 /**
  * 
  */
-package org.jasig.resource.aggr;
+package org.jasig.resourceserver.aggr;
 
 /**
  * Base Exception type for Aggregation problems.

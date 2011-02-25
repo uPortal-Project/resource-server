@@ -25,7 +25,8 @@ package org.jasig.resource.aggr;
 import java.io.File;
 import java.io.IOException;
 
-import org.jasig.resource.aggr.om.Resources;
+import org.jasig.resourceserver.aggr.AggregationException;
+import org.jasig.resourceserver.aggr.om.Resources;
 
 /**
  * Interface defines operations for aggregating {@link Resources}.

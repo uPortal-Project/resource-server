@@ -17,13 +17,13 @@
  * under the License.
  */
 
-package org.jasig.resource.aggr;
+package org.jasig.resourceserver.aggr;
 
 import java.io.File;
 
-import org.jasig.resource.aggr.om.BasicInclude;
-import org.jasig.resource.aggr.om.Included;
-import org.jasig.resource.aggr.om.Resources;
+import org.jasig.resourceserver.aggr.om.BasicInclude;
+import org.jasig.resourceserver.aggr.om.Included;
+import org.jasig.resourceserver.aggr.om.Resources;
 
 /**
  * DAO for reading and writing {@link Resources} objects to files.

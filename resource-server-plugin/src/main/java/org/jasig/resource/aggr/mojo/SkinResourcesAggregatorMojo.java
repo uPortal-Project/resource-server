@@ -29,9 +29,9 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
-import org.jasig.resource.aggr.AggregationException;
 import org.jasig.resource.aggr.ResourcesAggregator;
 import org.jasig.resource.aggr.ResourcesAggregatorImpl;
+import org.jasig.resourceserver.aggr.AggregationException;
 
 /**
  * Maven {@link AbstractMojo} to invoke {@link ResourcesAggregator#aggregate(File, File)}.

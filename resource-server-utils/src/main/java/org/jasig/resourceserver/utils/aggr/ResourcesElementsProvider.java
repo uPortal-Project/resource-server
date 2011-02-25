@@ -17,11 +17,11 @@
  * under the License.
  */
 
-package org.jasig.resource.aggr.util;
+package org.jasig.resourceserver.utils.aggr;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.jasig.resource.aggr.om.Included;
+import org.jasig.resourceserver.aggr.om.Included;
 import org.w3c.dom.NodeList;
 
 /**

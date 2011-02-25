@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.jasig.resource.aggr;
+package org.jasig.resourceserver.aggr;
 
 import java.io.File;
 import java.util.LinkedHashSet;
@@ -36,12 +36,12 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jasig.resource.aggr.om.BasicInclude;
-import org.jasig.resource.aggr.om.Css;
-import org.jasig.resource.aggr.om.Included;
-import org.jasig.resource.aggr.om.Js;
-import org.jasig.resource.aggr.om.ObjectFactory;
-import org.jasig.resource.aggr.om.Resources;
+import org.jasig.resourceserver.aggr.om.BasicInclude;
+import org.jasig.resourceserver.aggr.om.Css;
+import org.jasig.resourceserver.aggr.om.Included;
+import org.jasig.resourceserver.aggr.om.Js;
+import org.jasig.resourceserver.aggr.om.ObjectFactory;
+import org.jasig.resourceserver.aggr.om.Resources;
 
 /**
  * @author Eric Dalquist

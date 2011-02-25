@@ -2,22 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
-		<groupId>org.jasig.resource-aggregator</groupId>
-		<artifactId>resource-aggregator-parent</artifactId>
-		<version>1.0.5-SNAPSHOT</version>
+        <groupId>org.jasig.resourceserver</groupId>
+        <artifactId>resource-server-parent</artifactId>
+        <version>1.0.14-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>resource-aggregator-core</artifactId>
+	<artifactId>resource-server-core</artifactId>
 	<packaging>jar</packaging>
 
-    <name>Resource Aggregator Core</name>
-    <description>Core API for the Resource Aggregator project.</description>
+    <name>Resource Server Core</name>
+    <description>Core API for the Resource Server project.</description>
 	
     <dependencies>
         <dependency>
-            <groupId>org.jasig.resource-aggregator</groupId>
-            <artifactId>resource-aggregator-api</artifactId>
+            <groupId>org.jasig.resourceserver</groupId>
+            <artifactId>resource-server-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     

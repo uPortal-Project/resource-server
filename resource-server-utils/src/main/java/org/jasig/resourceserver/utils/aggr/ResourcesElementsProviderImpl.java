@@ -1,4 +1,4 @@
-package org.jasig.resource.aggr.util;
+package org.jasig.resourceserver.utils.aggr;
 
 /**
  * Licensed to Jasig under one or more contributor license
@@ -36,15 +36,16 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jasig.resource.aggr.ResourcesDao;
-import org.jasig.resource.aggr.om.Css;
-import org.jasig.resource.aggr.om.Included;
-import org.jasig.resource.aggr.om.Js;
-import org.jasig.resource.aggr.om.Parameter;
-import org.jasig.resource.aggr.om.Resources;
+import org.jasig.resourceserver.aggr.ResourcesDao;
+import org.jasig.resourceserver.aggr.om.Css;
+import org.jasig.resourceserver.aggr.om.Included;
+import org.jasig.resourceserver.aggr.om.Js;
+import org.jasig.resourceserver.aggr.om.Parameter;
+import org.jasig.resourceserver.aggr.om.Resources;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.web.context.ServletContextAware;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
