@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -20,7 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jasig.resourceserver.aggr.om.Included;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
 
 /**
  * Pays attention to the state of skin aggregation and only applies the fitler if it is disabled
@@ -32,7 +33,7 @@ public class AggregationAwareFilterBean implements Filter {
     protected final Log logger = LogFactory.getLog(this.getClass());
     
     private Filter filter;
-    private ResourcesElementsProvider elementsProvider;
+    private ResourcesElementsProvider resourcesElementsProvider;
 
     /**
      * The filter to delegate to
@@ -41,9 +42,11 @@ public class AggregationAwareFilterBean implements Filter {
         this.filter = filter;
     }
 
-    @Autowired
-    public void setElementsProvider(ResourcesElementsProvider elementsProvider) {
-        this.elementsProvider = elementsProvider;
+    /**
+     * ResourcesElementsProvider, if not set {@link ResourcesElementsProviderUtils#getOrCreateResourcesElementsProvider(javax.servlet.ServletContext)} is used.
+     */
+    public void setResourcesElementsProvider(ResourcesElementsProvider resourcesElementsProvider) {
+        this.resourcesElementsProvider = resourcesElementsProvider;
     }
 
     @Override
@@ -53,6 +56,11 @@ public class AggregationAwareFilterBean implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        if (this.resourcesElementsProvider == null) {
+            final ServletContext servletContext = filterConfig.getServletContext();
+            this.resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(servletContext);
+        }
+        
         this.filter.init(filterConfig);
     }
     
@@ -61,7 +69,9 @@ public class AggregationAwareFilterBean implements Filter {
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (this.elementsProvider.getIncludedType((HttpServletRequest)request) == Included.AGGREGATED) {
+        final HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+        final Included includedType = this.resourcesElementsProvider.getIncludedType(httpServletRequest);
+        if (includedType == Included.AGGREGATED) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Aggregation enabled, delegating to filter: " + this.filter);
             }

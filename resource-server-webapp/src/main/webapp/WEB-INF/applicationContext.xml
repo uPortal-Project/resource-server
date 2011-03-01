@@ -22,9 +22,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
     
+    <bean id="resourcesDao" class="org.jasig.resourceserver.aggr.ResourcesDaoImpl" />
+    
+    <bean id="resourcesElementsProvider" class="org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderImpl">
+        <property name="resourcesDao" ref="resourcesDao" />
+    </bean>
+    
     <bean id="pageCachingFilter" class="org.jasig.resourceserver.utils.cache.ConfigurablePageCachingFilter">
         <constructor-arg ref="cacheManager"/>
         <constructor-arg value="SimplePageCachingFilter"/>
+        <property name="resourcesElementsProvider" ref="resourcesElementsProvider" />
     </bean>
     
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">

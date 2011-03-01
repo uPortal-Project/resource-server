@@ -41,6 +41,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jasig.resourceserver.aggr.om.Included;
+import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
+import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
@@ -51,7 +54,7 @@ public class PathBasedCacheExpirationFilter extends GenericFilterBean {
     private final DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", new Locale("en"));
 
     private Set<Integer> _maxAges;
-
+    private ResourcesElementsProvider resourcesElementsProvider;
     private Map<String, Integer> cacheMaxAges;
 
     public void setCacheMaxAges(Map<String, Integer> cacheMaxAges) {
@@ -91,11 +94,23 @@ public class PathBasedCacheExpirationFilter extends GenericFilterBean {
         this.regenerateHeadersInterval = regenerateHeadersInterval;
     }
 
+    /**
+     * ResourcesElementsProvider, if not set {@link ResourcesElementsProviderUtils#getOrCreateResourcesElementsProvider(javax.servlet.ServletContext)} is used.
+     */
+    public void setResourcesElementsProvider(ResourcesElementsProvider resourcesElementsProvider) {
+        this.resourcesElementsProvider = resourcesElementsProvider;
+    }
+
     /* (non-Javadoc)
      * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
      */
     @Override
     protected void initFilterBean() throws ServletException {
+        if (this.resourcesElementsProvider == null) {
+            final ServletContext servletContext = this.getServletContext();
+            this.resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(servletContext);
+        }
+        
         //Generate cache control values
         for (final Integer age : this._maxAges) {
             this.cachedControlStrings.put(age, "public, max-age=" + age);
@@ -128,20 +143,24 @@ public class PathBasedCacheExpirationFilter extends GenericFilterBean {
 
         // add the cache expiration time to the response
         if (response instanceof HttpServletResponse && request instanceof HttpServletRequest) {
-            final HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-            final String path = ((HttpServletRequest) request).getServletPath();
-
-            for (final Entry<String, Integer> entry : this.cacheMaxAges.entrySet()) {
-
-                if (this.pathMatcher.match(entry.getKey(), path)) {
-
-                    final String expires = this.getExpiresHeader(entry.getValue());
-                    httpResponse.setHeader("Expires", expires);
-
-                    httpResponse.setHeader("Cache-Control", this.cachedControlStrings.get(entry.getValue()));
-
-                    break;
+            final HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+            final Included includedType = this.resourcesElementsProvider.getIncludedType(httpServletRequest);
+            if (includedType == Included.AGGREGATED) {
+                final HttpServletResponse httpResponse = (HttpServletResponse) response;
+    
+                final String path = ((HttpServletRequest) request).getServletPath();
+    
+                for (final Entry<String, Integer> entry : this.cacheMaxAges.entrySet()) {
+    
+                    if (this.pathMatcher.match(entry.getKey(), path)) {
+    
+                        final String expires = this.getExpiresHeader(entry.getValue());
+                        httpResponse.setHeader("Expires", expires);
+    
+                        httpResponse.setHeader("Cache-Control", this.cachedControlStrings.get(entry.getValue()));
+    
+                        break;
+                    }
                 }
             }
         }

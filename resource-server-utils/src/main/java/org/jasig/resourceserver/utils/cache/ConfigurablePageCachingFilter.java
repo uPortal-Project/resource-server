@@ -19,7 +19,6 @@
 package org.jasig.resourceserver.utils.cache;
 
 import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter;
 
 /**
  * ConfigurablePageCachingFilter provides a subclass of ehCache's 
@@ -28,17 +27,16 @@ import net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter;
  * 
  * @author Jen Bourey
  */
-public class ConfigurablePageCachingFilter extends SimplePageCachingFilter {
-
-	private static final String DEFAULT_CACHE_NAME = 
+public class ConfigurablePageCachingFilter extends AggregationAwarePageCachingFilter {
+	public static final String DEFAULT_CACHE_NAME = 
 		"org.jasig.resourceserver.utils.cache.ConfigurablePageCachingFilter.PAGE_CACHE";
 	
 	private final CacheManager cacheManager;
 	private final String cacheName;
 	
 	/**
-	 * 
-	 * @param cacheManager
+	 * Creates a new page caching filter that uses the specified {@link CacheManager}
+	 * {@link #DEFAULT_CACHE_NAME} is used for the cache name
 	 */
 	public ConfigurablePageCachingFilter(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
@@ -46,33 +44,21 @@ public class ConfigurablePageCachingFilter extends SimplePageCachingFilter {
 	}
 	
 	/**
-	 * 
-	 * @param cacheManager
-	 * @param cacheName
+	 * Creates a new page caching filter that uses the specified {@link CacheManager} and cache name
 	 */
 	public ConfigurablePageCachingFilter(CacheManager cacheManager, String cacheName) {
 		this.cacheManager = cacheManager;
 		this.cacheName = cacheName;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @Override
-	 */
 	@Override
     protected CacheManager getCacheManager() {
 		return cacheManager;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @Override
-	 */
     @Override
 	public String getCacheName() {
 		return cacheName;
 	}
-	
+    
 }

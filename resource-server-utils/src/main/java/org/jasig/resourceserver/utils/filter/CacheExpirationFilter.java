@@ -21,12 +21,16 @@ package org.jasig.resourceserver.utils.filter;
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jasig.resourceserver.aggr.om.Included;
+import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
+import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.GenericFilterBean;
@@ -52,6 +56,7 @@ public class CacheExpirationFilter extends GenericFilterBean {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private String cachedControlString;
+    private ResourcesElementsProvider resourcesElementsProvider;
 
     //Default resource cache time is 1 year
     private long cacheMaxAge = YEAR_OF_MILLISECONDS;
@@ -74,11 +79,23 @@ public class CacheExpirationFilter extends GenericFilterBean {
         this.updateHeaders();
     }
 
+    /**
+     * ResourcesElementsProvider, if not set {@link ResourcesElementsProviderUtils#getOrCreateResourcesElementsProvider(javax.servlet.ServletContext)} is used.
+     */
+    public void setResourcesElementsProvider(ResourcesElementsProvider resourcesElementsProvider) {
+        this.resourcesElementsProvider = resourcesElementsProvider;
+    }
+
     /* (non-Javadoc)
      * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
      */
     @Override
     protected void initFilterBean() throws ServletException {
+        if (this.resourcesElementsProvider == null) {
+            final ServletContext servletContext = this.getServletContext();
+            this.resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(servletContext);
+        }
+        
         this.updateHeaders();
     }
 
@@ -99,10 +116,14 @@ public class CacheExpirationFilter extends GenericFilterBean {
 
         // add the cache expiration time to the response
         if (response instanceof HttpServletResponse && request instanceof HttpServletRequest) {
-            final HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-            httpResponse.setDateHeader("Expires", this.cacheMaxAge + System.currentTimeMillis());
-            httpResponse.setHeader("Cache-Control", this.cachedControlString);
+            final HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+            final Included includedType = this.resourcesElementsProvider.getIncludedType(httpServletRequest);
+            if (includedType == Included.AGGREGATED) {
+                final HttpServletResponse httpResponse = (HttpServletResponse) response;
+    
+                httpResponse.setDateHeader("Expires", this.cacheMaxAge + System.currentTimeMillis());
+                httpResponse.setHeader("Cache-Control", this.cachedControlString);
+            }
         }
 
         // continue

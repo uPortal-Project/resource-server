@@ -19,9 +19,12 @@
     under the License.
 
 -->
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" 
-    version="2.4">
+<web-app 
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    metadata-complete="true"
+    version="2.5">
     
     <display-name>ResourceServer</display-name>
     <description>Serves Javascript and CSS library resources</description>
@@ -53,7 +56,7 @@
         <filter-name>CacheExpiresFilter</filter-name>
         <filter-class>org.jasig.resourceserver.utils.filter.CacheExpirationFilter</filter-class>
         <!-- Length of time to set in cache headers (in seconds) -->
-        <!-- 
+        <!-- DEFAULT VALUE:
         <init-param>
             <param-name>cacheMaxAge</param-name>
             <param-value>31536000</param-value>
@@ -61,7 +64,7 @@
         -->
         
         <!-- Time between regenerating cache header strings (in milliseconds) -->
-        <!-- 
+        <!-- DEFAULT VALUE:
         <init-param>
             <param-name>regenerateHeadersInterval</param-name>
             <param-value>1000</param-value>
@@ -74,9 +77,6 @@
     <filter-mapping>
         <filter-name>pageCachingFilter</filter-name>
         <url-pattern>*.js</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>pageCachingFilter</filter-name>
         <url-pattern>*.css</url-pattern>
     </filter-mapping>
     

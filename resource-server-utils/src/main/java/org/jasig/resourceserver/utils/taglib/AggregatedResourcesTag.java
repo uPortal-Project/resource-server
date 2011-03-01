@@ -51,10 +51,10 @@ public class AggregatedResourcesTag extends TagSupport {
 
     @Override
     public int doEndTag() throws JspException {
-        final HttpServletRequest request = (HttpServletRequest)this.pageContext.getRequest();
         final ServletContext servletContext = this.pageContext.getServletContext();
-        final ResourcesElementsProvider resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(request, servletContext);
+        final ResourcesElementsProvider resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(servletContext);
         
+        final HttpServletRequest request = (HttpServletRequest)this.pageContext.getRequest();
         final String resourcesFragment = resourcesElementsProvider.getResourcesHtmlFragment(request, this._path);
         
         final JspWriter out = pageContext.getOut();

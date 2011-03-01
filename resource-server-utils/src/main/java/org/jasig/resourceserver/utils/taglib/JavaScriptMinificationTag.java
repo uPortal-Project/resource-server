@@ -121,10 +121,10 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
     
     protected boolean isCompressionEnabled() {
         //See if the ResourcesElementsProvider was provided as a request attribute, if so use the include type support provided there
-        final HttpServletRequest request = (HttpServletRequest)this.pageContext.getRequest();
         final ServletContext servletContext = this.pageContext.getServletContext();
-        final ResourcesElementsProvider resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(request, servletContext);
+        final ResourcesElementsProvider resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(servletContext);
 
+        final HttpServletRequest request = (HttpServletRequest)this.pageContext.getRequest();
         final Included includedType = resourcesElementsProvider.getIncludedType(request);
         return Included.AGGREGATED.equals(includedType);
     }

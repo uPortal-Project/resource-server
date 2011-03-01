@@ -20,7 +20,6 @@
 package org.jasig.resourceserver.utils.aggr;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,10 +34,6 @@ public final class ResourcesElementsProviderUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourcesElementsProviderUtils.class);
     
     private ResourcesElementsProviderUtils() {
-    }
-    
-    public static ResourcesElementsProvider getResourcesElementsProvider(final HttpServletRequest request) {
-        return (ResourcesElementsProvider)request.getAttribute(ResourcesElementsProvider.RESOURCES_ELEMENTS_PROVIDER);
     }
     
     public static ResourcesElementsProvider getResourcesElementsProvider(final ServletContext servletContext) { 
@@ -68,14 +63,5 @@ public final class ResourcesElementsProviderUtils {
             
             return provider;
         }
-    }
-    
-    public static ResourcesElementsProvider getOrCreateResourcesElementsProvider(final HttpServletRequest request, final ServletContext servletContext) {
-        ResourcesElementsProvider resourcesElementsProvider = getResourcesElementsProvider(request);
-        if (resourcesElementsProvider != null) {
-            return resourcesElementsProvider;
-        }
-        
-        return getOrCreateResourcesElementsProvider(servletContext);
     }
 }

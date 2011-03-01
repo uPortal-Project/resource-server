@@ -51,11 +51,10 @@ public class ResourceIncludeTag extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
-        final HttpServletRequest httpServletRequet = (HttpServletRequest)pageContext.getRequest();
         final ServletContext servletContext = pageContext.getServletContext();
+        final ResourcesElementsProvider resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(servletContext);
         
-        final ResourcesElementsProvider resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(httpServletRequet, servletContext);
-        
+        final HttpServletRequest httpServletRequet = (HttpServletRequest)pageContext.getRequest();
         _url = resourcesElementsProvider.resolveResourceUrl(httpServletRequet, _resource);
 
         return EVAL_BODY_INCLUDE;
