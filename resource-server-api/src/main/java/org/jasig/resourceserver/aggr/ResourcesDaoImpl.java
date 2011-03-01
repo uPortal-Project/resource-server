@@ -254,6 +254,7 @@ public class ResourcesDaoImpl implements ResourcesDao {
             modifiedCssImport.setImport(source.isImport());
             modifiedCssImport.setIncluded(source.getIncluded());
             modifiedCssImport.setMedia(source.getMedia());
+            modifiedCssImport.setResource(source.isResource());
             
             if (isAbsolute(source)) {
                 modifiedCssImport.setValue(source.getValue());
@@ -282,6 +283,7 @@ public class ResourcesDaoImpl implements ResourcesDao {
             modifiedJsImport.setConditional(source.getConditional());
             modifiedJsImport.setImport(source.isImport());
             modifiedJsImport.setIncluded(source.getIncluded());
+            modifiedJsImport.setResource(source.isResource());
             
             if (isAbsolute(source)) {
                 modifiedJsImport.setValue(source.getValue());
