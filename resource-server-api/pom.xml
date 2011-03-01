@@ -73,6 +73,9 @@
                     <schemaDirectory>src/main/xsd</schemaDirectory>
                     <episode>false</episode>
                     <extension>true</extension>
+                    <schemaExcludes>
+                        <exclude>skin-configuration-v1.1.xsd</exclude>
+                    </schemaExcludes>
                     <args>
                         <arg>-XtoString</arg>
                         <arg>-Xequals</arg>

@@ -44,6 +44,8 @@ import org.jasig.resourceserver.aggr.om.ObjectFactory;
 import org.jasig.resourceserver.aggr.om.Resources;
 
 /**
+ * Implementation of {@link ResourcesDao} that uses JAXB to read and write Resources objects.
+ * 
  * @author Eric Dalquist
  * @version $Revision$
  */

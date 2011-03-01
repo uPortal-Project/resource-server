@@ -19,9 +19,11 @@
 
 package org.jasig.resourceserver.utils.aggr;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jasig.resourceserver.aggr.om.Included;
+import org.jasig.resourceserver.aggr.om.Resources;
 import org.w3c.dom.NodeList;
 
 /**
@@ -29,7 +31,42 @@ import org.w3c.dom.NodeList;
  * @version $Revision$
  */
 public interface ResourcesElementsProvider {
+    /**
+     * Attribute to store a ResourcesElementsProvider instance with as a {@link HttpServletRequest} or {@link ServletContext attribute 
+     */
+    public static final String RESOURCES_ELEMENTS_PROVIDER = ResourcesElementsProvider.class.getName();
     
+    /**
+     * System property used to determine if aggregation is enabled or not 
+     */
+    public static final String AGGREGATED_THEME_PARAMETER = ResourcesElementsProvider.class.getPackage().getName() + ".aggregated_theme";
+    
+    /**
+     * Default value of the {@link #AGGREGATED_THEME_PARAMETER} system property
+     */
+    public static final String DEFAULT_AGGREGATION_ENABLED = Boolean.TRUE.toString();
+
+    /**
+     * Servlet context init-param used to specify the context path of the Resource Server
+     */
+    public static final String RESOURCE_CONTEXT_INIT_PARAM = "resourceContextPath";
+    
+    /**
+     * Default context path used for the Resource Server if no {@link #RESOURCE_CONTEXT_INIT_PARAM} is specified 
+     */
+    public static final String DEFAULT_RESOURCE_CONTEXT = "/ResourceServingWebapp";
+    
+    /**
+     * Resolve the full path to the specified resource based on the availability of the resource-server.
+     * 
+     * The resource server is looked up using {@link ServletContext#getContext(String)}. The context name
+     * is resolved from the {@link ResourcesElementsProvider#RESOURCE_CONTEXT_INIT_PARAM} init param and if
+     * that is not set {@link ResourcesElementsProvider#DEFAULT_RESOURCE_CONTEXT} is used.
+     * 
+     * If the resource server is available and contains the requested resource 
+     */
+    public String resolveResourceUrl(HttpServletRequest request, String resource);
+
     /**
      * Set the default include type for resources. {@link Included#PLAIN} results in un-aggregated
      * resources being returned. {@link Included#AGGREGATED} results in aggregated resources being
@@ -57,5 +94,17 @@ public interface ResourcesElementsProvider {
      * to determine which resource URLs to use.
      */
     public NodeList getResourcesXmlFragment(HttpServletRequest request, String skinXml);
+    
+    /**
+     * Get an HTML fragment of the link and script tags for the specified skin. Uses {@link #getIncludedType(HttpServletRequest)}
+     * to determine which resource URLs to use.
+     */
+    public String getResourcesHtmlFragment(HttpServletRequest request, String skinXml);
+    
+    /**
+     * Get the resources to use for rhte specified request and skin XML file. Uses {@link #getIncludedType(HttpServletRequest)}
+     * to determine which resource URLs to use.
+     */
+    public Resources getResources(HttpServletRequest request, String skinXml);
 
 }

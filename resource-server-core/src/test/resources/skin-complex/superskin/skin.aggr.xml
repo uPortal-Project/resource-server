@@ -23,8 +23,8 @@
 <resources xmlns="http://www.jasig.org/uportal/web/skin">
     <css compressed="true">../common/css/d8t4sze8O0E-iCv0TauSXA.aggr.min.css</css>
     <css conditional="condition!" compressed="true">../common/css/5Fx4482HwyKcu7OjeOwUMw.aggr.min.css</css>
-    <css>/ResourceServingWebapp/rs/1.css</css>
-    <css>/ResourceServingWebapp/rs/2.css</css>
+    <css resource="true">/rs/1.css</css>
+    <css resource="true">/rs/2.css</css>
     <css media="alternate" compressed="true">css/d8t4sze8O0E-iCv0TauSXA.aggr.min.css</css>
     <js compressed="true">PMBguTkcmZ-8I3xaEv-xFw.aggr.min.js</js>
     <js>/universal.js</js>

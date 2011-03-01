@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyContent;
@@ -30,6 +32,9 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jasig.resourceserver.aggr.om.Included;
+import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
+import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
 import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 
@@ -51,16 +56,14 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
 
     private static final long serialVersionUID = 1950546842057709745L;
 
-    protected static final String AGGREGATION_PROP_NAME = "org.jasig.resource.aggr.util.aggregated_theme";
-
-    protected final Log log = LogFactory.getLog(getClass());
+    protected final Log log = LogFactory.getLog(this.getClass());
 
     private int lineBreakColumnNumber = 10000;
 
     private boolean obfuscate = true;
     private boolean preserveAllSemiColons = true;
     private boolean disableOptimizations = false;
-    
+
     public void setLineBreakColumnNumber(int lineBreakColumnNumber) {
         this.lineBreakColumnNumber = lineBreakColumnNumber;
     }
@@ -77,66 +80,83 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
         this.disableOptimizations = disableOptimizations;
     }
 
+    @Override
     public int doAfterBody() throws JspException {
         try {
-            BodyContent bc = getBodyContent();
+            final BodyContent bc = this.getBodyContent();
 
             // get the bodycontent as string
-            String body = bc.getString();
+            final String body = bc.getString();
 
             // getJspWriter to output content
-            JspWriter out = bc.getEnclosingWriter();
+            final JspWriter out = bc.getEnclosingWriter();
             if (body != null) {
-                
+
                 // if the portal is currently configured for aggregation, use 
                 // YUICompressor to aggregate the javascript contained in the tag
-                if (Boolean.parseBoolean(System.getProperty(AGGREGATION_PROP_NAME, "true"))) {
-                    Reader reader = new StringReader(body);
-                    JavaScriptCompressor jsCompressor = new JavaScriptCompressor(reader, new JavaScriptErrorReporterImpl());
-                    jsCompressor.compress(out, lineBreakColumnNumber, obfuscate, false, preserveAllSemiColons, disableOptimizations);
-                } else {
+                if (isCompressionEnabled()) {
+                    final Reader reader = new StringReader(body);
+                    final JavaScriptCompressor jsCompressor = new JavaScriptCompressor(reader,
+                            new JavaScriptErrorReporterImpl());
+                    jsCompressor.compress(out,
+                            this.lineBreakColumnNumber,
+                            this.obfuscate,
+                            false,
+                            this.preserveAllSemiColons,
+                            this.disableOptimizations);
+                }
+                else {
                     out.print(body);
                 }
 
             }
-            
-        } catch (IOException ioe) {
+
+        }
+        catch (final IOException ioe) {
             throw new JspException("Error:" + ioe.getMessage());
         }
 
         return SKIP_BODY;
     }
+    
+    protected boolean isCompressionEnabled() {
+        //See if the ResourcesElementsProvider was provided as a request attribute, if so use the include type support provided there
+        final HttpServletRequest request = (HttpServletRequest)this.pageContext.getRequest();
+        final ServletContext servletContext = this.pageContext.getServletContext();
+        final ResourcesElementsProvider resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(request, servletContext);
+
+        final Included includedType = resourcesElementsProvider.getIncludedType(request);
+        return Included.AGGREGATED.equals(includedType);
+    }
 
     protected class JavaScriptErrorReporterImpl implements ErrorReporter {
-        public void error(String message, String sourceName, int line,
-                String lineSource, int lineOffset) {
-            StringBuilder mesg = new StringBuilder(
-                    "JavaScriptCompressor ERROR, ");
+        @Override
+        public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
+            final StringBuilder mesg = new StringBuilder("JavaScriptCompressor ERROR, ");
             mesg.append("message: ").append(message);
             mesg.append(", sourceName: ").append(sourceName);
             mesg.append(", line: ").append(line);
             mesg.append(", lineSource: ").append(lineSource);
             mesg.append(", lineOffset: ").append(lineOffset);
-            log.error(mesg);
+            JavaScriptMinificationTag.this.log.error(mesg);
         }
 
-        public EvaluatorException runtimeError(String message,
-                String sourceName, int line, String lineSource, int lineOffset) {
-            error(message, sourceName, line, lineSource, lineOffset);
-            return new EvaluatorException(message, sourceName, line,
-                    lineSource, lineOffset);
+        @Override
+        public EvaluatorException runtimeError(String message, String sourceName, int line, String lineSource,
+                int lineOffset) {
+            this.error(message, sourceName, line, lineSource, lineOffset);
+            return new EvaluatorException(message, sourceName, line, lineSource, lineOffset);
         }
 
-        public void warning(String message, String sourceName, int line,
-                String lineSource, int lineOffset) {
-            StringBuilder mesg = new StringBuilder(
-                    "JavaScriptCompressor WARNING, ");
+        @Override
+        public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
+            final StringBuilder mesg = new StringBuilder("JavaScriptCompressor WARNING, ");
             mesg.append("message: ").append(message);
             mesg.append(", sourceName: ").append(sourceName);
             mesg.append(", line: ").append(line);
             mesg.append(", lineSource: ").append(lineSource);
             mesg.append(", lineOffset: ").append(lineOffset);
-            log.warn(mesg);
+            JavaScriptMinificationTag.this.log.warn(mesg);
         }
     }
 

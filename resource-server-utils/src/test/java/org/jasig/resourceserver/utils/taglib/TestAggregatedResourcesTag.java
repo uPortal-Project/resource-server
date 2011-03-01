@@ -38,7 +38,7 @@ import org.mockito.Mockito;
  * 
  * @author Jen Bourey
  */
-public class TestResourceIncludeTag extends TestCase {
+public class TestAggregatedResourcesTag extends TestCase {
 	private static final String CURRENT_CONTEXT = "/TestContext";
 	
 	/*

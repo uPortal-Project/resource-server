@@ -23,6 +23,8 @@ import org.apache.maven.plugin.logging.Log;
 
 
 /**
+ * Adapts the commons-logging {@link org.apache.commons.logging.Log} interface to the Maven {@link Log} interface
+ * 
  * @author Eric Dalquist
  * @version $Revision$
  */

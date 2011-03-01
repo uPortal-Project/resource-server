@@ -26,10 +26,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -109,13 +111,14 @@ public class ResourcesAggregatorImplTest {
 
     @Test
     public void testUniversalityCommonJavaScript() throws Exception {
-        String tempPath = getTestOutputRoot() + "/skin-universality-commonjs/uportal3";
+        final String testOutputRoot = getTestOutputRoot();
+        String tempPath = testOutputRoot + "/skin-universality-commonjs/uportal3";
         
         File outputDirectory = new File(tempPath);
         outputDirectory.mkdirs();
         Assert.assertTrue(outputDirectory.exists());
         
-        String jsPath = getTestOutputRoot() + "/skin-universality-commonjs/common/javascript";
+        String jsPath = testOutputRoot + "/skin-universality-commonjs/common/javascript";
         File jsOutputDirectory = new File(jsPath);
 
         File skinXml = new ClassPathResource("skin-universality-commonjs/uportal3/skin.xml").getFile();
@@ -174,24 +177,33 @@ public class ResourcesAggregatorImplTest {
 	 * Delete our temp directory after test execution.
 	 * @throws Exception
 	 */
-//	@After
+	@After
 	public void cleanupTempDir() throws Exception {
-		File testOutputDirectory = new File(getTestOutputRoot());
+	    String testOutputDirectoryName = tempDirLocal.get();
+	    tempDirLocal.remove();
+		File testOutputDirectory = new File(testOutputDirectoryName);
 		FileUtils.cleanDirectory(testOutputDirectory);
 		FileUtils.deleteDirectory(testOutputDirectory);
 	}
+	
+	private final ThreadLocal<String> tempDirLocal = new ThreadLocal<String>();
 
 	/**
 	 * Shortcut to get a temporary directory underneath java.io.tmpdir.
-	 * 
-	 * @return
 	 */
-	private String getTestOutputRoot() {
-		String tempPath = System.getProperty("java.io.tmpdir");
-		if(!tempPath.endsWith("/")) {
-			tempPath += "/";
-		}
-		tempPath = tempPath + "resources-aggregator-impl-test-output";
-		return tempPath;
+	private String getTestOutputRoot() throws IOException {
+	    String testOutputDirectoryName = tempDirLocal.get();
+	    if (testOutputDirectoryName != null) {
+	        return testOutputDirectoryName;
+	    }
+	    
+		final File tmpDir = File.createTempFile("resources-aggregator-impl-", "-test-output");
+		tmpDir.delete();
+		tmpDir.mkdirs();
+		tmpDir.deleteOnExit();
+		testOutputDirectoryName = tmpDir.getCanonicalPath();
+		tempDirLocal.set(testOutputDirectoryName);
+		
+		return testOutputDirectoryName;
 	}
 }

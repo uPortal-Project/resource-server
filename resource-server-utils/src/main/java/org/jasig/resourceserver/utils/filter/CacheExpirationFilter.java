@@ -48,61 +48,64 @@ import org.springframework.web.filter.GenericFilterBean;
  */
 public class CacheExpirationFilter extends GenericFilterBean {
     private static final long YEAR_OF_MILLISECONDS = 365l * 24l * 60l * 60l * 1000l;
-        
+
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-    
+
     private String cachedControlString;
-    
+
     //Default resource cache time is 1 year
     private long cacheMaxAge = YEAR_OF_MILLISECONDS;
-    
+
     public int getCacheMaxAge() {
-        return (int)(this.cacheMaxAge / 1000l);
+        return (int) (this.cacheMaxAge / 1000l);
     }
+
     /**
      * @param cacheMaxAge Sets the max age in seconds to be used in the cache headers for cached resources, defaults to 1 year (31536000)
      */
     public void setCacheMaxAge(int cacheMaxAge) {
         if (cacheMaxAge < 1) {
-            throw new IllegalArgumentException("Specified initParamter 'cacheMaxAge' must be greater than 0, (" + cacheMaxAge + ")");
+            throw new IllegalArgumentException("Specified initParamter 'cacheMaxAge' must be greater than 0, ("
+                    + cacheMaxAge + ")");
         }
 
         this.cacheMaxAge = cacheMaxAge * 1000;
-        
-        updateHeaders();
+
+        this.updateHeaders();
     }
 
-    
     /* (non-Javadoc)
      * @see org.springframework.web.filter.GenericFilterBean#initFilterBean()
      */
     @Override
     protected void initFilterBean() throws ServletException {
-        updateHeaders();
+        this.updateHeaders();
     }
+
     /**
      * 
      */
     private void updateHeaders() {
         //Generate cache control value
-        this.cachedControlString = "public, max-age=" + (this.cacheMaxAge / 1000);
+        this.cachedControlString = "public, max-age=" + this.cacheMaxAge / 1000;
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+            ServletException {
 
-	    // add the cache expiration time to the response
+        // add the cache expiration time to the response
         if (response instanceof HttpServletResponse && request instanceof HttpServletRequest) {
-			final HttpServletResponse httpResponse = (HttpServletResponse) response;
+            final HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-			httpResponse.setDateHeader("Expires", this.cacheMaxAge + System.currentTimeMillis());
-			httpResponse.setHeader("Cache-Control", this.cachedControlString);
-		}
-		
-		// continue
-		chain.doFilter(request, response);
-	}
+            httpResponse.setDateHeader("Expires", this.cacheMaxAge + System.currentTimeMillis());
+            httpResponse.setHeader("Cache-Control", this.cachedControlString);
+        }
+
+        // continue
+        chain.doFilter(request, response);
+    }
 }

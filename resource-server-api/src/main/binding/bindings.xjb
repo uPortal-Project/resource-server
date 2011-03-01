@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd"
     jaxb:version="2.1"
 >
-    <jaxb:bindings schemaLocation="../xsd/skin-configuration.xsd">
+    <jaxb:bindings schemaLocation="../xsd/skin-configuration-v1.2.xsd">
         <jaxb:schemaBindings>
             <jaxb:package name="org.jasig.resourceserver.aggr.om" />
         </jaxb:schemaBindings>

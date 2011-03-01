@@ -19,18 +19,18 @@
     under the License.
 
 -->
-<!DOCTYPE taglib PUBLIC
-  "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
-  "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
-<taglib>
-    <tlibversion>1.0</tlibversion>
-    <jspversion>1.1</jspversion>
-    <shortname>rs</shortname>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+    version="2.1">
+ 
+    <tlib-version>1.1</tlib-version>
+    <short-name>rs</short-name>
     <uri>http://www.jasig.org/resource-server</uri>
     <tag>
         <name>resourceURL</name>
-        <tagclass>org.jasig.resourceserver.utils.taglib.ResourceIncludeTag</tagclass>
-        <bodycontent>empty</bodycontent>
+        <tag-class>org.jasig.resourceserver.utils.taglib.ResourceIncludeTag</tag-class>
+        <body-content>empty</body-content>
         <attribute>
             <name>value</name>
             <required>true</required>
@@ -39,6 +39,16 @@
         <attribute>
             <name>var</name>
             <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>aggregatedResources</name>
+        <tag-class>org.jasig.resourceserver.utils.taglib.AggregatedResourcesTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>path</name>
+            <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>

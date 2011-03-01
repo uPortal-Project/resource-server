@@ -29,8 +29,8 @@
 	<css conditional="condition!">../common/css/conditional.css</css>
 
 	<!-- absolute won't get touched, prove the 2 don't aggregate -->
-	<css>/ResourceServingWebapp/rs/1.css</css>
-	<css>/ResourceServingWebapp/rs/2.css</css>
+	<css resource="true">/rs/1.css</css>
+	<css resource="true">/rs/2.css</css>
     
     <!-- have same value for media, will get aggregated -->
     <css media="alternate">css/a.css</css>
