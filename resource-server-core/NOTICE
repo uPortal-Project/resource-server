@@ -16,17 +16,23 @@ specific language governing permissions and limitations
 under the License.
 
 This project includes:
+  Fluid Infusion under the New BSD license
+
+  jQuery, jQueryUI, and the jQuery Form Plugin under the MIT license
+
+  The famfamfam Silk Icons under the Creative Commons Attribution 3.0 License
+    http://www.famfamfam.com/lab/icons/silk/
+ 
   Apache Log4j under The Apache Software License, Version 2.0
-  Commons Codec under Apache License, Version 2.0
+  Commons Codec under The Apache Software License, Version 2.0
   Commons IO under The Apache Software License, Version 2.0
   Commons Lang under The Apache Software License, Version 2.0
   Commons Logging under The Apache Software License, Version 2.0
+  JAXB2 Basics - Runtime under BSD-Style License
   JUnit under Common Public License Version 1.0
-  Resource Aggregator API under Apache License Version 2.0
-  Resource Aggregator Core under Apache License Version 2.0
-  Rhino under Mozilla Public License, Version 1.1
+  Resource Server API under Apache License Version 2.0
+  Resource Server Core under Apache License Version 2.0
   spring-asm under Apache License, Version 2.0
   spring-core under Apache License, Version 2.0
   XMLUnit for Java under BSD License
-  yui compressor under BSD License
-
+  yuicompressor under BSD License
