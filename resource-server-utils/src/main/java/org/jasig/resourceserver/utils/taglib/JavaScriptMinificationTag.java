@@ -21,7 +21,6 @@ package org.jasig.resourceserver.utils.taglib;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.StringReader;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +29,10 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jasig.resource.aggr.CommonsLogErrorReporter;
 import org.jasig.resourceserver.aggr.om.Included;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
@@ -57,6 +58,7 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
     private static final long serialVersionUID = 1950546842057709745L;
 
     protected final Log log = LogFactory.getLog(this.getClass());
+    protected final ErrorReporter jsErrorReporter = new CommonsLogErrorReporter(this.log);
 
     private int lineBreakColumnNumber = 10000;
 
@@ -82,22 +84,30 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
 
     @Override
     public int doAfterBody() throws JspException {
-        try {
-            final BodyContent bc = this.getBodyContent();
+        final BodyContent bc = this.getBodyContent();
 
-            // get the bodycontent as string
-            final String body = bc.getString();
+        // get the bodycontent as a reader
+        final Reader bodyReader = bc.getReader();
 
-            // getJspWriter to output content
+        // getJspWriter to output content
+        if (bodyReader != null) {
             final JspWriter out = bc.getEnclosingWriter();
-            if (body != null) {
-
-                // if the portal is currently configured for aggregation, use 
-                // YUICompressor to aggregate the javascript contained in the tag
-                if (isCompressionEnabled()) {
-                    final Reader reader = new StringReader(body);
-                    final JavaScriptCompressor jsCompressor = new JavaScriptCompressor(reader,
-                            new JavaScriptErrorReporterImpl());
+            
+            // if the portal is currently configured for aggregation, use 
+            // YUICompressor to aggregate the javascript contained in the tag
+            if (isCompressionEnabled()) {
+                final JavaScriptCompressor jsCompressor;
+                try {
+                    jsCompressor = new JavaScriptCompressor(bodyReader, this.jsErrorReporter);
+                }
+                catch (EvaluatorException e) {
+                    throw new JspException("Failed to parse JS data to minify", e);
+                }
+                catch (IOException e) {
+                    throw new JspException("Failed to read JS data to minify", e);
+                }
+                
+                try {
                     jsCompressor.compress(out,
                             this.lineBreakColumnNumber,
                             this.obfuscate,
@@ -105,15 +115,19 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
                             this.preserveAllSemiColons,
                             this.disableOptimizations);
                 }
-                else {
-                    out.print(body);
+                catch (IOException e) {
+                    throw new JspException("Failed to write minified JS data to JSP", e);
                 }
-
+            }
+            else {
+                try {
+                    IOUtils.copy(bodyReader, out);
+                }
+                catch (IOException e) {
+                    throw new JspException("Failed to write JS data to JSP", e);
+                }
             }
 
-        }
-        catch (final IOException ioe) {
-            throw new JspException("Error:" + ioe.getMessage());
         }
 
         return SKIP_BODY;
@@ -128,36 +142,4 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
         final Included includedType = resourcesElementsProvider.getIncludedType(request);
         return Included.AGGREGATED.equals(includedType);
     }
-
-    protected class JavaScriptErrorReporterImpl implements ErrorReporter {
-        @Override
-        public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
-            final StringBuilder mesg = new StringBuilder("JavaScriptCompressor ERROR, ");
-            mesg.append("message: ").append(message);
-            mesg.append(", sourceName: ").append(sourceName);
-            mesg.append(", line: ").append(line);
-            mesg.append(", lineSource: ").append(lineSource);
-            mesg.append(", lineOffset: ").append(lineOffset);
-            JavaScriptMinificationTag.this.log.error(mesg);
-        }
-
-        @Override
-        public EvaluatorException runtimeError(String message, String sourceName, int line, String lineSource,
-                int lineOffset) {
-            this.error(message, sourceName, line, lineSource, lineOffset);
-            return new EvaluatorException(message, sourceName, line, lineSource, lineOffset);
-        }
-
-        @Override
-        public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
-            final StringBuilder mesg = new StringBuilder("JavaScriptCompressor WARNING, ");
-            mesg.append("message: ").append(message);
-            mesg.append(", sourceName: ").append(sourceName);
-            mesg.append(", line: ").append(line);
-            mesg.append(", lineSource: ").append(lineSource);
-            mesg.append(", lineOffset: ").append(lineOffset);
-            JavaScriptMinificationTag.this.log.warn(mesg);
-        }
-    }
-
 }
