@@ -21,11 +21,11 @@
 -->
 
 <resources xmlns="http://www.jasig.org/uportal/web/skin">
-    <css compressed="true">../common/css/fluid/RoOqeu2wDdFeYLKNM--aZw.aggr.min.css</css>
-    <css compressed="true">../common/css/5k3CfLpXv77hfe46aYQr0w.aggr.min.css</css>
-    <css compressed="true">2ayEwnDhvYkCRskggG9fGg.aggr.min.css</css>
+    <css compressed="true">../common/css/fluid/2_MOvPUre2GTPnbllDi3ow.aggr.min.css</css>
+    <css compressed="true">../common/css/MuihLYLGWFDsczvk0_c71g.aggr.min.css</css>
+    <css compressed="true">YkSdAcqRsa_nJdfKEwvRiQ.aggr.min.css</css>
     <css>/ResourceServingWebapp/rs/jqueryui/1.6rc6/theme/smoothness/ui.all.css</css>
-    <css compressed="true">HZiiPRKVMPA6teq0Amrffw.aggr.min.css</css>
-    <css conditional="if IE 6" compressed="true">-91Rz1Gl-OCL5poZBhmf5g.aggr.min.css</css>
-    <js compressed="true">../common/javascript/XR-SqpcE6eDDI_uEp3vkCQ.aggr.min.js</js>
+    <css compressed="true">g66jFcvC3YYEfKV1Qr1HcQ.aggr.min.css</css>
+    <css conditional="if IE 6" compressed="true">n3yOJtsWpdiM6lqQSoeojA.aggr.min.css</css>
+    <js compressed="true">../common/javascript/1TLVNj1Qituyo2Ht1mRaGA.aggr.min.js</js>
 </resources>

@@ -22,12 +22,14 @@
  */
 package org.jasig.resource.aggr;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -72,7 +74,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
 	private final static String CSS = ".aggr.min.css";
 	private final static String JS = ".aggr.min.js";
 	
-	private final JavaScriptErrorReporterImpl JAVA_SCRIPT_ERROR_REPORTER = new JavaScriptErrorReporterImpl();
+	private final ErrorReporter errorReporter;
 	private final ResourcesDao resourcesDao;
     private final String encoding;
 
@@ -90,6 +92,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
 	    this.logger = logger != null ? logger : LogFactory.getLog(this.getClass());
 	    this.encoding = encoding;
 	    this.resourcesDao = new ResourcesDaoImpl(this.logger, this.encoding);
+	    this.errorReporter = new CommonsLogErrorReporter(this.logger);
     }
 	
 	public ResourcesAggregatorImpl() {
@@ -309,70 +312,76 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
             return headElement;
         }
         
-        final StringWriter aggregateWriter = new StringWriter();
-        for (final T element: elements) {
-            final File resourceFile = new File(skinDirectory, element.getValue());
-            
-            Reader resourceIn = null;
+        final File tempFile = File.createTempFile("working.", extension);
+        final File aggregateOutputFile;
+        try {
+            //Make sure we're working with a clean MessageDigest
+            digest.reset();
+            TrimmingWriter trimmingWriter = null;
             try {
-                resourceIn = new FileReader(resourceFile);
-                if (element.isCompressed()) {
-                    IOUtils.copy(resourceIn, aggregateWriter);
+                final BufferedOutputStream bufferedFileStream = new BufferedOutputStream(new FileOutputStream(tempFile));
+                final MessageDigestOutputStream digestStream = new MessageDigestOutputStream(bufferedFileStream, digest);
+                final OutputStreamWriter aggregateWriter = new OutputStreamWriter(digestStream, this.encoding);
+                trimmingWriter = new TrimmingWriter(aggregateWriter);
+                
+                for (final T element: elements) {
+                    final File resourceFile = new File(skinDirectory, element.getValue());
+                    
+                    Reader resourceIn = null;
+                    try {
+                        resourceIn = new BufferedReader(new FileReader(resourceFile));
+                        if (element.isCompressed()) {
+                            IOUtils.copy(resourceIn, trimmingWriter);
+                        }
+                        else {
+                            callback.compress(resourceIn, trimmingWriter);
+                        }
+                    }
+                    catch (IOException e) {
+                        throw new IOException("Failed to read '" + resourceFile + "' for skin: " + skinDirectory, e);
+                    }
+                    finally {
+                        IOUtils.closeQuietly(resourceIn);
+                    }
+                    trimmingWriter.write(SystemUtils.LINE_SEPARATOR);
                 }
-                else {
-                    callback.compress(resourceIn, aggregateWriter);
-                }
-            }
-            catch (IOException e) {
-                throw new IOException("Failed to read '" + resourceFile + "' for skin: " + skinDirectory, e);
-            }
+    		}
             finally {
-                IOUtils.closeQuietly(resourceIn);
+                IOUtils.closeQuietly(trimmingWriter);
             }
-            aggregateWriter.write(SystemUtils.LINE_SEPARATOR);
+            
+            if (trimmingWriter.getCharCount() == 0) {
+                return null;
+            }
+    
+    		// temp file is created, get checksum
+    		final String checksum = Base64.encodeBase64URLSafeString(digest.digest());
+    		digest.reset();
+    
+    		// create a new file name
+    		final String newFileName = checksum + extension;
+    
+    		// Build the new file name and path
+    		if (alternateOutput == null) {
+    		    final String elementRelativePath = FilenameUtils.getFullPath(headElement.getValue());
+    	        final File directoryInOutputRoot = new File(outputRoot, elementRelativePath);
+    	        // create the same directory structure in the output root
+    	        directoryInOutputRoot.mkdirs();
+    
+    	        aggregateOutputFile = new File(directoryInOutputRoot, newFileName);
+    		}
+    		else {
+    		    aggregateOutputFile = new File(alternateOutput, newFileName);
+    		}
+    		
+    		//Move the aggregate file into the correct location
+    		FileUtils.deleteQuietly(aggregateOutputFile);
+            FileUtils.moveFile(tempFile, aggregateOutputFile);
         }
-        
-        final String trimmedOutput = aggregateWriter.toString().trim();
-        if (trimmedOutput.length() == 0) {
-            return null;
-        }
-        
-		final File tempFile = File.createTempFile("working.", extension);
-		
-		//Make sure we're working with a clean MessageDigest
-		digest.reset();
-		final MessageDigestOutputStream digestStream = new MessageDigestOutputStream(new FileOutputStream(tempFile), digest);
-		try {
-		    IOUtils.write(trimmedOutput, digestStream, this.encoding);
-		}
         finally {
-            IOUtils.closeQuietly(digestStream);
+            //Make sure the temp file gets deleted
+            FileUtils.deleteQuietly(tempFile);
         }
-
-		// temp file is created, get checksum
-		final String checksum = Base64.encodeBase64URLSafeString(digest.digest());
-		digest.reset();
-
-		// create a new file name
-		final String newFileName = checksum + extension;
-
-		// Build the new file name and path
-		final File aggregateOutputFile;
-		if (alternateOutput == null) {
-		    final String elementRelativePath = FilenameUtils.getFullPath(headElement.getValue());
-	        final File directoryInOutputRoot = new File(outputRoot, elementRelativePath);
-	        // create the same directory structure in the output root
-	        directoryInOutputRoot.mkdirs();
-
-	        aggregateOutputFile = new File(directoryInOutputRoot, newFileName);
-		}
-		else {
-		    aggregateOutputFile = new File(alternateOutput, newFileName);
-		}
-		
-		//Move the aggregate file into the correct location
-		aggregateOutputFile.delete();
-        FileUtils.moveFile(tempFile, aggregateOutputFile);
 
 		final String newResultValue = RelativePath.getRelativePath(outputRoot, aggregateOutputFile);
 		
@@ -503,7 +512,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
 
         @Override
         public void compress(Reader reader, Writer writer) throws EvaluatorException, IOException {
-            final JavaScriptCompressor jsCompressor = new JavaScriptCompressor(reader, JAVA_SCRIPT_ERROR_REPORTER);
+            final JavaScriptCompressor jsCompressor = new JavaScriptCompressor(reader, errorReporter);
             jsCompressor.compress(writer, jsLineBreakColumnNumber, obfuscateJs, displayJsWarnings, preserveAllSemiColons, disableJsOptimizations);
         }
 
@@ -578,29 +587,4 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
             return willAggregateWith(first, second);
         }
     }
-
-	/**
-	 * {@link ErrorReporter} implementation that builds an error message and prints it using
-	 * the parent class' Commons Logging {@link Log}.
-	 */
-	private class JavaScriptErrorReporterImpl implements ErrorReporter {
-	    @Override
-        public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
-            logger.error("JavaScriptCompressor: " + message + ", sourceName: " + sourceName
-                    + ", line: " + line + ", lineSource: " + lineSource + ", lineOffset: " + lineOffset);
-        }
-
-        @Override
-        public EvaluatorException runtimeError(String message, String sourceName, int line, String lineSource,
-                int lineOffset) {
-            error(message, sourceName, line, lineSource, lineOffset);
-            return new EvaluatorException(message, sourceName, line, lineSource, lineOffset);
-        }
-
-        @Override
-        public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
-            logger.warn("JavaScriptCompressor: " + message + ", sourceName: " + sourceName
-                    + ", line: " + line + ", lineSource: " + lineSource + ", lineOffset: " + lineOffset);
-        }
-	}
 }
