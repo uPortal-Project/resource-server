@@ -24,5 +24,6 @@
     <css>a.css</css>
     <css>b.css</css>
     <js>a.js</js>
+    <js>jquery.hoverIntent.bom.js</js>
     <js>b.js</js>
 </resources>

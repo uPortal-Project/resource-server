@@ -329,7 +329,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
                     
                     Reader resourceIn = null;
                     try {
-                        resourceIn = new BufferedReader(new FileReader(resourceFile));
+                        resourceIn = new BomFilterReader(new BufferedReader(new FileReader(resourceFile)));
                         if (element.isCompressed()) {
                             IOUtils.copy(resourceIn, trimmingWriter);
                         }
