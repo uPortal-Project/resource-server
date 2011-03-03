@@ -315,6 +315,7 @@
                         <exclude>LICENSE</exclude>
                         <exclude>NOTICE</exclude>
                         <exclude>**/src/main/webapp/rs/**</exclude>
+                        <exclude>**/src/test/resources/skin-test1/jquery.hoverIntent.bom.js</exclude>
                     </excludes>
                     <mapping>
                         <tld>XML_STYLE</tld>
