@@ -86,48 +86,44 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
     public int doAfterBody() throws JspException {
         final BodyContent bc = this.getBodyContent();
 
-        // get the bodycontent as a reader
-        final Reader bodyReader = bc.getReader();
-
         // getJspWriter to output content
-        if (bodyReader != null) {
-            final JspWriter out = bc.getEnclosingWriter();
-            
-            // if the portal is currently configured for aggregation, use 
-            // YUICompressor to aggregate the javascript contained in the tag
-            if (isCompressionEnabled()) {
-                final JavaScriptCompressor jsCompressor;
-                try {
-                    jsCompressor = new JavaScriptCompressor(bodyReader, this.jsErrorReporter);
-                }
-                catch (EvaluatorException e) {
-                    throw new JspException("Failed to parse JS data to minify", e);
-                }
-                catch (IOException e) {
-                    throw new JspException("Failed to read JS data to minify", e);
-                }
+        final JspWriter out = bc.getEnclosingWriter();
+        boolean scriptWritten = false;
+        
+        // if the portal is currently configured for aggregation, use 
+        // YUICompressor to aggregate the javascript contained in the tag
+        if (isCompressionEnabled()) {
+            final Reader bodyReader = bc.getReader();
+            try {
+                final JavaScriptCompressor jsCompressor = new JavaScriptCompressor(bodyReader, this.jsErrorReporter);
+                jsCompressor.compress(out,
+                        this.lineBreakColumnNumber,
+                        this.obfuscate,
+                        false,
+                        this.preserveAllSemiColons,
+                        this.disableOptimizations);
                 
-                try {
-                    jsCompressor.compress(out,
-                            this.lineBreakColumnNumber,
-                            this.obfuscate,
-                            false,
-                            this.preserveAllSemiColons,
-                            this.disableOptimizations);
-                }
-                catch (IOException e) {
-                    throw new JspException("Failed to write minified JS data to JSP", e);
-                }
+                scriptWritten = true;
             }
-            else {
-                try {
-                    IOUtils.copy(bodyReader, out);
-                }
-                catch (IOException e) {
-                    throw new JspException("Failed to write JS data to JSP", e);
-                }
+            catch (EvaluatorException e) {
+                log.warn("Failed to parse JS data to minify, falling back to non-minified JS.", e);
+                bc.clearBody();
             }
-
+            catch (IOException e) {
+                log.warn("Failed to read or write JS data, falling back to non-minified JS.", e);
+                bc.clearBody();
+            }
+        }
+        
+        //Handle both compression not working and compression being disabled
+        if (!scriptWritten) {
+            final Reader bodyReader = bc.getReader();
+            try {
+                IOUtils.copy(bodyReader, out);
+            }
+            catch (IOException e) {
+                throw new JspException("Failed to write JS data to JSP", e);
+            }
         }
 
         return SKIP_BODY;
