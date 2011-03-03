@@ -232,7 +232,17 @@ public class ResourcesElementsProviderImpl implements
 
     @Override
     public Included getDefaultIncludedType() {
-        if (Boolean.parseBoolean(System.getProperty(AGGREGATED_THEME_PARAMETER, DEFAULT_AGGREGATION_ENABLED))) {
+        String aggregationParameter = System.getProperty(AGGREGATED_THEME_PARAMETER);
+        if (aggregationParameter == null) {
+            aggregationParameter = System.getProperty(LEGACY_AGGREGATED_THEME_PARAMETER_1);
+        }
+        if (aggregationParameter == null) {
+            aggregationParameter = System.getProperty(LEGACY_AGGREGATED_THEME_PARAMETER_2);
+        }
+        if (aggregationParameter == null) {
+            aggregationParameter = DEFAULT_AGGREGATION_ENABLED;
+        }
+        if (Boolean.parseBoolean(aggregationParameter)) {
             return Included.AGGREGATED;
         }
 

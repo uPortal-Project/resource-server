@@ -40,6 +40,8 @@ public interface ResourcesElementsProvider {
      * System property used to determine if aggregation is enabled or not 
      */
     public static final String AGGREGATED_THEME_PARAMETER = ResourcesElementsProvider.class.getPackage().getName() + ".aggregated_theme";
+    public static final String LEGACY_AGGREGATED_THEME_PARAMETER_1 = "org.jasig.resource.aggr.util.aggregated_theme";
+    public static final String LEGACY_AGGREGATED_THEME_PARAMETER_2 = "org.jasig.portal.web.skin.aggregated_theme";
     
     /**
      * Default value of the {@link #AGGREGATED_THEME_PARAMETER} system property
