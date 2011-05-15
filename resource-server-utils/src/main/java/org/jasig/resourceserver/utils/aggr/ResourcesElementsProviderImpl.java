@@ -55,6 +55,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.io.ClassRelativeResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.context.ServletContextAware;
@@ -167,7 +168,7 @@ public class ResourcesElementsProviderImpl implements
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (this.registerWithServletContext) {
+        if (this.registerWithServletContext && this.servletContext != null) {
             this.servletContext.setAttribute(RESOURCES_ELEMENTS_PROVIDER, this);
         }
         
@@ -176,7 +177,12 @@ public class ResourcesElementsProviderImpl implements
         }
         
         if (this.resourceLoader == null) {
-            this.resourceLoader = new ServletContextResourceLoader(this.servletContext);
+            if (this.servletContext != null) {
+                this.resourceLoader = new ServletContextResourceLoader(this.servletContext);
+            }
+            else {
+                this.resourceLoader = new ClassRelativeResourceLoader(getClass());
+            }
         }
     }
 
