@@ -21,11 +21,11 @@
 -->
 
 <resources xmlns="http://www.jasig.org/uportal/web/skin">
-    <css compressed="true">../common/css/HH-AJgGDOyaNl7bFgNwKtw.aggr.min.css</css>
-    <css conditional="condition!" compressed="true">../common/css/Q5S8pqj4AKRkszt9CfAA0g.aggr.min.css</css>
+    <css compressed="true">../common/css/MyyOAOlOu5jGveLWqVhDRw.aggr.min.css</css>
+    <css conditional="condition!" compressed="true">../common/css/BteqNvCzfQWAEmSUVhdZhw.aggr.min.css</css>
     <css resource="true">/rs/1.css</css>
     <css resource="true">/rs/2.css</css>
-    <css media="alternate" compressed="true">css/HH-AJgGDOyaNl7bFgNwKtw.aggr.min.css</css>
+    <css media="alternate" compressed="true">css/MyyOAOlOu5jGveLWqVhDRw.aggr.min.css</css>
     <js compressed="true">0A5L8wXo6iBbqLQWSqyfAQ.aggr.min.js</js>
     <js>/universal.js</js>
     <js compressed="true">0n3swKwCvKER2W8BVbo_9g.aggr.min.js</js>
