@@ -36,10 +36,10 @@ import org.jasig.resource.aggr.CommonsLogErrorReporter;
 import org.jasig.resourceserver.aggr.om.Included;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
-import org.mozilla.javascript.ErrorReporter;
-import org.mozilla.javascript.EvaluatorException;
 
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
+import com.yahoo.platform.yui.org.mozilla.javascript.ErrorReporter;
+import com.yahoo.platform.yui.org.mozilla.javascript.EvaluatorException;
 
 /**
  * JavaScriptMinificationTag minifies blocks of in-page javascript.  This
