@@ -33,13 +33,12 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jasig.resource.aggr.CommonsLogErrorReporter;
+import org.jasig.resource.com.yahoo.platform.yui.compressor.JavaScriptCompressor;
+import org.jasig.resource.org.mozilla.javascript.ErrorReporter;
+import org.jasig.resource.org.mozilla.javascript.EvaluatorException;
 import org.jasig.resourceserver.aggr.om.Included;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
-
-import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
-import com.yahoo.platform.yui.org.mozilla.javascript.ErrorReporter;
-import com.yahoo.platform.yui.org.mozilla.javascript.EvaluatorException;
 
 /**
  * JavaScriptMinificationTag minifies blocks of in-page javascript.  This
