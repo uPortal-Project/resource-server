@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+
+    Licensed to Jasig under one or more contributor license
+    agreements. See the NOTICE file distributed with this work
+    for additional information regarding copyright ownership.
+    Jasig licenses this file to you under the Apache License,
+    Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License. You may obtain a
+    copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on
+    an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+
+<resources xmlns="http://www.jasig.org/uportal/web/skin">
+    <css compressed="true">../common/css/fluid/RoOqeu2wDdFeYLKNM--aZw.aggr.min.css</css>
+    <css compressed="true">../common/css/5k3CfLpXv77hfe46aYQr0w.aggr.min.css</css>
+    <css compressed="true">2ayEwnDhvYkCRskggG9fGg.aggr.min.css</css>
+    <css included="aggregated" resource="true">/rs/jqueryui/1.6rc6/theme/smoothness/ui.all.min.css</css>
+    <css compressed="true">HZiiPRKVMPA6teq0Amrffw.aggr.min.css</css>
+    <css conditional="if IE 6" compressed="true">-91Rz1Gl-OCL5poZBhmf5g.aggr.min.css</css>
+    <js compressed="true">XR-SqpcE6eDDI_uEp3vkCQ.aggr.min.js</js>
+</resources>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+
+    Licensed to Jasig under one or more contributor license
+    agreements. See the NOTICE file distributed with this work
+    for additional information regarding copyright ownership.
+    Jasig licenses this file to you under the Apache License,
+    Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License. You may obtain a
+    copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on
+    an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+<web-app 
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    metadata-complete="true"
+    version="2.5">
+    
+    <display-name>ResourceServer</display-name>
+    <description>Serves Javascript and CSS library resources</description>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </context-param>
+    
+    <!-- 
+     | Loads/Unloads the Spring WebApplicationContext
+     +-->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    
+    <!-- Gzips and caches http resources -->
+    <filter>
+        <filter-name>pageCachingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    
+    <!-- Applies a far-future expiration header to the response -->
+    <filter>
+        <filter-name>CacheExpiresFilter</filter-name>
+        <filter-class>org.jasig.resourceserver.utils.filter.CacheExpirationFilter</filter-class>
+        <!-- Length of time to set in cache headers (in seconds) -->
+        <!-- DEFAULT VALUE:
+        <init-param>
+            <param-name>cacheMaxAge</param-name>
+            <param-value>31536000</param-value>
+        </init-param>
+        -->
+        
+        <!-- Time between regenerating cache header strings (in milliseconds) -->
+        <!-- DEFAULT VALUE:
+        <init-param>
+            <param-name>regenerateHeadersInterval</param-name>
+            <param-value>1000</param-value>
+        </init-param>
+        -->
+    </filter>
+    
+    <!-- filter mappings for javascript and css resources -->
+    
+    <filter-mapping>
+        <filter-name>pageCachingFilter</filter-name>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.css</url-pattern>
+    </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>CacheExpiresFilter</filter-name>
+        <url-pattern>/rs/*</url-pattern>
+    </filter-mapping>
+        
+    
+    <servlet>
+        <servlet-name>ResourceServerServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/resourceServerContext.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>ViewRendererServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.ViewRendererServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ViewRendererServlet</servlet-name>
+        <url-pattern>/WEB-INF/servlet/view</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>ResourceServerServlet</servlet-name>
+        <url-pattern>/resourses.html</url-pattern>
+    </servlet-mapping>
+    
+    <welcome-file-list>
+        <welcome-file>resourses.html</welcome-file>
+    </welcome-file-list>
+</web-app>
