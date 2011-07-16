@@ -21,13 +21,6 @@
         <url>http://developer.jasig.org/source/browse/jasigsvn/resource-server/trunk</url>
     </scm>
     
-    <distributionManagement>
-        <site>
-            <id>developer.jasig</id>
-            <url>${jasig-site-dist-base}/resource-server/${project.version}</url>
-        </site>
-    </distributionManagement>
-
     <modules>
         <module>resource-server-api</module>
         <module>resource-server-content</module>
