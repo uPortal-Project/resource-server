@@ -40,6 +40,9 @@
 
     <body>
         <menu ref="parent" />
+        <menu name="Overview">
+            <item name="Goals" href="plugin-info.html"/>
+        </menu>
         <menu ref="modules" />
         <menu ref="reports" />
     </body>
