@@ -3,17 +3,18 @@
     <parent>
         <groupId>org.jasig.parent</groupId>
         <artifactId>jasig-parent</artifactId>
-        <version>31</version>
+        <version>32-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.resourceserver</groupId>
     <artifactId>resource-server-parent</artifactId>
+    <version>1.0.21-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Resource Server Parent</name>
     <description>The Resource Server project.</description>
-    <version>1.0.21-SNAPSHOT</version>
+    <url>${jasig-site-base}${project-site-path}</url>
     
     <scm>
         <connection>scm:svn:https://source.jasig.org/resource-server/trunk</connection>
@@ -31,6 +32,7 @@
     </modules>
     
     <properties>
+        <project-site-path>/resource-server/${project.version}</project-site-path>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jaxb2basicsVersion>0.6.2</jaxb2basicsVersion>
     </properties>
@@ -394,4 +396,25 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>ci-local-site</id>
+            <distributionManagement>
+                <site>
+                    <id>ci-local-site</id>
+                    <url>${jasig-site-ci-dist-base}${project-site-path}</url>
+                </site>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>manual-site</id>
+            <distributionManagement>
+                <site>
+                    <id>developer.jasig</id>
+                    <url>${jasig-site-dist-base}${project-site-path}</url>
+                </site>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>
