@@ -1,9 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project 
+    xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:merge="http://maven.apache.org/plugin-merge" 
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
         <groupId>org.jasig.parent</groupId>
         <artifactId>jasig-parent</artifactId>
-        <version>31</version>
+        <version>32-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -14,7 +18,7 @@
 
     <name>Resource Server Parent</name>
     <description>The Resource Server project.</description>
-    <url>${jasig-site-base}${project-site-path}</url>
+    <url>${jasig-site-base}/resource-server/${project.version}</url>
     
     <scm>
         <connection>scm:svn:https://source.jasig.org/resource-server/trunk</connection>
@@ -32,8 +36,9 @@
     </modules>
     
     <properties>
-        <project-site-path>/resource-server/${project.version}</project-site-path>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceVersion>1.6</project.build.sourceVersion>
+        <project.build.targetVersion>1.6</project.build.targetVersion>
+        
         <jaxb2basicsVersion>0.6.2</jaxb2basicsVersion>
     </properties>
     
@@ -263,109 +268,27 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>2.4.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.3.2</version>
-                    <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.6</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>2.3.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.3.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>2.5</version>
-                </plugin>
-                <plugin>
+                    <groupId>org.jasig.maven</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.0-beta-3</version>
                     <configuration>
-                        <reportPlugins>
-                            <plugin>
-                                <artifactId>maven-project-info-reports-plugin</artifactId>
-                                <version>2.4</version>
-                            </plugin>
-                            <plugin>
-                                <artifactId>maven-surefire-report-plugin</artifactId>
-                                <version>2.9</version>
-                            </plugin>
-                            <plugin>
-                                <artifactId>maven-jxr-plugin</artifactId>
-                                <version>2.2</version>
-                            </plugin>
-                            <plugin>
-                                <groupId>org.codehaus.mojo</groupId>
-                                <artifactId>cobertura-maven-plugin</artifactId>
-                                <version>2.5.1</version>
-                            </plugin>
-                            <plugin>
-                                <artifactId>maven-pmd-plugin</artifactId>
-                                <version>2.5</version>
-                                <configuration>
-                                    <linkXref>true</linkXref>
-                                    <sourceEncoding>utf-8</sourceEncoding>
-                                    <minimumTokens>100</minimumTokens>
-                                    <targetJdk>1.6</targetJdk>
-                                </configuration>
-                            </plugin>
-                            <plugin>
-                                <artifactId>maven-changelog-plugin</artifactId>
-                                <version>2.2</version>
-                            </plugin>
-                            <plugin>
-                                <groupId>org.codehaus.mojo</groupId>
-                                <artifactId>taglist-maven-plugin</artifactId>
-                                <version>2.4</version>
-                            </plugin>
-                            <plugin>
-                                <groupId>org.codehaus.mojo</groupId>
-                                <artifactId>findbugs-maven-plugin</artifactId>
-                                <version>2.3.2</version>
-                            </plugin>
+                        <defaultMergePolicy>MERGE</defaultMergePolicy>
+                        <reportPlugins combine.children="append">
                             <plugin>
                                 <artifactId>maven-javadoc-plugin</artifactId>
                                 <version>2.8</version>
                                 <configuration>
-                                    <source>1.6</source>
-                                    <maxmemory>768m</maxmemory>
-                                    <links>
+                                    <links merge:children="BOTH" merge:removeDuplicates="true">
                                         <link>http://static.springsource.org/spring/docs/3.0.x/api/</link>
                                         <link>http://ehcache.org/apidocs/</link>
                                         <link>http://aopalliance.sourceforge.net/doc/</link>
                                         <link>http://java.sun.com/javase/6/docs/api/</link>
                                         <link>http://java.sun.com/javaee/5/docs/api/</link>
                                     </links>
+                                    <maxmemory>768m</maxmemory>
                                 </configuration>
-                            </plugin>
-                            <plugin>
-                                <groupId>org.codehaus.mojo</groupId>
-                                <artifactId>jdepend-maven-plugin</artifactId>
-                                <version>2.0-beta-2</version>
                             </plugin>
                         </reportPlugins>
                     </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.9</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>2.1.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -391,28 +314,35 @@
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
                 <configuration>
-                    <mavenExecutorId>forked-path</mavenExecutorId>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
+    
     <profiles>
+        <!-- 
+         | Used by the continuous integrations server to deploy the project site.
+         +-->
         <profile>
             <id>ci-local-site</id>
             <distributionManagement>
                 <site>
                     <id>ci-local-site</id>
-                    <url>${jasig-site-ci-dist-base}${project-site-path}</url>
+                    <url>${jasig-site-ci-dist-base}/resource-server/${project.version}</url>
                 </site>
             </distributionManagement>
         </profile>
+        <!-- 
+         | Should be activated manually by a developer that wishes to deploy a maven site for
+         | the project
+         +-->
         <profile>
             <id>manual-site</id>
             <distributionManagement>
                 <site>
                     <id>developer.jasig</id>
-                    <url>${jasig-site-dist-base}${project-site-path}</url>
+                    <url>${jasig-site-dist-base}/resource-server/${project.version}</url>
                 </site>
             </distributionManagement>
         </profile>
