@@ -63,12 +63,12 @@ public class ResourcesElementsProviderImplTest {
         final String resourcesHtmlFragment = resourcesElementsProvider.getResourcesHtmlFragment(request, "skin.xml");
         
         assertEquals(
-                "<link href=\"/common/css/fluid/RoOqeu2wDdFeYLKNM--aZw.aggr.min.css\" media=\"\" rel=\"stylesheet\" type=\"text/css\"/>" +
-                "<link href=\"/common/css/5k3CfLpXv77hfe46aYQr0w.aggr.min.css\" media=\"\" rel=\"stylesheet\" type=\"text/css\"/>" +
-                "<link href=\"/uPortal/2ayEwnDhvYkCRskggG9fGg.aggr.min.css\" media=\"\" rel=\"stylesheet\" type=\"text/css\"/>" +
-                "<link href=\"/ResourceServingWebapp/rs/jqueryui/1.6rc6/theme/smoothness/ui.all.min.css\" media=\"\" rel=\"stylesheet\" type=\"text/css\"/>" +
-                "<link href=\"/uPortal/HZiiPRKVMPA6teq0Amrffw.aggr.min.css\" media=\"\" rel=\"stylesheet\" type=\"text/css\"/>" +
-                "<!--[if IE 6]> <link rel=\"stylesheet\" type=\"text/css\" href=\"/uPortal/-91Rz1Gl-OCL5poZBhmf5g.aggr.min.css\" media=\"\"/> <![endif]-->" +
+                "<link href=\"/common/css/fluid/RoOqeu2wDdFeYLKNM--aZw.aggr.min.css\" rel=\"stylesheet\" type=\"text/css\"/>" +
+                "<link href=\"/common/css/5k3CfLpXv77hfe46aYQr0w.aggr.min.css\" rel=\"stylesheet\" type=\"text/css\"/>" +
+                "<link href=\"/uPortal/2ayEwnDhvYkCRskggG9fGg.aggr.min.css\" rel=\"stylesheet\" type=\"text/css\"/>" +
+                "<link href=\"/ResourceServingWebapp/rs/jqueryui/1.6rc6/theme/smoothness/ui.all.min.css\" rel=\"stylesheet\" type=\"text/css\"/>" +
+                "<link href=\"/uPortal/HZiiPRKVMPA6teq0Amrffw.aggr.min.css\" rel=\"stylesheet\" type=\"text/css\"/>" +
+                "<!--[if IE 6]> <link rel=\"stylesheet\" type=\"text/css\" href=\"/uPortal/-91Rz1Gl-OCL5poZBhmf5g.aggr.min.css\"/> <![endif]-->" +
                 "<script src=\"/uPortal/XR-SqpcE6eDDI_uEp3vkCQ.aggr.min.js\" type=\"text/javascript\"> </script>", 
         		resourcesHtmlFragment);
     }
@@ -89,12 +89,12 @@ public class ResourcesElementsProviderImplTest {
         final String resourcesHtmlFragment = resourcesElementsProvider.getResourcesHtmlFragment(request, "skin.xml");
       
         assertEquals(
-                "<link href=\"/common/css/fluid/RoOqeu2wDdFeYLKNM--aZw.aggr.min.css\" media=\"\" rel=\"stylesheet\" type=\"text/css\"/>" +
-                "<link href=\"/common/css/5k3CfLpXv77hfe46aYQr0w.aggr.min.css\" media=\"\" rel=\"stylesheet\" type=\"text/css\"/>" +
-                "<link href=\"/uPortal/2ayEwnDhvYkCRskggG9fGg.aggr.min.css\" media=\"\" rel=\"stylesheet\" type=\"text/css\"/>" +
-                "<link href=\"/uPortal/rs/jqueryui/1.6rc6/theme/smoothness/ui.all.min.css\" media=\"\" rel=\"stylesheet\" type=\"text/css\"/>" +
-                "<link href=\"/uPortal/HZiiPRKVMPA6teq0Amrffw.aggr.min.css\" media=\"\" rel=\"stylesheet\" type=\"text/css\"/>" +
-                "<!--[if IE 6]> <link rel=\"stylesheet\" type=\"text/css\" href=\"/uPortal/-91Rz1Gl-OCL5poZBhmf5g.aggr.min.css\" media=\"\"/> <![endif]-->" +
+                "<link href=\"/common/css/fluid/RoOqeu2wDdFeYLKNM--aZw.aggr.min.css\" rel=\"stylesheet\" type=\"text/css\"/>" +
+                "<link href=\"/common/css/5k3CfLpXv77hfe46aYQr0w.aggr.min.css\" rel=\"stylesheet\" type=\"text/css\"/>" +
+                "<link href=\"/uPortal/2ayEwnDhvYkCRskggG9fGg.aggr.min.css\" rel=\"stylesheet\" type=\"text/css\"/>" +
+                "<link href=\"/uPortal/rs/jqueryui/1.6rc6/theme/smoothness/ui.all.min.css\" rel=\"stylesheet\" type=\"text/css\"/>" +
+                "<link href=\"/uPortal/HZiiPRKVMPA6teq0Amrffw.aggr.min.css\" rel=\"stylesheet\" type=\"text/css\"/>" +
+                "<!--[if IE 6]> <link rel=\"stylesheet\" type=\"text/css\" href=\"/uPortal/-91Rz1Gl-OCL5poZBhmf5g.aggr.min.css\"/> <![endif]-->" +
                 "<script src=\"/uPortal/XR-SqpcE6eDDI_uEp3vkCQ.aggr.min.js\" type=\"text/javascript\"> </script>", 
                 resourcesHtmlFragment);
     }

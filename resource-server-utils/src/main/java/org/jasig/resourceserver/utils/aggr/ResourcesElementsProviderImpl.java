@@ -43,6 +43,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
 import org.jasig.resourceserver.aggr.ResourcesDao;
 import org.jasig.resourceserver.aggr.ResourcesDaoImpl;
 import org.jasig.resourceserver.aggr.om.BasicInclude;
@@ -498,8 +499,10 @@ public class ResourcesElementsProviderImpl implements
             c.appendData(OPEN_COND_COMMENT_POST);
             c.appendData(OPEN_STYLE);
             c.appendData(stylePath);
-            c.appendData("\" media=\"");
-            c.appendData(css.getMedia());
+            if (StringUtils.isNotBlank(css.getMedia())) {
+                c.appendData("\" media=\"");
+                c.appendData(css.getMedia());
+            }
             c.appendData(CLOSE_STYLE);
             c.appendData(CLOSE_COND_COMMENT);
             head.appendChild(c);
@@ -509,7 +512,9 @@ public class ResourcesElementsProviderImpl implements
             element.setAttribute(REL, "stylesheet");
             element.setAttribute(TYPE, "text/css");
             element.setAttribute(HREF, stylePath);
-            element.setAttribute(MEDIA, css.getMedia());
+            if (StringUtils.isNotBlank(css.getMedia())) {
+                element.setAttribute(MEDIA, css.getMedia());
+            }
             head.appendChild(element);
         }
     }
