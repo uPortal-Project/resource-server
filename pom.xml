@@ -1,8 +1,4 @@
-<project 
-    xmlns="http://maven.apache.org/POM/4.0.0" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:merge="http://maven.apache.org/plugin-merge" 
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:merge="http://maven.apache.org/plugin-merge" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
         <groupId>org.jasig.parent</groupId>
@@ -13,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.resourceserver</groupId>
     <artifactId>resource-server-parent</artifactId>
-    <version>1.0.22-SNAPSHOT</version>
+    <version>1.0.22</version>
     <packaging>pom</packaging>
 
     <name>Resource Server Parent</name>
@@ -21,9 +17,9 @@
     <url>${jasig-site-base}/resource-server/${project.version}</url>
     
     <scm>
-        <connection>scm:svn:https://source.jasig.org/resource-server/trunk</connection>
-        <developerConnection>scm:svn:https://source.jasig.org/resource-server/trunk</developerConnection>
-        <url>http://developer.jasig.org/source/browse/jasigsvn/resource-server/trunk</url>
+        <connection>scm:svn:https://source.jasig.org/resource-server/tags/resource-server-parent-1.0.22</connection>
+        <developerConnection>scm:svn:https://source.jasig.org/resource-server/tags/resource-server-parent-1.0.22</developerConnection>
+        <url>http://developer.jasig.org/source/browse/jasigsvn/resource-server/tags/resource-server-parent-1.0.22</url>
     </scm>
     
     <modules>
