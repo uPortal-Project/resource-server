@@ -31,7 +31,8 @@ This project includes:
   Commons Logging under The Apache Software License, Version 2.0
   Ehcache Core under The Apache Software License, Version 2.0
   Ehcache Web Filters under The Apache Software License, Version 2.0
-  Guava (Google Common Libraries) under The Apache Software License, Version 2.0
+  FindBugs-jsr305 under The Apache Software License, Version 2.0
+  Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0
   Hamcrest Core under BSD style
   JAXB2 Basics - Runtime under BSD-Style License
   JCL 1.1.1 implemented over SLF4J under MIT License
