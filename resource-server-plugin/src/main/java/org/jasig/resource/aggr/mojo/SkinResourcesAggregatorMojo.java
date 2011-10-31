@@ -28,9 +28,7 @@ import java.io.IOException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugin.logging.Log;
 import org.jasig.resource.aggr.ResourcesAggregator;
-import org.jasig.resource.aggr.ResourcesAggregatorImpl;
 import org.jasig.resourceserver.aggr.AggregationException;
 
 /**
@@ -43,38 +41,7 @@ import org.jasig.resourceserver.aggr.AggregationException;
  * @author Nicholas Blair, npblair@wisc.edu
  *
  */
-public class SkinResourcesAggregatorMojo extends AbstractMojo {
-
-	/**
-	 * @parameter default-value="10000"
-	 */
-	private int cssLineBreakColumnNumber = 10000;
-	/**
-	 * @parameter default-value="false"
-	 */
-	private boolean disableJsOptimizations = false;
-	/**
-	 * @parameter default-value="true"
-	 */
-	private boolean displayJsWarnings = true;
-	/**
-	 * @parameter default-value="10000"
-	 */
-	private int jsLineBreakColumnNumber = 10000;
-	/**
-	 * @parameter default-value="true"
-	 */
-	private boolean obfuscateJs = true;
-	/**
-	 * @parameter default-value="true"
-	 */
-	private boolean preserveAllSemiColons = true;
-    
-    /**
-     * @parameter default-value="MD5"
-     */
-    private String digestAlgorithm = "MD5";
-	
+public class SkinResourcesAggregatorMojo extends AbstractSkinResourcesAggregatorMojo {
 	/**
 	 * @parameter 
 	 * @required
@@ -86,16 +53,6 @@ public class SkinResourcesAggregatorMojo extends AbstractMojo {
 	 */
 	private String skinOutputDirectory = "";
     
-    /**
-     * @parameter
-     */
-    private String sharedJavaScriptDirectory;
-	
-	/**
-	 * @parameter expression="${encoding}" default-value="${project.build.sourceEncoding}"
-	 */
-	private String encoding;
-	
 	/**
 	 * @parameter expression="${encoding}" default-value="${project.build.directory}/${project.build.finalName}
 	 */
@@ -106,28 +63,11 @@ public class SkinResourcesAggregatorMojo extends AbstractMojo {
 	 */
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-	    final Log log = this.getLog();
-	    final CommonsLogToMavenLog logWrapper = new CommonsLogToMavenLog(log);
-
 	    try {
-			final ResourcesAggregatorImpl aggr = new ResourcesAggregatorImpl(logWrapper, this.encoding);
-			
-			aggr.setCssLineBreakColumnNumber(cssLineBreakColumnNumber);
-			aggr.setDisableJsOptimizations(disableJsOptimizations);
-			aggr.setDisplayJsWarnings(displayJsWarnings);
-			aggr.setJsLineBreakColumnNumber(jsLineBreakColumnNumber);
-			aggr.setObfuscateJs(obfuscateJs);
-			aggr.setPreserveAllSemiColons(preserveAllSemiColons);
-			aggr.setDigestAlgorithm(digestAlgorithm);
+			final ResourcesAggregator aggr = this.createResourcesAggregator();
 			
 			final File fullOutputDirectory = new File(baseOutputDirectory, skinOutputDirectory);
-			if (sharedJavaScriptDirectory == null) {
-			    aggr.aggregate(skinConfigurationFile, fullOutputDirectory);
-			}
-			else {
-			    final File fullSharedJavaScriptDirectory = new File(baseOutputDirectory, sharedJavaScriptDirectory);
-			    aggr.aggregate(skinConfigurationFile, fullOutputDirectory, fullSharedJavaScriptDirectory);
-			}
+			this.doAggregation(aggr, skinConfigurationFile, fullOutputDirectory);
 		} catch (AggregationException e) {
 			throw new MojoExecutionException("aggregation failed", e);
 		} catch (IOException e) {
