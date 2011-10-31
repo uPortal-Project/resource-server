@@ -22,12 +22,13 @@
  */
 package org.jasig.resource.aggr;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
@@ -43,6 +44,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -327,9 +329,14 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
                 for (final T element: elements) {
                     final File resourceFile = new File(skinDirectory, element.getValue());
                     
-                    Reader resourceIn = null;
+                    FileInputStream fis = null;
                     try {
-                        resourceIn = new BomFilterReader(new BufferedReader(new FileReader(resourceFile)));
+                        fis = new FileInputStream(resourceFile);
+                        final BOMInputStream bomIs = new BOMInputStream(new BufferedInputStream(fis));
+                        if (bomIs.hasBOM()) {
+                            logger.debug("Stripping UTF-8 BOM from: " + resourceFile);
+                        }
+                        final Reader resourceIn = new InputStreamReader(bomIs, this.encoding);
                         if (element.isCompressed()) {
                             IOUtils.copy(resourceIn, trimmingWriter);
                         }
@@ -341,7 +348,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
                         throw new IOException("Failed to read '" + resourceFile + "' for skin: " + skinDirectory, e);
                     }
                     finally {
-                        IOUtils.closeQuietly(resourceIn);
+                        IOUtils.closeQuietly(fis);
                     }
                     trimmingWriter.write(SystemUtils.LINE_SEPARATOR);
                 }
