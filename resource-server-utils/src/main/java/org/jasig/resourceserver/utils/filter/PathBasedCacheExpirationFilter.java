@@ -20,18 +20,11 @@
 package org.jasig.resourceserver.utils.filter;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TimeZone;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletContext;
@@ -49,49 +42,64 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.GenericFilterBean;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
+
+/**
+ * Sets Expires and Cache-Control "public, max-age" headers on resources based on their paths. Uses {@link AntPathMatcher}
+ * to match paths.
+ * 
+ * @author Eric Dalquist
+ * @version $Revision$
+ */
 public class PathBasedCacheExpirationFilter extends GenericFilterBean {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", new Locale("en"));
 
-    private Set<Integer> _maxAges;
+    final Map<String, Long> DEFAULT_CACHE_PATHS = ImmutableMap.of(
+            "/**/*.aggr.min.js", TimeUnit.DAYS.toSeconds(365), 
+            "/**/*.aggr.min.css", TimeUnit.DAYS.toSeconds(365),
+            "/**/*.min.js", TimeUnit.DAYS.toSeconds(365),
+            "/**/*.min.css", TimeUnit.DAYS.toSeconds(365),
+            "/rs/**/*", TimeUnit.DAYS.toSeconds(365));
+
     private ResourcesElementsProvider resourcesElementsProvider;
-    private Map<String, Integer> cacheMaxAges;
-
-    public void setCacheMaxAges(Map<String, Integer> cacheMaxAges) {
-        this.cacheMaxAges = cacheMaxAges;
-        this._maxAges = new HashSet<Integer>();
-        this._maxAges.addAll(cacheMaxAges.values());
-    }
+    private Map<String, Long> cacheMaxAges;
+    private Map<Long, String> cachedControlStrings;
 
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
-    private final ConcurrentHashMap<Integer, String> cachedControlStrings = new ConcurrentHashMap<Integer, String>();
-    private final ConcurrentHashMap<Integer, String> cachedExpiresStrings = new ConcurrentHashMap<Integer, String>();
-
-    private Timer headerUpdateTimer;
-
-    //Default header cache time is 1 second
-    private long regenerateHeadersInterval = 1000;
-
     public PathBasedCacheExpirationFilter() {
-        final TimeZone timeZone = TimeZone.getTimeZone("GMT");
-        this.dateFormat.setTimeZone(timeZone);
+        this.setCacheMaxAges(DEFAULT_CACHE_PATHS);
     }
-
-    public long getRegenerateHeadersInterval() {
-        return this.regenerateHeadersInterval;
-    }
-
+    
+    
     /**
-     * @param regenerateHeadersInterval The interval in milliseconds to regenerate the cache headers, defaults to 1 second (1000).
+     * Specify map of ant paths to max-age times (in seconds). The default map is:
+     * 
+     * /**&#47;*.aggr.min.js - 365 days
+     * /**&#47;*.aggr.min.css - 365 days
+     * /**&#47;*.min.js - 365 days
+     * /**&#47;*.min.css - 365 days
+     * /rs/**&#47;* - 365 days
      */
-    public void setRegenerateHeadersInterval(long regenerateHeadersInterval) {
-        if (regenerateHeadersInterval < 1) {
-            throw new IllegalArgumentException("'regenerateHeadersInterval' must be greater than 0, ("
-                    + regenerateHeadersInterval + ")");
+    public void setCacheMaxAges(Map<String, ? extends Number> cacheMaxAges) {
+        final Builder<String, Long> cacheMaxAgesBuilder = ImmutableMap.builder();
+        final Builder<Long, String> cachedControlStringsBuilder = ImmutableMap.builder();
+        final Set<Long> maxAgeLog = new HashSet<Long>();
+        
+        for (final Map.Entry<String, ? extends Number> cacheMaxAgeEntry : cacheMaxAges.entrySet()) {
+            final Number maxAgeNum = cacheMaxAgeEntry.getValue();
+            final int maxAge = maxAgeNum.intValue();
+            final long maxAgeMillis = TimeUnit.SECONDS.toMillis(maxAge);
+            cacheMaxAgesBuilder.put(cacheMaxAgeEntry.getKey(), maxAgeMillis);
+            
+            if (maxAgeLog.add(maxAgeMillis)) {
+                cachedControlStringsBuilder.put(maxAgeMillis, "public, max-age=" + maxAge);
+            }
         }
-
-        this.regenerateHeadersInterval = regenerateHeadersInterval;
+        
+        this.cacheMaxAges = cacheMaxAgesBuilder.build();
+        this.cachedControlStrings = cachedControlStringsBuilder.build();
     }
 
     /**
@@ -110,31 +118,6 @@ public class PathBasedCacheExpirationFilter extends GenericFilterBean {
             final ServletContext servletContext = this.getServletContext();
             this.resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(servletContext);
         }
-        
-        //Generate cache control values
-        for (final Integer age : this._maxAges) {
-            this.cachedControlStrings.put(age, "public, max-age=" + age);
-        }
-
-        //Initialize cache header
-        this.updateCacheHeaders();
-
-        //Start timer to periodically refresh the cache header
-        final ServletContext servletContext = this.getServletContext();
-        final String servletContextPath = servletContext.getContextPath();
-        this.headerUpdateTimer = new Timer(servletContextPath + "-CacheHeaderUpdateTimer", true);
-        this.headerUpdateTimer.schedule(new CacheHeaderUpdater(),
-                this.regenerateHeadersInterval,
-                this.regenerateHeadersInterval);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void destroy() {
-        this.headerUpdateTimer.cancel();
-        this.headerUpdateTimer = null;
     }
 
     @Override
@@ -150,14 +133,14 @@ public class PathBasedCacheExpirationFilter extends GenericFilterBean {
     
                 final String path = ((HttpServletRequest) request).getServletPath();
     
-                for (final Entry<String, Integer> entry : this.cacheMaxAges.entrySet()) {
+                for (final Entry<String, Long> entry : this.cacheMaxAges.entrySet()) {
     
                     if (this.pathMatcher.match(entry.getKey(), path)) {
     
-                        final String expires = this.getExpiresHeader(entry.getValue());
-                        httpResponse.setHeader("Expires", expires);
-    
-                        httpResponse.setHeader("Cache-Control", this.cachedControlStrings.get(entry.getValue()));
+                        final Long maxAge = entry.getValue();
+                        
+                        httpResponse.setDateHeader("Expires", System.currentTimeMillis() + maxAge);
+                        httpResponse.setHeader("Cache-Control", this.cachedControlStrings.get(maxAge));
     
                         break;
                     }
@@ -168,32 +151,4 @@ public class PathBasedCacheExpirationFilter extends GenericFilterBean {
         // continue
         chain.doFilter(request, response);
     }
-
-    protected String getExpiresHeader(Integer cacheMaxAge) {
-        return this.cachedExpiresStrings.get(cacheMaxAge);
-    }
-
-    protected void updateCacheHeaders() {
-        for (final Integer cacheMaxAge : this._maxAges) {
-            synchronized (this.dateFormat) {
-                final Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.SECOND, cacheMaxAge);
-                this.cachedExpiresStrings.put(cacheMaxAge, this.dateFormat.format(cal.getTime()));
-            }
-        }
-    }
-
-    /**
-     * Simple task that calls {@link CacheExpirationFilter#updateCacheHeader()}
-     */
-    private final class CacheHeaderUpdater extends TimerTask {
-        /* (non-Javadoc)
-         * @see java.util.TimerTask#run()
-         */
-        @Override
-        public void run() {
-            PathBasedCacheExpirationFilter.this.updateCacheHeaders();
-        }
-    }
-
 }
