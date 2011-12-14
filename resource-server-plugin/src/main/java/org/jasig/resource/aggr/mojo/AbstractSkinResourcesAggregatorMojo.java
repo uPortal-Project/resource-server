@@ -24,6 +24,7 @@ import java.io.IOException;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.logging.Log;
+import org.jasig.resource.aggr.AggregationRequest;
 import org.jasig.resource.aggr.ResourcesAggregator;
 import org.jasig.resource.aggr.ResourcesAggregatorImpl;
 
@@ -70,13 +71,19 @@ public abstract class AbstractSkinResourcesAggregatorMojo extends AbstractMojo {
      * @required
      */
     protected File baseOutputDirectory;
-    
     /**
      * A directory to place aggregated javascript files, useful if multiple skins share the same JavaScript. (none by default)
      * 
      * @parameter
      */
     protected String sharedJavaScriptDirectory;
+    /**
+     * If true the aggregator will look in the target directory for source files as well as the source directory, useful
+     * if content from an overlay needs to be aggregated.
+     * 
+     * @parameter default-value="false"
+     */
+    protected boolean useGeneratedSources = false;
     
     protected ResourcesAggregator createResourcesAggregator() {
         final Log log = this.getLog();
@@ -98,14 +105,21 @@ public abstract class AbstractSkinResourcesAggregatorMojo extends AbstractMojo {
     protected void doAggregation(ResourcesAggregator aggr, File skinConfigurationFile, File skinOutputDirectory) throws IOException {
         final Log log = this.getLog();
         
-        if (sharedJavaScriptDirectory == null) {
-            log.debug("Aggregating: " + skinConfigurationFile + " into " + skinOutputDirectory);
-            aggr.aggregate(skinConfigurationFile, skinOutputDirectory);
-        }
-        else {
+        final AggregationRequest aggregationRequest = new AggregationRequest();
+        aggregationRequest
+            .setResourcesXml(skinConfigurationFile)
+            .setOutputBaseDirectory(skinOutputDirectory);
+        
+        if (sharedJavaScriptDirectory != null) {
             final File fullSharedJavaScriptDirectory = new File(baseOutputDirectory, sharedJavaScriptDirectory);
-            log.debug("Aggregating: " + skinConfigurationFile + " into " + skinOutputDirectory + " with shared JS directory " + fullSharedJavaScriptDirectory);
-            aggr.aggregate(skinConfigurationFile, skinOutputDirectory, fullSharedJavaScriptDirectory);
+            aggregationRequest.setSharedJavaScriptDirectory(fullSharedJavaScriptDirectory);
         }
+        
+        if (useGeneratedSources) {
+            aggregationRequest.addAdditionalSourceDirectory(skinOutputDirectory);
+        }
+        
+        log.debug("Aggregating: " + aggregationRequest);
+        aggr.aggregate(aggregationRequest);
     }
 }

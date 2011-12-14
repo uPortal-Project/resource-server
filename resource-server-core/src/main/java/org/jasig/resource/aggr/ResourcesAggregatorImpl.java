@@ -34,6 +34,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
@@ -177,24 +178,23 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
 
 	@Override
     public void aggregate(File resourcesXml, File outputBaseDirectory) throws IOException, AggregationException {
-        this.aggregate(resourcesXml, outputBaseDirectory, null);
+	    this.aggregate(new AggregationRequest()
+	        .setResourcesXml(resourcesXml)
+	        .setOutputBaseDirectory(outputBaseDirectory));
     }
 
-    /**
-	 * Aggregate the {@link Resources} object from the first {@link File} argument, placing
-	 * all generated CSS and Javascript in the directory denoted in the second {@link File} argument.
-	 * 
-	 * Will generate an aggregated version of the resourcesXml file in the outputBaseDirectory, with the filename
-	 * similar to the resourcesXml.
-	 * Example:
-	 * 
-	 * resourcesXml filename: skin.xml; output filename: skin.aggr.xml
-	 * 
-	 * @see org.jasig.ResourcesAggregator.web.skin.IResourcesAggregator#aggregate(java.io.File, java.io.File)
-	 * @throws IllegalArgumentException if outputBaseDirectory (2nd file argument) is not a writable directory
-	 */
-	@Override
+	
+    @Override
 	public void aggregate(File resourcesXml, File outputBaseDirectory, File sharedJavaScriptDirectory) throws IOException, AggregationException {
+        this.aggregate(new AggregationRequest()
+            .setResourcesXml(resourcesXml)
+            .setOutputBaseDirectory(outputBaseDirectory)
+            .setSharedJavaScriptDirectory(sharedJavaScriptDirectory));
+    }
+
+    @Override
+    public void aggregate(AggregationRequest aggregationRequest) throws IOException, AggregationException {
+        final File outputBaseDirectory = aggregationRequest.getOutputBaseDirectory();
 	    if (outputBaseDirectory != null) {
 	        outputBaseDirectory.mkdirs();
 	    }
@@ -211,15 +211,23 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
         }
 		
 		// parse the resourcesXml input
+        final File resourcesXml = aggregationRequest.getResourcesXml();
 		final Resources original = this.resourcesDao.readResources(resourcesXml, Included.AGGREGATED);
 		final File resourcesParentDir = resourcesXml.getParentFile();
 		
+		//Build list of source directories for resource files
+		final List<File> additionalSourceDirectories = aggregationRequest.getAdditionalSourceDirectories();
+		final List<File> sourceDirectories = new ArrayList<File>(1 + additionalSourceDirectories.size());
+		sourceDirectories.add(resourcesParentDir);
+		sourceDirectories.addAll(additionalSourceDirectories);
+		
 		// aggregate CSS elements
-		final CssCallback cssCallback = new CssCallback(digest, resourcesParentDir, outputBaseDirectory);
+		final CssCallback cssCallback = new CssCallback(digest, sourceDirectories, outputBaseDirectory);
 		final List<Css> cssResult = this.aggregateBasicIncludes(original.getCss(), cssCallback);
 
 		// aggregate JS elements
-		final JsCallback jsCallback = new JsCallback(digest, resourcesParentDir, outputBaseDirectory, sharedJavaScriptDirectory);
+		final File sharedJavaScriptDirectory = aggregationRequest.getSharedJavaScriptDirectory();
+		final JsCallback jsCallback = new JsCallback(digest, sourceDirectories, outputBaseDirectory, sharedJavaScriptDirectory);
         final List<Js> jsResult = this.aggregateBasicIncludes(original.getJs(), jsCallback);
 
 		// build aggregated form result
@@ -294,6 +302,25 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
         
         return result;
 	}
+	
+	/**
+	 * Find the File for the resource file in the various source directories. 
+	 * 
+	 * @param sourceDirectories List of directories to scan
+	 * @param resourceFileName File name of resource file
+	 * @return The resolved File
+	 * @throws IOException If the File cannot be found
+	 */
+	protected File findFile(final List<File> sourceDirectories, String resourceFileName) throws IOException {
+	    for (final File sourceDirectory : sourceDirectories) {
+	        final File resourceFile = new File(sourceDirectory, resourceFileName);
+	        if (resourceFile.exists()) {
+	            return resourceFile;
+	        }
+	    }
+	    
+	    throw new IOException("Failed to find resource " + resourceFileName + " in any of the source directories: " + sourceDirectories);
+	}
 
 	/**
 	 * Aggregate the specified Deque of elements into a single element. The provided MessageDigest is used for
@@ -301,7 +328,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
 	 * operations.
 	 */
 	protected <T extends BasicInclude> T aggregateList(final MessageDigest digest, final Deque<T> elements, 
-	        final File skinDirectory, final File outputRoot, final File alternateOutput, 
+	        final List<File> skinDirectories, final File outputRoot, final File alternateOutput, 
 	        final String extension, final AggregatorCallback<T> callback) throws IOException {
 	    
         if (null == elements || elements.size() == 0) {
@@ -327,7 +354,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
                 trimmingWriter = new TrimmingWriter(aggregateWriter);
                 
                 for (final T element: elements) {
-                    final File resourceFile = new File(skinDirectory, element.getValue());
+                    final File resourceFile = this.findFile(skinDirectories, element.getValue());
                     
                     FileInputStream fis = null;
                     try {
@@ -345,7 +372,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
                         }
                     }
                     catch (IOException e) {
-                        throw new IOException("Failed to read '" + resourceFile + "' for skin: " + skinDirectory, e);
+                        throw new IOException("Failed to read '" + resourceFile + "' for skin: " + skinDirectories.get(0), e);
                     }
                     finally {
                         IOUtils.closeQuietly(fis);
@@ -506,13 +533,13 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
     
     private class JsCallback implements AggregatorCallback<Js> {
         private final MessageDigest digest;
-        private final File resourcesParentDir;
+        private final List<File> sourceDirectories;
         private final File outputBaseDirectory;
         private final File sharedJavaScriptDirectory;
         
-        public JsCallback(MessageDigest digest, File resourcesParentDir, File outputBaseDirectory, File sharedJavaScriptDirectory) {
+        public JsCallback(MessageDigest digest, List<File> sourceDirectories, File outputBaseDirectory, File sharedJavaScriptDirectory) {
             this.digest = digest;
-            this.resourcesParentDir = resourcesParentDir;
+            this.sourceDirectories = sourceDirectories;
             this.outputBaseDirectory = outputBaseDirectory;
             this.sharedJavaScriptDirectory = sharedJavaScriptDirectory;
         }
@@ -545,7 +572,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
                 alternateOutput = sharedJavaScriptDirectory;
             }
             
-            return aggregateList(digest, list, resourcesParentDir, outputBaseDirectory, alternateOutput, JS, this);
+            return aggregateList(digest, list, sourceDirectories, outputBaseDirectory, alternateOutput, JS, this);
         }
 
         @Override
@@ -556,12 +583,12 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
     
     private class CssCallback implements AggregatorCallback<Css> {
         private final MessageDigest digest;
-        private final File resourcesParentDir;
+        private final List<File> sourceDirectories;
         private final File outputBaseDirectory;
         
-        public CssCallback(MessageDigest digest, File resourcesParentDir, File outputBaseDirectory) {
+        public CssCallback(MessageDigest digest, List<File> sourceDirectories, File outputBaseDirectory) {
             this.digest = digest;
-            this.resourcesParentDir = resourcesParentDir;
+            this.sourceDirectories = sourceDirectories;
             this.outputBaseDirectory = outputBaseDirectory;
         }
 
@@ -586,7 +613,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
 
         @Override
         public Css aggregate(Deque<Css> list) throws IOException {
-            return aggregateList(digest, list, resourcesParentDir, outputBaseDirectory, null, CSS, this);
+            return aggregateList(digest, list, sourceDirectories, outputBaseDirectory, null, CSS, this);
         }
 
         @Override

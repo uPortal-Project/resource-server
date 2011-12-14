@@ -36,7 +36,9 @@ import org.jasig.resourceserver.aggr.om.Resources;
 public interface ResourcesAggregator {
 
 	/**
-	 * @see #aggregate(File, File, File)
+	 * @param resourcesXml The source resources file
+     * @param outputBaseDirectory The file to write the output to
+     * @see #aggregate(AggregationRequest)
 	 */
 	public void aggregate(File resourcesXml, File outputBaseDirectory) throws IOException, AggregationException;
 	
@@ -44,6 +46,21 @@ public interface ResourcesAggregator {
      * @param resourcesXml The source resources file
      * @param outputBaseDirectory The file to write the output to
      * @param sharedJavaScriptDirectory Optional settings of a location to write all aggregated JavaScript to
+     * @see #aggregate(AggregationRequest)
      */
     public void aggregate(File resourcesXml, File outputBaseDirectory, File sharedJavaScriptDirectory) throws IOException, AggregationException;
+    
+    /**
+     * Aggregate the {@link Resources} object from the first {@link File} argument, placing
+     * all generated CSS and Javascript in the directory denoted in the second {@link File} argument.
+     * 
+     * Will generate an aggregated version of the resourcesXml file in the outputBaseDirectory, with the filename
+     * similar to the resourcesXml.
+     * Example:
+     * 
+     * resourcesXml filename: skin.xml; output filename: skin.aggr.xml
+     * 
+     * @param aggregationRequest Details what to aggregate
+     */
+    public void aggregate(AggregationRequest aggregationRequest) throws IOException, AggregationException;
 }

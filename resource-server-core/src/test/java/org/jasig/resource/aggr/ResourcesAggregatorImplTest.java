@@ -154,6 +154,50 @@ public class ResourcesAggregatorImplTest {
 	}
 
     @Test
+    public void testIncludeOverlay() throws Exception {
+        String tempPath = getTestOutputRoot() + "/skin-test-incl-overlay";
+        
+        File outputDirectory = new File(tempPath);
+        outputDirectory.mkdirs();
+        Assert.assertTrue(outputDirectory.exists());
+        
+        FileUtils.copyFileToDirectory(new ClassPathResource("skin-test-incl-overlay/overlay/overlay.css").getFile(), outputDirectory);
+        FileUtils.copyFileToDirectory(new ClassPathResource("skin-test-incl-overlay/overlay/overlay.js").getFile(), outputDirectory);
+
+        File skinXml = new ClassPathResource("skin-test-incl-overlay/skin.xml").getFile();
+        Assert.assertTrue(skinXml.exists());
+
+        ResourcesAggregatorImpl impl = new ResourcesAggregatorImpl();
+        impl.aggregate(new AggregationRequest()
+            .setResourcesXml(skinXml)
+            .setOutputBaseDirectory(outputDirectory)
+            .addAdditionalSourceDirectory(outputDirectory));
+        
+        Diff d = new Diff(
+                new FileReader(new ClassPathResource("skin-test-incl-overlay/skin.aggr.xml").getFile()), 
+                new FileReader(new File(outputDirectory, "skin.aggr.xml")));
+        assertTrue(d.toString(), d.similar());
+    }
+
+    @Test(expected=IOException.class)
+    public void testMissingIncludeOverlay() throws Exception {
+        String tempPath = getTestOutputRoot() + "/skin-test-incl-overlay";
+        
+        File outputDirectory = new File(tempPath);
+        outputDirectory.mkdirs();
+        Assert.assertTrue(outputDirectory.exists());
+        
+        File skinXml = new ClassPathResource("skin-test-incl-overlay/skin.xml").getFile();
+        Assert.assertTrue(skinXml.exists());
+
+        ResourcesAggregatorImpl impl = new ResourcesAggregatorImpl();
+        impl.aggregate(new AggregationRequest()
+            .setResourcesXml(skinXml)
+            .setOutputBaseDirectory(outputDirectory)
+            .addAdditionalSourceDirectory(outputDirectory));
+    }
+
+    @Test
     public void testUniversalityImports() throws Exception {
         String tempPath = getTestOutputRoot() + "/skin-universality-imports/uportal3";
         
