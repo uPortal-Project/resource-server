@@ -67,7 +67,7 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.google.common.collect.MapMaker;
+import com.google.common.cache.CacheBuilder;
 
 /**
  * {@link ResourcesDao} implementation that resolves the String argument using
@@ -106,9 +106,9 @@ public class ResourcesElementsProviderImpl implements
     private ServletContext servletContext;
     private ResourcesDao resourcesDao;
     private boolean registerWithServletContext = true;
-    private Map<String, String> resolvedResourceCache       = new MapMaker().maximumSize(500).makeMap();
-    private Map<String, String> htmlResourcesCache          = new MapMaker().maximumSize(100).makeMap();
-    private Map<String, DocumentFragment> xmlResourcesCache = new MapMaker().maximumSize(100).makeMap();
+    private Map<String, String> resolvedResourceCache       = CacheBuilder.newBuilder().maximumSize(500).<String, String>build().asMap();
+    private Map<String, String> htmlResourcesCache          = CacheBuilder.newBuilder().maximumSize(100).<String, String>build().asMap();
+    private Map<String, DocumentFragment> xmlResourcesCache = CacheBuilder.newBuilder().maximumSize(100).<String, DocumentFragment>build().asMap();
     
     public ResourcesElementsProviderImpl() {
         final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();

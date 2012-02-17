@@ -86,8 +86,8 @@ public class PathBasedCacheExpirationFilterTest {
         
         this.pathBasedCacheExpirationFilter.doFilter(request, response, chain);
         
-        final Long expires = (Long)response.getHeader("Expires");
-        final String cacheControl = (String)response.getHeader("Cache-Control");
+        final Long expires = (Long)response.getHeaderValue("Expires");
+        final String cacheControl = response.getHeader("Cache-Control");
         
         assertTrue(expires > expectedExpires);
         assertEquals("public, max-age=31536000", cacheControl);
@@ -103,8 +103,8 @@ public class PathBasedCacheExpirationFilterTest {
         
         this.pathBasedCacheExpirationFilter.doFilter(request, response, chain);
         
-        final Long expires = (Long)response.getHeader("Expires");
-        final String cacheControl = (String)response.getHeader("Cache-Control");
+        final Long expires = (Long)response.getHeaderValue("Expires");
+        final String cacheControl = response.getHeader("Cache-Control");
         
         assertNull(expires);
         assertNull(cacheControl);
