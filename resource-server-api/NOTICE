@@ -31,6 +31,6 @@ This project includes:
   JAXB2 Basics - Runtime under BSD-Style License
   JUnit under Common Public License Version 1.0
   Resource Server API under Apache License Version 2.0
-  spring-asm under Apache License, Version 2.0
-  spring-core under Apache License, Version 2.0
+  spring-asm under The Apache Software License, Version 2.0
+  spring-core under The Apache Software License, Version 2.0
   XMLUnit for Java under BSD License
