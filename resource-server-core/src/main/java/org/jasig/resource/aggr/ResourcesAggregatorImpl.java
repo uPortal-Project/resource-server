@@ -402,10 +402,10 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
     	        // create the same directory structure in the output root
     	        directoryInOutputRoot.mkdirs();
     
-    	        aggregateOutputFile = new File(directoryInOutputRoot, newFileName);
+    	        aggregateOutputFile = new File(directoryInOutputRoot, newFileName).getCanonicalFile();
     		}
     		else {
-    		    aggregateOutputFile = new File(alternateOutput, newFileName);
+    		    aggregateOutputFile = new File(alternateOutput, newFileName).getCanonicalFile();
     		}
     		
     		//Move the aggregate file into the correct location
