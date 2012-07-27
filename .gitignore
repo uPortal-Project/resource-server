@@ -1,0 +1,10 @@
+/.settings
+/.project
+/.classpath
+resource-server-api/target/
+resource-server-content/target/
+resource-server-core/target/
+resource-server-plugin/target/
+resource-server-utils/target/
+resource-server-webapp/target/
+target/
