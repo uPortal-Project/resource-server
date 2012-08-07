@@ -1,4 +1,4 @@
-ed<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:merge="http://maven.apache.org/plugin-merge" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:merge="http://maven.apache.org/plugin-merge" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
         <groupId>org.jasig.parent</groupId>
@@ -291,6 +291,16 @@ ed<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.or
                         </reportPlugins>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.2.1</version>
+                    <configuration>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <localCheckout>true</localCheckout>
+                        <tagNameFormat>resource-server-@{project.version}</tagNameFormat>
+                        <pushChanges>false</pushChanges>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -310,16 +320,6 @@ ed<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.or
                     <mapping>
                         <tld>XML_STYLE</tld>
                     </mapping>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.2.1</version>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <localCheckout>true</localCheckout>
-                    <tagNameFormat>resource-server-@{project.version}</tagNameFormat>
-                    <pushChanges>false</pushChanges>
                 </configuration>
             </plugin>
         </plugins>
