@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:merge="http://maven.apache.org/plugin-merge" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ed<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:merge="http://maven.apache.org/plugin-merge" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
         <groupId>org.jasig.parent</groupId>
@@ -17,9 +17,9 @@
     <url>${jasig-site-base}/resource-server/${project.version}</url>
     
     <scm>
-        <connection>scm:svn:https://source.jasig.org/resource-server/trunk</connection>
-        <developerConnection>scm:svn:https://source.jasig.org/resource-server/trunk</developerConnection>
-        <url>http://developer.jasig.org/source/browse/jasigsvn/resource-server/trunk</url>
+        <connection>scm:git:git://github.com/Jasig/resource-server.git</connection>
+        <developerConnection>scm:git:git@github.com:Jasig/resource-server.git</developerConnection>
+        <url>https://github.com/Jasig/resource-server</url>
     </scm>
     
     <modules>
@@ -314,8 +314,12 @@
             </plugin>
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
+                <version>2.2.1</version>
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <localCheckout>true</localCheckout>
+                    <tagNameFormat>resource-server-@{project.version}</tagNameFormat>
+                    <pushChanges>false</pushChanges>
                 </configuration>
             </plugin>
         </plugins>
