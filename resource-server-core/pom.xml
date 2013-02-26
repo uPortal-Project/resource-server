@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<parent>
+    <parent>
         <groupId>org.jasig.resourceserver</groupId>
         <artifactId>resource-server-parent</artifactId>
         <version>1.0.28-SNAPSHOT</version>
-	</parent>
+    </parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>resource-server-core</artifactId>
@@ -16,7 +16,7 @@
 	
     <dependencies>
         <dependency>
-            <groupId>org.jasig.resourceserver</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>resource-server-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
@@ -34,8 +34,12 @@
             <artifactId>commons-lang</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
 
         <dependency>
@@ -50,8 +54,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -71,7 +75,7 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>jarjar-maven-plugin</artifactId>
-                <version>1.4</version>
+                <version>1.7</version>
                 <executions>
                     <execution>
                         <phase>package</phase>

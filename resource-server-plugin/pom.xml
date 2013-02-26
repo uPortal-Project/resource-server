@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:merge="http://maven.apache.org/plugin-merge" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<parent>
+    <parent>
         <groupId>org.jasig.resourceserver</groupId>
         <artifactId>resource-server-parent</artifactId>
         <version>1.0.28-SNAPSHOT</version>
-	</parent>
+    </parent>
 
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>resource-server-plugin</artifactId>
-	<packaging>maven-plugin</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>resource-server-plugin</artifactId>
+    <packaging>maven-plugin</packaging>
 
     <name>Resource Server Plugin</name>
     <description>Maven Plugin for the Resource Server project.</description>
     
     <dependencies>
         <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging-api</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -28,26 +32,14 @@
             <artifactId>plexus-utils</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jasig.resourceserver</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>resource-server-api</artifactId>
             <version>${project.parent.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jasig.resourceserver</groupId>
             <artifactId>resource-server-core</artifactId>
             <version>${project.parent.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
     
@@ -64,7 +56,7 @@
                         <reportPlugins combine.children="append">
                             <plugin>
                                 <artifactId>maven-plugin-plugin</artifactId>
-                                <version>2.9</version>
+                                <version>3.2</version>
                             </plugin>
                         </reportPlugins>
                     </configuration>
