@@ -35,6 +35,7 @@
                     <linebreakpos>10000</linebreakpos>
                     <suffix>.min</suffix>
                     <jswarn>false</jswarn>
+					<encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
         </plugins>
