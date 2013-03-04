@@ -8,3 +8,6 @@
 /resource-server-utils/target/
 /resource-server-webapp/target/
 /target/
+.idea
+*.iml
+
