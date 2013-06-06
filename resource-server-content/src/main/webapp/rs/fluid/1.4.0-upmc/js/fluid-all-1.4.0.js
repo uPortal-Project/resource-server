@@ -6200,7 +6200,8 @@ parseloop: while (true) {
     
       // TODO: find faster encoder
     fluid.XMLEncode = function (text) {
-        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;"); 
+        //return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;");
+        return text;
     };
     
     fluid.dumpAttributes = function (attrcopy) {
