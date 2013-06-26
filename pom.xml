@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.resourceserver</groupId>
     <artifactId>resource-server-parent</artifactId>
-    <version>1.0.30</version>
+    <version>1.0.31-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Resource Server Parent</name>
