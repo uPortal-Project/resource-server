@@ -293,6 +293,8 @@
                         <exclude>NOTICE</exclude>
                         <exclude>**/src/main/webapp/rs/**</exclude>
                         <exclude>**/src/test/resources/skin-test1/jquery.hoverIntent.bom.js</exclude>
+                        <exclude>.idea/**</exclude>  <!-- for intelliJ Idea -->
+                        <exclude>overlays/**</exclude>  <!-- for intelliJ Idea -->
                     </excludes>
                     <mapping>
                         <tld>XML_STYLE</tld>
