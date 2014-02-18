@@ -32,6 +32,7 @@
                         <exclude>**/*.min.js</exclude>
                         <exclude>**/*.min.css</exclude>
                         <exclude>**/rs/ckeditor/**</exclude>
+                        <exclude>**/rs/datatables/**</exclude>
                     </excludes>
                     <linebreakpos>10000</linebreakpos>
                     <suffix>.min</suffix>
