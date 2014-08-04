@@ -352,7 +352,7 @@ public class ResourcesElementsProviderImpl implements
                 return resourcesDao.readResources(skinFile, includedType);
             }
             default: {
-                throw new UnsupportedOperationException("Unkown Included type: " + includedType);
+                throw new UnsupportedOperationException("Unknown Included type: " + includedType);
             }
         }
     }
