@@ -205,7 +205,7 @@ public class ResourcesElementsProviderImpl implements
         //build the URL
         resourceUrl = resourceContextPath.concat(resource);
         
-        this.logger.debug("Resoved {} to {}", resource, resourceUrl);
+        this.logger.debug("Resolved {} to {}", resource, resourceUrl);
         
         // If aggregation is enabled cache the resolved resource
         if (Included.AGGREGATED == includedType) {

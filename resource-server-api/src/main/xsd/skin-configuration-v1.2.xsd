@@ -55,7 +55,7 @@
                 </xs:attribute>
                 <xs:attribute name="import" type="xs:boolean" use="optional" default="false">
                     <xs:annotation>
-                        <xs:documentation>Import the related elments from the specified Resources XML file at this location.</xs:documentation>
+                        <xs:documentation>Import the related elements from the specified Resources XML file at this location.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="resource" type="xs:boolean" use="optional" default="false">
