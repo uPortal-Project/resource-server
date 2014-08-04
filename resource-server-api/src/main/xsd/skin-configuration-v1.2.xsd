@@ -40,7 +40,7 @@
             <xs:extension base="xs:string">
                 <xs:attribute name="compressed" type="xs:boolean" use="optional" default="false">
                     <xs:annotation>
-                        <xs:documentation>If the resource is already compressed and should be included in the aggreate file as is</xs:documentation>
+                        <xs:documentation>If the resource is already compressed and should be included in the aggregate file as is</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="conditional" type="xs:string" use="optional">
