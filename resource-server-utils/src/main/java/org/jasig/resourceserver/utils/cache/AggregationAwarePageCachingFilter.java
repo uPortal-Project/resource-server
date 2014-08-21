@@ -24,7 +24,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.ehcache.CacheException;
-import net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter;
+import net.sf.ehcache.constructs.web.filter.SimpleCachingHeadersPageCachingFilter;
 
 import org.jasig.resourceserver.aggr.om.Included;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
@@ -37,7 +37,7 @@ import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
  * @author Eric Dalquist
  * @version $Revision$
  */
-public class AggregationAwarePageCachingFilter extends SimplePageCachingFilter {
+public class AggregationAwarePageCachingFilter extends SimpleCachingHeadersPageCachingFilter {
     private ResourcesElementsProvider resourcesElementsProvider;
 
     /**
