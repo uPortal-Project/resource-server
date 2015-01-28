@@ -43,7 +43,7 @@
   <jmxConfigurator />
 
   <!--
-   | Setup a console logger
+   | Setup a console logger. If used logging would go to catalina.out.
    | 
    | http://logback.qos.ch/manual/appenders.html#ConsoleAppender
    +-->
@@ -60,11 +60,55 @@
 
   </appender>
 
-  <!-- 
-   | Setup default log level to WARNING
-   +-->
+    <!--
+     | Specify a local property that sets up the logging directory
+     +-->
+    <property scope="local" name="LOG_DIR" value="${resource-server.webapp.root}/../../logs" />
+
+    <!--
+     | Setup a file based logger that rolls
+     |
+     | http://logback.qos.ch/manual/appenders.html#RollingFileAppender
+     +-->
+    <appender name="LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--
+         | Name of the current log file
+         +-->
+        <File>${LOG_DIR}/${CONTEXT_NAME}.log</File>
+
+        <!--
+         | Log message pattern configuration
+         |
+         | http://logback.qos.ch/manual/layouts.html#conversionWord
+         +-->
+        <encoder>
+            <pattern>%-5level [%thread] %logger{36} %d{ISO8601} - %msg%n</pattern>
+        </encoder>
+
+        <!--
+         | Rolls the log file every 24 hours
+         | gzip the archived log file
+         | Delete archived log files older than 28 days
+         |
+         | http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy
+         +-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/${CONTEXT_NAME}.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>28</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!--
+     | Setup default log level to WARNING
+     +-->
   <root level="WARN">
-    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="LOG" />
   </root>
+
+    <!-- Uncomment to enable debugging page caching (SimpleCachingHeadersPageCachingFilter)
+    <logger name="net.sf.ehcache" additivity="false" level="DEBUG">
+        <appender-ref ref="LOG" />
+    </logger>
+    -->
 
 </configuration>
