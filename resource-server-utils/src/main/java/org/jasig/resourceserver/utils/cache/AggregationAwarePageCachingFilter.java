@@ -31,7 +31,7 @@ import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
 
 /**
- * Extension of Ehcache's {@link SimplePageCachingFilter} that only does page caching if {@link Included#AGGREGATED} is
+ * Extension of Ehcache's {@link SimpleCachingHeadersPageCachingFilter} that only does page caching if {@link Included#AGGREGATED} is
  * set.
  * 
  * @author Eric Dalquist
