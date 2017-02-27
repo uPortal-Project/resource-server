@@ -15,14 +15,14 @@
     <name>Resource Server Parent</name>
     <description>The Resource Server project.</description>
     <url>${jasig-site-base}/resource-server/${project.version}</url>
-    
+
     <scm>
         <connection>scm:git:git://github.com/Jasig/resource-server.git</connection>
         <developerConnection>scm:git:git@github.com:Jasig/resource-server.git</developerConnection>
         <url>https://github.com/Jasig/resource-server</url>
       <tag>HEAD</tag>
   </scm>
-    
+
     <modules>
         <module>resource-server-api</module>
         <module>resource-server-content</module>
@@ -31,14 +31,14 @@
         <module>resource-server-utils</module>
         <module>resource-server-webapp</module>
     </modules>
-    
+
     <properties>
         <project.build.sourceVersion>1.6</project.build.sourceVersion>
         <project.build.targetVersion>1.6</project.build.targetVersion>
-        
+
         <jaxb2basicsVersion>0.6.4</jaxb2basicsVersion>
     </properties>
-    
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -293,7 +293,7 @@
                 <groupId>com.mycila.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
                 <configuration>
-                    <basedir>${basedir}</basedir>  
+                    <basedir>${basedir}</basedir>
                     <header>${jasig-short-license-url}</header>
                     <aggregate>true</aggregate>
                     <excludes>
@@ -327,9 +327,9 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <profiles>
-        <!-- 
+        <!--
          | Used by the continuous integrations server to deploy the project site.
          +-->
         <profile>
@@ -341,7 +341,7 @@
                 </site>
             </distributionManagement>
         </profile>
-        <!-- 
+        <!--
          | Should be activated manually by a developer that wishes to deploy a maven site for
          | the project
          +-->
@@ -355,4 +355,17 @@
             </distributionManagement>
         </profile>
     </profiles>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <configLocation>google_checks.xml</configLocation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
