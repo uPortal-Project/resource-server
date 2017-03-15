@@ -32,23 +32,22 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jasig.resource.aggr.CommonsLogErrorReporter;
+import org.jasig.resource.com.yahoo.platform.yui.compressor.JavaScriptCompressor;
+import org.jasig.resource.org.mozilla.javascript.ErrorReporter;
+import org.jasig.resource.org.mozilla.javascript.EvaluatorException;
 import org.jasig.resourceserver.aggr.om.Included;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
 
-import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
-import org.mozilla.javascript.ErrorReporter;
-import org.mozilla.javascript.EvaluatorException;
-
 /**
  * JavaScriptMinificationTag minifies blocks of in-page javascript.  This
  * tag is designed to be used to wrap javascript only and should be placed inside
- * the 'script' tag.
- *
+ * the <script/> tag.
+ * 
  * This tag is aware of the Jasig resource aggregator system property convention
- * and will automatically disable minification when that property has been
+ * and will automatically disable minification when that property has been 
  * set to true.
- *
+ * 
  * @author Jen Bourey, jbourey@unicon.net
  * @version $Revision$
  */
@@ -88,8 +87,8 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
         // getJspWriter to output content
         final JspWriter out = bc.getEnclosingWriter();
         boolean scriptWritten = false;
-
-        // if the portal is currently configured for aggregation, use
+        
+        // if the portal is currently configured for aggregation, use 
         // YUICompressor to aggregate the javascript contained in the tag
         if (isCompressionEnabled()) {
             final Reader bodyReader = bc.getReader();
@@ -101,7 +100,7 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
                         false,
                         this.preserveAllSemiColons,
                         this.disableOptimizations);
-
+                
                 scriptWritten = true;
             }
             catch (EvaluatorException e) {
@@ -113,7 +112,7 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
                 bc.clearBody();
             }
         }
-
+        
         //Handle both compression not working and compression being disabled
         if (!scriptWritten) {
             final Reader bodyReader = bc.getReader();
@@ -127,7 +126,7 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
 
         return SKIP_BODY;
     }
-
+    
     protected boolean isCompressionEnabled() {
         //See if the ResourcesElementsProvider was provided as a request attribute, if so use the include type support provided there
         final ServletContext servletContext = this.pageContext.getServletContext();
