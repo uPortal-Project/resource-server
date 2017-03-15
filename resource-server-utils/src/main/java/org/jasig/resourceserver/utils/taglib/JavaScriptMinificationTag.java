@@ -42,7 +42,7 @@ import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
 /**
  * JavaScriptMinificationTag minifies blocks of in-page javascript.  This
  * tag is designed to be used to wrap javascript only and should be placed inside
- * the <script/> tag.
+ * the <code>&lt;script&gt;</code> tag.
  * 
  * This tag is aware of the Jasig resource aggregator system property convention
  * and will automatically disable minification when that property has been 
