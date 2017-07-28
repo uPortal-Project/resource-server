@@ -31,7 +31,7 @@ import org.w3c.dom.NodeList;
  */
 public interface ResourcesElementsProvider {
     /**
-     * Attribute to store a ResourcesElementsProvider instance with as a {@link HttpServletRequest} or {@link ServletContext attribute 
+     * Attribute to store a ResourcesElementsProvider instance with as a {@link HttpServletRequest} or {@link ServletContext attribute} 
      */
     public static final String RESOURCES_ELEMENTS_PROVIDER = ResourcesElementsProvider.class.getName();
     
