@@ -53,7 +53,7 @@ public class SkinResourcesAggregatorMojo extends AbstractSkinResourcesAggregator
 	private String skinOutputDirectory = "";
     
 	/**
-	 * @parameter expression="${encoding}" default-value="${project.build.directory}/${project.build.finalName}
+	 * @parameter property="encoding" default-value="${project.build.directory}/${project.build.finalName}
 	 */
 	private File baseOutputDirectory;
 

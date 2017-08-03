@@ -62,11 +62,11 @@ public abstract class AbstractSkinResourcesAggregatorMojo extends AbstractMojo {
      */
     protected String digestAlgorithm = "MD5";
     /**
-     * @parameter expression="${encoding}" default-value="${project.build.sourceEncoding}"
+     * @parameter property="encoding" default-value="${project.build.sourceEncoding}"
      */
     protected String encoding;
     /**
-     * @parameter expression="${encoding}" default-value="${project.build.directory}/${project.build.finalName}
+     * @parameter property="encoding" default-value="${project.build.directory}/${project.build.finalName}
      * @required
      */
     protected File baseOutputDirectory;
