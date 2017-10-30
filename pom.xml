@@ -33,8 +33,8 @@
     </modules>
 
     <properties>
-        <project.build.sourceVersion>1.6</project.build.sourceVersion>
-        <project.build.targetVersion>1.6</project.build.targetVersion>
+        <project.build.sourceVersion>1.8</project.build.sourceVersion>
+        <project.build.targetVersion>1.8</project.build.targetVersion>
 
         <jaxb2basicsVersion>0.6.4</jaxb2basicsVersion>
     </properties>
