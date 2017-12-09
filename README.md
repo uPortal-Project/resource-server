@@ -1,5 +1,6 @@
 # Resource Server
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.jasig.resourceserver/resource-server-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.jasig.resourceserver/resource-server-parent)
 [![Linux Build Status](https://travis-ci.org/Jasig/resource-server.svg?branch=master)](https://travis-ci.org/Jasig/resource-server)
 [![Windows Build status](https://ci.appveyor.com/api/projects/status/u60a82l41asrqpp1/branch/master?svg=true)](https://ci.appveyor.com/project/ChristianMurphy/resource-server/branch/master)
 
