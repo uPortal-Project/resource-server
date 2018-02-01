@@ -1,0 +1,8 @@
+rootProject.name = 'resource-server'
+
+include 'resource-server-api'
+include 'resource-server-content'
+include 'resource-server-core'
+include 'resource-server-plugin'
+include 'resource-server-utils'
+include 'resource-server-webapp'

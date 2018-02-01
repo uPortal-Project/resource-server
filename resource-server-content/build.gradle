@@ -1,0 +1,4 @@
+plugins {
+    id 'com.eriwen.gradle.css' version '2.14.0'
+    id 'com.eriwen.gradle.js' version '2.14.0'
+}

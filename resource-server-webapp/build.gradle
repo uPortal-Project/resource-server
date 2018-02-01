@@ -1,0 +1,18 @@
+description = "API and object model for the Resource Server project."
+
+dependencies {
+    compile project(':resource-server-content')
+
+    compile "org.springframework:spring-context:${springVersion}"
+    compile "org.springframework:spring-context-support:${springVersion}"
+    compile "org.springframework:spring-core:${springVersion}"
+    compile "org.springframework:spring-webmvc:${springVersion}"
+
+    compileOnly "javax.servlet:servlet-api:${servletApiVersion}"
+
+    runtime "javax.servlet:jstl:${jstlVersion}"
+    runtime "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+    runtime "ch.qos.logback:logback-classic:${logbackVersion}"
+    runtime "net.sf.ehcache:ehcache-core:${ehcacheVersion}"
+    runtime "taglibs:standard:${taglibsVersion}"
+}

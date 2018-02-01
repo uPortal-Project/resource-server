@@ -242,6 +242,9 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
+### Gradle ###
+build/
+
 # Exclude maven wrapper
 !/.mvn/wrapper/maven-wrapper.jar
 

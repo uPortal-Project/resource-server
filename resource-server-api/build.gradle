@@ -1,0 +1,62 @@
+plugins {
+    id 'org.openrepose.gradle.plugins.jaxb' version '2.4.1'
+}
+
+description = "API and object model for the Resource Server project."
+
+ext {
+    generatedSourcesDir = "${buildDir}/generated-sources/xjc"
+}
+
+dependencies {
+    compile "commons-io:commons-io:${commonsIoVersion}"
+    compile "commons-lang:commons-lang:${commonsLangVersion}"
+    compile "org.slf4j:slf4j-api:${slf4jVersion}"
+    compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+    compile "org.jvnet.jaxb2_commons:jaxb2-basics-runtime:${jaxb2Version}"
+    testCompile "junit:junit:${junitVersion}"
+    testCompile "ch.qos.logback:logback-classic:${logbackVersion}"
+    testCompile "org.springframework:spring-core:${logbackVersion}"
+    testCompile "xmlunit:xmlunit:${xmlUnitVersion}"
+
+    // All 6 of the following are for the 'com.github.jacobono.jaxb' plugin
+    jaxb "org.slf4j:slf4j-api:${slf4jVersion}"
+    jaxb "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+    jaxb 'com.sun.xml.bind:jaxb-xjc:2.2.7'
+    jaxb 'com.sun.xml.bind:jaxb-impl:2.2.7'
+    jaxb 'javax.xml.bind:jaxb-api:2.3.0'
+    jaxb "jaxb:activation:${activationVersion}"
+    jaxb "org.jvnet.jaxb2_commons:jaxb2-basics-ant:${jaxb2Version}"
+    jaxb "org.jvnet.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
+    jaxb "org.jvnet.jaxb2_commons:jaxb2-basics-annotate:${jaxb2basicsVersion}"
+}
+
+/*
+ * This section is the key to IDE integration.  IDE will look for source files in both...
+ *
+ *   - src/main/java
+ *   - build/generated-sources/xjc
+ */
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+            srcDir generatedSourcesDir
+        }
+    }
+}
+
+jaxb {
+    // Without the 'accessExternalSchema' setting, this module will not build on Java 8
+    System.setProperty('javax.xml.accessExternalSchema', 'all')
+    xsdDir = "${projectDir}/src/main/xsd"
+    bindingsDir = "${projectDir}/src/main/binding"
+    bindings = ['bindings.xjb']
+    // Not sure of the role of episodes, but it's better to specify a location within build/
+    xjc {
+        taskClassname = 'org.jvnet.jaxb2_commons.xjc.XJC2Task'
+        destinationDir = generatedSourcesDir
+    }
+}
+
+compileJava.dependsOn(xjc)

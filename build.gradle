@@ -1,0 +1,40 @@
+plugins {
+    id 'net.researchgate.release' version '2.6.0'
+}
+
+repositories {
+    jcenter()
+    mavenLocal()
+    mavenCentral()
+}
+
+description = "The Resource Server Project"
+
+allprojects  {
+    apply plugin: 'java'
+
+    group = 'org.jasig.resourceserver'
+    version = '1.1.2-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+subprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    apply plugin: 'maven'
+} 
+
+/*
+ * Configuration for the 'gradle-release' plugin (https://github.com/researchgate/gradle-release)
+ */
+release {
+    tagTemplate = 'v${version}' // Looks like it should be a GString, but not necessary
+    git {
+        requireBranch = ''
+    }
+}
