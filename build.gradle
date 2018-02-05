@@ -12,12 +12,18 @@ description = "The Resource Server Project"
 
 allprojects  {
     apply plugin: 'java'
+    apply plugin: 'checkstyle'
 
     group = 'org.jasig.resourceserver'
     version = "${version}"
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
+
+    checkstyle {
+        configFile = new File(rootDir, "google_checks.xml")
+    }
+
 }
 
 subprojects {
@@ -124,3 +130,4 @@ release {
         requireBranch = ''
     }
 }
+
