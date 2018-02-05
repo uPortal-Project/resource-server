@@ -14,26 +14,112 @@ allprojects  {
     apply plugin: 'java'
 
     group = 'org.jasig.resourceserver'
-    version = '1.1.2-SNAPSHOT'
+    version = "${version}"
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 }
 
 subprojects {
+
+    /*======== Plugins ========*/
+    apply plugin: 'maven-publish'
+    apply plugin: 'maven'
+    apply plugin: 'signing'
+
+    /*======== Dependency Management ========**/
     repositories {
         mavenLocal()
         mavenCentral()
     }
 
-    apply plugin: 'maven'
-} 
+    /* Release Management
+     *
+     * Based on Sonatype's guide for publishing w/ Gradle:  http://central.sonatype.org/pages/gradle.html
+     */
+    ext {
+        publishingUsername = project.hasProperty('ossrhUsername') ? project.getProperty('ossrhUsername') : ""
+        publishingPassword = project.hasProperty('ossrhPassword') ? project.getProperty('ossrhPassword') : ""
+    }
+    signing {
+        required { gradle.taskGraph.hasTask('uploadArchives') }
+        sign configurations.archives
+    }
+    tasks.withType(Javadoc) {
+        // FIXME: Fix errors rather than supressing them
+        failOnError = false
+    }
+    tasks.withType(Jar) {
+        from(project.projectDir) {
+            include "${rootDir}/LICENSE"
+            into 'META-INF'
+        }
+    }
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier 'sources'
+        from sourceSets.main.allSource
+    }
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+    artifacts {
+        archives javadocJar, sourcesJar
+    }
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: publishingUsername, password: publishingPassword)
+                }
+
+                pom.project {
+                    name 'resource-server'
+                    packaging 'jar'
+                    // optionally artifactId can be defined here
+                    description 'The Resource Server project.'
+                    url 'https://github.com/Jasig/uPortal'
+
+                    scm {
+                        connection 'scm:git@github.com:Jasig/resource-server.git'
+                        url 'https://github.com/Jasig/resource-server'
+                    }
+
+                    licenses {
+                        license {
+                            name 'The Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            organization 'uPortal Developers'
+                            organizationUrl 'https://github.com/Jasig/resource-server/graphs/contributors'
+                        }
+                    }
+                }
+            }
+        }
+    }
+    afterReleaseBuild.dependsOn uploadArchives
+}
 
 /*
  * Configuration for the 'gradle-release' plugin (https://github.com/researchgate/gradle-release)
  */
 release {
-    tagTemplate = 'v${version}' // Looks like it should be a GString, but not necessary
+    tagTemplate = 'v${version}'
     git {
         requireBranch = ''
     }

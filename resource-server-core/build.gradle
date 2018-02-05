@@ -8,9 +8,8 @@ dependencies {
     compile "commons-lang:commons-lang:${commonsLangVersion}"
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
     compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+    compile "com.yahoo.platform.yui:yuicompressor:${yuiVersion}"
 
-    compileOnly "com.yahoo.platform.yui:yuicompressor:${yuiVersion}"
-  
     testCompile "junit:junit:${junitVersion}"
     testCompile "ch.qos.logback:logback-classic:${logbackVersion}"
     testCompile "org.springframework:spring-core:${logbackVersion}"

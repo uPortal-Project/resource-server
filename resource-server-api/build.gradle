@@ -9,6 +9,7 @@ ext {
 }
 
 dependencies {
+    compile "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
     compile "commons-io:commons-io:${commonsIoVersion}"
     compile "commons-lang:commons-lang:${commonsLangVersion}"
     compile "org.slf4j:slf4j-api:${slf4jVersion}"

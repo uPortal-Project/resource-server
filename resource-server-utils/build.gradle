@@ -1,4 +1,3 @@
-
 description = "Resource Server Utilities"
 
 dependencies {
@@ -18,11 +17,11 @@ dependencies {
     compile "org.springframework:spring-web:${springVersion}"
 
     compileOnly "taglibs:standard:${taglibsVersion}"
-    compileOnly "com.yahoo.platform.yui:yuicompressor:${yuiVersion}"
     compileOnly "javax.servlet:servlet-api:${servletApiVersion}"
     compileOnly "javax.servlet.jsp:jsp-api:${jspApiVersion}"
 
     runtime "com.yahoo.platform.yui:yuicompressor:${yuiVersion}"
+
     testCompile "junit:junit:${junitVersion}"
     testCompile "org.mockito:mockito-core:${mockitoVersion}"
     testCompile "ch.qos.logback:logback-classic:${logbackVersion}"
