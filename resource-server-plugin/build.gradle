@@ -1,12 +1,4 @@
-plugins {
-    id 'org.openrepose.gradle.plugins.jaxb' version '2.4.1'
-}
-
 description = "Maven Plugin for the Resource Server project."
-
-ext {
-    generatedSourcesDir = "${buildDir}/generated-sources/xjc"
-}
 
 dependencies {
     compile project(':resource-server-core')

@@ -17,7 +17,7 @@ dependencies {
     compile "org.jvnet.jaxb2_commons:jaxb2-basics-runtime:${jaxb2Version}"
     testCompile "junit:junit:${junitVersion}"
     testCompile "ch.qos.logback:logback-classic:${logbackVersion}"
-    testCompile "org.springframework:spring-core:${logbackVersion}"
+    testCompile "org.springframework:spring-core:${springVersion}"
     testCompile "xmlunit:xmlunit:${xmlUnitVersion}"
 
     // All 6 of the following are for the 'com.github.jacobono.jaxb' plugin

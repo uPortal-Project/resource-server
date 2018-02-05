@@ -12,6 +12,6 @@ dependencies {
 
     testCompile "junit:junit:${junitVersion}"
     testCompile "ch.qos.logback:logback-classic:${logbackVersion}"
-    testCompile "org.springframework:spring-core:${logbackVersion}"
+    testCompile "org.springframework:spring-core:${springVersion}"
     testCompile "xmlunit:xmlunit:${xmlUnitVersion}"
 }
