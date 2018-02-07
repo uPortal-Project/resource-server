@@ -19,11 +19,21 @@ allprojects  {
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
-
-    checkstyle {
-        configFile = new File(rootDir, "google_checks.xml")
+  
+    configurations {
+        checkstyleConfig
     }
 
+    dependencies {
+        checkstyleConfig(group: "com.puppycrawl.tools", name: "checkstyle", version: "${checkstyleVersion}") {
+            transitive = false
+        }
+    }
+
+    checkstyle {
+        toolVersion = "${checkstyleVersion}"
+        config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
+    }
 }
 
 subprojects {
