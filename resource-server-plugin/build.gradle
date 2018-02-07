@@ -6,7 +6,7 @@ dependencies {
 
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
     compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
-    compile "org.apache.maven:maven-plugin-api:3.5.2"
+    compile "org.apache.maven:maven-plugin-api:${mavenpluginVersion}"
     compile "org.jvnet.jaxb2_commons:jaxb2-basics-runtime:${jaxb2Version}"
     compile "org.codehaus.plexus:plexus-utils:${plexusVersion}"
 }

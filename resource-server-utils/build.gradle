@@ -15,10 +15,13 @@ dependencies {
     compile "org.springframework:spring-beans:${springVersion}"
     compile "org.springframework:spring-context:${springVersion}"
     compile "org.springframework:spring-web:${springVersion}"
+    compile "com.sun.xml.bind:jaxb-xjc:${jaxbImplVersion}"
+    compile "com.sun.xml.bind:jaxb-impl:${jaxbImplVersion}"
+    compile "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
+    compile "javax.servlet:servlet-api:${servletApiVersion}"
+    compile "javax.servlet.jsp:jsp-api:${jspApiVersion}"
 
     compileOnly "taglibs:standard:${taglibsVersion}"
-    compileOnly "javax.servlet:servlet-api:${servletApiVersion}"
-    compileOnly "javax.servlet.jsp:jsp-api:${jspApiVersion}"
 
     runtime "com.yahoo.platform.yui:yuicompressor:${yuiVersion}"
 

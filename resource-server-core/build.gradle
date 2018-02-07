@@ -9,6 +9,9 @@ dependencies {
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
     compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
     compile "com.yahoo.platform.yui:yuicompressor:${yuiVersion}"
+    compile "com.sun.xml.bind:jaxb-xjc:${jaxbImplVersion}"
+    compile "com.sun.xml.bind:jaxb-impl:${jaxbImplVersion}"
+    compile "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
 
     testCompile "junit:junit:${junitVersion}"
     testCompile "ch.qos.logback:logback-classic:${logbackVersion}"
