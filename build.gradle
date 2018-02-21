@@ -65,22 +65,21 @@ subprojects {
         // FIXME: Fix errors rather than supressing them
         failOnError = false
     }
-    tasks.withType(Jar) {
+    tasks.withType(War) {
         from(project.projectDir) {
             include "${rootDir}/LICENSE"
             into 'META-INF'
         }
     }
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier 'sources'
+    task sourcesWar(type: War, dependsOn: classes) {
         from sourceSets.main.allSource
     }
-    task javadocJar(type: Jar, dependsOn: javadoc) {
+    task javadocWar(type: War, dependsOn: javadoc) {
         classifier = 'javadoc'
         from javadoc.destinationDir
     }
     artifacts {
-        archives javadocJar, sourcesJar
+        archives javadocWar, sourcesWar
     }
     publishing {
         publications {
@@ -101,7 +100,7 @@ subprojects {
 
                 pom.project {
                     name 'resource-server'
-                    packaging 'jar'
+                    packaging 'war'
                     // optionally artifactId can be defined here
                     description 'The Resource Server project.'
                     url 'https://github.com/Jasig/uPortal'
