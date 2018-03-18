@@ -17,7 +17,7 @@
  * under the License.
  */
 /**
- * 
+ *
  */
 package org.jasig.resource.aggr;
 
@@ -38,7 +38,7 @@ import org.springframework.core.io.ClassPathResource;
 
 /**
  * Test harness for {@link ResourcesAggregatorImpl}.
- * 
+ *
  * @author Nicholas Blair, npblair@wisc.edu
  *
  */
@@ -61,9 +61,9 @@ public class ResourcesAggregatorImplTest {
 
 		ResourcesAggregatorImpl impl = new ResourcesAggregatorImpl();
 		impl.aggregate(skinXml, outputDirectory);
-		
+
 		Diff d = new Diff(
-		        new FileReader(new ClassPathResource("skin-test1/skin.aggr.xml").getFile()), 
+		        new FileReader(new ClassPathResource("skin-test1/skin.aggr.xml").getFile()),
 		        new FileReader(new File(outputDirectory, "skin.aggr.xml")));
         assertTrue(d.toString(), d.similar());
 	}
@@ -81,9 +81,9 @@ public class ResourcesAggregatorImplTest {
 
 		ResourcesAggregatorImpl impl = new ResourcesAggregatorImpl();
 		impl.aggregate(skinXml, outputDirectory);
-		
+
 		Diff d = new Diff(
-                new FileReader(new ClassPathResource("skin-testAllAbsolute/skin.aggr.xml").getFile()), 
+                new FileReader(new ClassPathResource("skin-testAllAbsolute/skin.aggr.xml").getFile()),
                 new FileReader(new File(outputDirectory, "skin.aggr.xml")));
         assertTrue(d.toString(), d.similar());
 	}
@@ -91,7 +91,7 @@ public class ResourcesAggregatorImplTest {
 	@Test
 	public void testComplex() throws Exception {
 		String tempPath = getTestOutputRoot() + "/skin-complex/superskin";
-		
+
 		File outputDirectory = new File(tempPath);
 		outputDirectory.mkdirs();
 		Assert.assertTrue(outputDirectory.exists());
@@ -101,53 +101,9 @@ public class ResourcesAggregatorImplTest {
 
 		ResourcesAggregatorImpl impl = new ResourcesAggregatorImpl();
 		impl.aggregate(skinXml, outputDirectory);
-        
+
         Diff d = new Diff(
-                new FileReader(new ClassPathResource("skin-complex/superskin/skin.aggr.xml").getFile()), 
-                new FileReader(new File(outputDirectory, "skin.aggr.xml")));
-        assertTrue(d.toString(), d.similar());
-	}
-
-    @Test
-    public void testUniversalityCommonJavaScript() throws Exception {
-        final String testOutputRoot = getTestOutputRoot();
-        String tempPath = testOutputRoot + "/skin-universality-commonjs/uportal3";
-        
-        File outputDirectory = new File(tempPath);
-        outputDirectory.mkdirs();
-        Assert.assertTrue(outputDirectory.exists());
-        
-        String jsPath = testOutputRoot + "/skin-universality-commonjs/common/javascript";
-        File jsOutputDirectory = new File(jsPath);
-
-        File skinXml = new ClassPathResource("skin-universality-commonjs/uportal3/skin.xml").getFile();
-        Assert.assertTrue(skinXml.exists());
-
-        ResourcesAggregatorImpl impl = new ResourcesAggregatorImpl();
-        impl.aggregate(skinXml, outputDirectory, jsOutputDirectory);
-        
-        Diff d = new Diff(
-                new FileReader(new ClassPathResource("skin-universality-commonjs/uportal3/skin.aggr.xml").getFile()), 
-                new FileReader(new File(outputDirectory, "skin.aggr.xml")));
-        assertTrue(d.toString(), d.similar());
-    }
-
-	@Test
-	public void testUniversality() throws Exception {
-		String tempPath = getTestOutputRoot() + "/skin-universality/uportal3";
-		
-		File outputDirectory = new File(tempPath);
-		outputDirectory.mkdirs();
-		Assert.assertTrue(outputDirectory.exists());
-
-		File skinXml = new ClassPathResource("skin-universality/uportal3/skin.xml").getFile();
-		Assert.assertTrue(skinXml.exists());
-
-        ResourcesAggregatorImpl impl = new ResourcesAggregatorImpl();
-        impl.aggregate(skinXml, outputDirectory);
-        
-        Diff d = new Diff(
-                new FileReader(new ClassPathResource("skin-universality/uportal3/skin.aggr.xml").getFile()), 
+                new FileReader(new ClassPathResource("skin-complex/superskin/skin.aggr.xml").getFile()),
                 new FileReader(new File(outputDirectory, "skin.aggr.xml")));
         assertTrue(d.toString(), d.similar());
 	}
@@ -155,11 +111,11 @@ public class ResourcesAggregatorImplTest {
     @Test
     public void testIncludeOverlay() throws Exception {
         String tempPath = getTestOutputRoot() + "/skin-test-incl-overlay";
-        
+
         File outputDirectory = new File(tempPath);
         outputDirectory.mkdirs();
         Assert.assertTrue(outputDirectory.exists());
-        
+
         FileUtils.copyFileToDirectory(new ClassPathResource("skin-test-incl-overlay/overlay/overlay.css").getFile(), outputDirectory);
         FileUtils.copyFileToDirectory(new ClassPathResource("skin-test-incl-overlay/overlay/overlay.js").getFile(), outputDirectory);
 
@@ -171,9 +127,9 @@ public class ResourcesAggregatorImplTest {
             .setResourcesXml(skinXml)
             .setOutputBaseDirectory(outputDirectory)
             .addAdditionalSourceDirectory(outputDirectory));
-        
+
         Diff d = new Diff(
-                new FileReader(new ClassPathResource("skin-test-incl-overlay/skin.aggr.xml").getFile()), 
+                new FileReader(new ClassPathResource("skin-test-incl-overlay/skin.aggr.xml").getFile()),
                 new FileReader(new File(outputDirectory, "skin.aggr.xml")));
         assertTrue(d.toString(), d.similar());
     }
@@ -181,11 +137,11 @@ public class ResourcesAggregatorImplTest {
     @Test(expected=IOException.class)
     public void testMissingIncludeOverlay() throws Exception {
         String tempPath = getTestOutputRoot() + "/skin-test-incl-overlay";
-        
+
         File outputDirectory = new File(tempPath);
         outputDirectory.mkdirs();
         Assert.assertTrue(outputDirectory.exists());
-        
+
         File skinXml = new ClassPathResource("skin-test-incl-overlay/skin.xml").getFile();
         Assert.assertTrue(skinXml.exists());
 
@@ -194,26 +150,6 @@ public class ResourcesAggregatorImplTest {
             .setResourcesXml(skinXml)
             .setOutputBaseDirectory(outputDirectory)
             .addAdditionalSourceDirectory(outputDirectory));
-    }
-
-    @Test
-    public void testUniversalityImports() throws Exception {
-        String tempPath = getTestOutputRoot() + "/skin-universality-imports/uportal3";
-        
-        File outputDirectory = new File(tempPath);
-        outputDirectory.mkdirs();
-        Assert.assertTrue(outputDirectory.exists());
-
-        File skinXml = new ClassPathResource("skin-universality-imports/uportal3/skin.xml").getFile();
-        Assert.assertTrue(skinXml.exists());
-
-        ResourcesAggregatorImpl impl = new ResourcesAggregatorImpl();
-        impl.aggregate(skinXml, outputDirectory);
-        
-        Diff d = new Diff(
-                new FileReader(new ClassPathResource("skin-universality-imports/uportal3/skin.aggr.xml").getFile()), 
-                new FileReader(new File(outputDirectory, "skin.aggr.xml")));
-        assertTrue(d.toString(), d.similar());
     }
 
 	/**
@@ -228,7 +164,7 @@ public class ResourcesAggregatorImplTest {
 		FileUtils.cleanDirectory(testOutputDirectory);
 		FileUtils.deleteDirectory(testOutputDirectory);
 	}
-	
+
 	private final ThreadLocal<String> tempDirLocal = new ThreadLocal<String>();
 
 	/**
@@ -239,14 +175,14 @@ public class ResourcesAggregatorImplTest {
 	    if (testOutputDirectoryName != null) {
 	        return testOutputDirectoryName;
 	    }
-	    
+
 		final File tmpDir = File.createTempFile("resources-aggregator-impl-", "-test-output");
 		tmpDir.delete();
 		tmpDir.mkdirs();
 		tmpDir.deleteOnExit();
 		testOutputDirectoryName = tmpDir.getCanonicalPath();
 		tempDirLocal.set(testOutputDirectoryName);
-		
+
 		return testOutputDirectoryName;
 	}
 }
