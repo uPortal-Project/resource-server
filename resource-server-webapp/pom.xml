@@ -3,20 +3,23 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.jasig.resourceserver</groupId>
-	<artifactId>resource-server-webapp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-
-	<name>resource-server-webapp</name>
-	<description>Serves static resources with helpful features like cache control headers, gzip, and webjar support</description>
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
+	<!-- These must also be defined here b/c this module inherits from the Spring Boot parent pom,
+	     not the resource-server parent pom. -->
+	<groupId>org.jasig.resourceserver</groupId>
+	<version>1.2.1-SNAPSHOT</version>
+
+	<artifactId>resource-server-webapp</artifactId>
+	<packaging>war</packaging>
+
+	<name>Resource Server Webapp</name>
+	<description>Serves static resources with helpful features like cache control headers, gzip, and webjar support</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,11 +28,16 @@
 	</properties>
 
 	<dependencies>
+
+		<!-- Spring Boot dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -40,9 +48,24 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
+		<!-- Other dependencies -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>resource-server-content</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>resource-server-utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<finalName>ResourceServingWebapp</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
