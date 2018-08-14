@@ -71,6 +71,22 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<overlays>
+						<overlay>
+							<groupId>org.jasig.resourceserver</groupId>
+							<artifactId>resource-server-content</artifactId>
+							<!-- Prevent the resource-server-content module from adding a web.xml -->
+							<includes>
+								<include>rs/**</include>
+							</includes>
+						</overlay>
+					</overlays>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
