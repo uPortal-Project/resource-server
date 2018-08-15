@@ -24,6 +24,16 @@ This project includes:
     http://www.famfamfam.com/lab/icons/silk/
  
   AOP alliance under Public Domain
+  Apache Commons Codec under Apache License, Version 2.0
+  Apache Log4j API under Apache License, Version 2.0
+  Apache Log4j to SLF4J Adapter under Apache License, Version 2.0
+  ASM based accessors helper used by json-smart under The Apache Software License, Version 2.0
+  ASM Core under BSD
+  AssertJ fluent assertions under Apache License, Version 2.0
+  Bean Validation API under Apache License 2.0
+  Byte Buddy (without dependencies) under The Apache Software License, Version 2.0
+  Byte Buddy Java agent under The Apache Software License, Version 2.0
+  ClassMate under The Apache Software License, Version 2.0
   Commons Codec under The Apache Software License, Version 2.0
   Commons IO under The Apache Software License, Version 2.0
   Commons Lang under The Apache Software License, Version 2.0
@@ -32,28 +42,45 @@ This project includes:
   Expression Language API under Apache License, Version 2.0
   Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0
   Hamcrest Core under New BSD License
+  Hamcrest library under New BSD License
+  Hibernate Validator Engine under Apache License 2.0
+  Jackson datatype: jdk8 under The Apache Software License, Version 2.0
+  Jackson datatype: JSR310 under The Apache Software License, Version 2.0
+  Jackson-annotations under The Apache Software License, Version 2.0
+  Jackson-core under The Apache Software License, Version 2.0
+  jackson-databind under The Apache Software License, Version 2.0
+  Jackson-module-parameter-names under The Apache Software License, Version 2.0
   JavaServer Pages(TM) API v2.1.1 under CDDL + GPLv2 with classpath exception
+  javax.annotation API under CDDL + GPLv2 with classpath exception
   JAXB2 Basics - Runtime under BSD-Style License
+  JBoss Logging 3 under Apache License, version 2.0
   JCL 1.1.1 implemented over SLF4J under MIT License
-  jstl under Commons Development and Distribution License, Version 1.0
-  JUnit under Common Public License Version 1.0
+  JCL 1.2 implemented over SLF4J under MIT License
+  JSON library from Android SDK under Apache License 2.0
+  JSON Small and Fast Parser under The Apache Software License, Version 2.0
+  JSONassert under The Apache Software License, Version 2.0
+  JUL to SLF4J bridge under MIT License
+  JUnit under Eclipse Public License 1.0
   Logback Classic Module under Eclipse Public License - v 1.0 or GNU Lesser General Public License
   Logback Core Module under Eclipse Public License - v 1.0 or GNU Lesser General Public License
   Maven Artifact under The Apache Software License, Version 2.0
   Maven Model under The Apache Software License, Version 2.0
   Maven Plugin API under The Apache Software License, Version 2.0
   Mockito under The MIT License
-  Objenesis under MIT License
+  mockito-core under The MIT License
+  Objenesis under Apache 2
+  org.xmlunit:xmlunit-core under The Apache Software License, Version 2.0
   Plexus :: Component Annotations under The Apache Software License, Version 2.0
   Plexus Classworlds under The Apache Software License, Version 2.0
   Plexus Common Utilities under The Apache Software License, Version 2.0
+  project ':json-path' under The Apache Software License, Version 2.0
   Resource Server API under Apache License Version 2.0
   Resource Server Content under Apache License Version 2.0
   Resource Server Core under Apache License Version 2.0
   Resource Server Parent under Apache License Version 2.0
   Resource Server Plugin under Apache License Version 2.0
   Resource Server Utilities under Apache License Version 2.0
-  Resource Server Webapp under Apache License Version 2.0
+  Resource Server Webapp under Apache License, Version 2.0
   Rhino under Mozilla Public License
   servlet-api under Commons Development and Distribution License, Version 1.0
   Sisu Guava - Core Library under The Apache Software License, Version 2.0
@@ -61,17 +88,39 @@ This project includes:
   Sisu-Inject-Bean : Aggregate OSGi bundle under The Apache Software License, Version 2.0 or Eclipse Public License, Version 1.0
   Sisu-Inject-Plexus : Aggregate OSGi bundle under Eclipse Public License, Version 1.0
   SLF4J API Module under MIT License
+  SnakeYAML under Apache License, Version 2.0
+  Spring AOP under Apache License, Version 2.0
+  Spring Beans under Apache License, Version 2.0
+  Spring Boot under Apache License, Version 2.0
+  Spring Boot AutoConfigure under Apache License, Version 2.0
+  Spring Boot Cache Starter under Apache License, Version 2.0
+  Spring Boot Json Starter under Apache License, Version 2.0
+  Spring Boot Logging Starter under Apache License, Version 2.0
+  Spring Boot Starter under Apache License, Version 2.0
+  Spring Boot Test under Apache License, Version 2.0
+  Spring Boot Test Auto-Configure under Apache License, Version 2.0
+  Spring Boot Test Starter under Apache License, Version 2.0
+  Spring Boot Tomcat Starter under Apache License, Version 2.0
+  Spring Boot Web Starter under Apache License, Version 2.0
+  Spring Commons Logging Bridge under Apache License, Version 2.0
+  Spring Context under Apache License, Version 2.0
+  Spring Context Support under Apache License, Version 2.0
+  Spring Core under Apache License, Version 2.0
+  Spring Expression Language (SpEL) under Apache License, Version 2.0
+  Spring TestContext Framework under Apache License, Version 2.0
+  Spring Web under Apache License, Version 2.0
+  Spring Web MVC under Apache License, Version 2.0
   spring-aop under The Apache Software License, Version 2.0
   spring-asm under The Apache Software License, Version 2.0
   spring-beans under The Apache Software License, Version 2.0
   spring-context under The Apache Software License, Version 2.0
-  spring-context-support under The Apache Software License, Version 2.0
   spring-core under The Apache Software License, Version 2.0
   spring-expression under The Apache Software License, Version 2.0
   spring-test under The Apache Software License, Version 2.0
   spring-web under The Apache Software License, Version 2.0
-  spring-webmvc under The Apache Software License, Version 2.0
-  standard under Apache License, Version 2.0
+  tomcat-embed-core under Apache License, Version 2.0
+  tomcat-embed-el under Apache License, Version 2.0
+  tomcat-embed-websocket under Apache License, Version 2.0
   XMLUnit for Java under BSD License
   yui compressor under BSD License
 
