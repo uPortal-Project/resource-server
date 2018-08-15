@@ -87,6 +87,13 @@
 					</overlays>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.jasig.maven</groupId>
+				<artifactId>maven-notice-plugin</artifactId>
+				<configuration>
+					<noticeTemplate>../NOTICE.template</noticeTemplate>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
