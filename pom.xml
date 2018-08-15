@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.resourceserver</groupId>
     <artifactId>resource-server-parent</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.3.0</version>
     <packaging>pom</packaging>
 
     <name>Resource Server Parent</name>
@@ -20,7 +20,7 @@
         <connection>scm:git:git://github.com/Jasig/resource-server.git</connection>
         <developerConnection>scm:git:git@github.com:Jasig/resource-server.git</developerConnection>
         <url>https://github.com/Jasig/resource-server</url>
-      <tag>HEAD</tag>
+      <tag>resource-server-1.3.0</tag>
   </scm>
 
     <modules>

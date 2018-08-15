@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.4.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<!-- These must also be defined here b/c this module inherits from the Spring Boot parent pom,
 	     not the resource-server parent pom. -->
 	<groupId>org.jasig.resourceserver</groupId>
-	<version>1.3.0-SNAPSHOT</version>
+	<version>1.3.0</version>
 
 	<artifactId>resource-server-webapp</artifactId>
 	<packaging>war</packaging>
@@ -115,7 +114,7 @@
 				<executions>
 					<execution>
 						<id>disabled</id>
-						<phase/>
+						<phase />
 					</execution>
 				</executions>
 			</plugin>
@@ -137,4 +136,8 @@
 	</build>
 
 
+
+  <scm>
+    <tag>resource-server-1.3.0</tag>
+  </scm>
 </project>
