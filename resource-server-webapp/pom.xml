@@ -94,6 +94,23 @@
 					<noticeTemplate>../NOTICE.template</noticeTemplate>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<!--
+				 | The following XML disables the maven-license-plugin in this sub-module,
+				 | because...
+				 |   - The files within it are processed (examined and updated) when
+				 |     maven-license-plugin runs at the root level;  and
+				 |   - This sub-project doesn't inherit from jasig-parent
+				 +-->
+				<executions>
+					<execution>
+						<id>disabled</id>
+						<phase/>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
