@@ -16,39 +16,39 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jasig.resourceserver.web;
+package org.jasig.portal.resourceserver.web;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
 /**
  * @author Eric Dalquist
- * @version $Revision$
  */
-public class AvailableResourcesController extends AbstractController {
-    private static final String BASE_PATH = "/rs/";
-    
+@Controller
+@RequestMapping("/resourses.html")
+public class AvailableResourcesController {
 
-    /* (non-Javadoc)
-     * @see org.springframework.web.servlet.mvc.AbstractController#handleRequestInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final ApplicationContext applicationContext = this.getApplicationContext();
-        final ServletContext servletContext = this.getServletContext();
-        
-        final Map<String, Map<String, Map<String, Resource[]>>> libraries = new TreeMap<String, Map<String, Map<String, Resource[]>>>();
+    private static final String BASE_PATH = "/rs/";
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Autowired
+    private ServletContext servletContext;
+
+    protected ModelAndView render() throws Exception {
+
+        final Map<String, Map<String, Map<String, Resource[]>>> libraries = new TreeMap<>();
         
         final Set<String> libraryPaths = servletContext.getResourcePaths(BASE_PATH);
         for (final String libraryPath : libraryPaths) {
@@ -58,7 +58,7 @@ public class AvailableResourcesController extends AbstractController {
             
             final String libraryName = libraryPath.substring(BASE_PATH.length(), libraryPath.length() - 1);
             if (!libraries.containsKey(libraryName)) {
-                libraries.put(libraryName, new TreeMap<String, Map<String, Resource[]>>());
+                libraries.put(libraryName, new TreeMap<>());
             }
             final Map<String, Map<String, Resource[]>> versions = libraries.get(libraryName);
             
@@ -71,7 +71,7 @@ public class AvailableResourcesController extends AbstractController {
                 
                 final String libraryVersion = versionPath.substring(libraryPath.length(), versionPath.length() - 1);
                 if (!versions.containsKey(libraryVersion)) {
-                    versions.put(libraryVersion, new TreeMap<String, Resource[]>());
+                    versions.put(libraryVersion, new TreeMap<>());
                 }
                 final Map<String, Resource[]> resources = versions.get(libraryVersion);
                 
@@ -85,5 +85,7 @@ public class AvailableResourcesController extends AbstractController {
         }
         
         return new ModelAndView("availableResources", "libraries", libraries);
+
     }
+
 }
