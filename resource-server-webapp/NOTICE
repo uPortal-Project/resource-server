@@ -24,6 +24,8 @@ This project includes:
     http://www.famfamfam.com/lab/icons/silk/
  
   Apache Commons Codec under Apache License, Version 2.0
+  Apache Commons Compress under The Apache Software License, Version 2.0
+  Apache Commons Lang under Apache License, Version 2.0
   Apache Log4j API under Apache License, Version 2.0
   Apache Log4j to SLF4J Adapter under Apache License, Version 2.0
   ASM based accessors helper used by json-smart under The Apache Software License, Version 2.0
@@ -93,4 +95,6 @@ This project includes:
   tomcat-embed-core under Apache License, Version 2.0
   tomcat-embed-el under Apache License, Version 2.0
   tomcat-embed-websocket under Apache License, Version 2.0
+  webjars-locator under MIT
+  webjars-locator-core under MIT
 
