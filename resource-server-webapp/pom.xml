@@ -69,7 +69,16 @@
 			<artifactId>resource-server-utils</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-	</dependencies>
+        <!--
+         | Allows resources in webjars to be included without their version numbers;
+         | see https://www.webjars.org/documentation#springboot
+         +-->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator</artifactId>
+            <version>0.34</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<finalName>ResourceServingWebapp</finalName>
