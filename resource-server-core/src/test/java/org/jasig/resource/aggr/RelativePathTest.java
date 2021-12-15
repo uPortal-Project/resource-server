@@ -33,8 +33,8 @@ public class RelativePathTest {
     @Test
     public void resolveRelativePath() throws Exception {
         String tempPath = System.getProperty("java.io.tmpdir");
-        if(!tempPath.endsWith("/")) {
-            tempPath += "/";
+        if(!tempPath.endsWith(File.separator)) {
+            tempPath += File.separator;
         }
         
         final File tempDir = new File(new File(tempPath), "relative-path");
@@ -45,6 +45,10 @@ public class RelativePathTest {
         
         final String relativePath = RelativePath.getRelativePath(baseDir, destDir);
         
-        assertEquals("../../e/f", relativePath);
+        final String testPath = ".." + File.separator
+                              + ".." + File.separator
+                              + "e" + File.separator
+                              + "f";
+        assertEquals(testPath, relativePath);
     }
 }
