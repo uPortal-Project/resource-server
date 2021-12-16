@@ -45,10 +45,8 @@ public class RelativePathTest {
         
         final String relativePath = RelativePath.getRelativePath(baseDir, destDir);
         
-        final String testPath = ".." + File.separator
-                              + ".." + File.separator
-                              + "e" + File.separator
-                              + "f";
+        final String linuxTestPath = "../../e/f";
+        final String testPath = linuxTestPath.replace("/", File.separator);
         assertEquals(testPath, relativePath);
     }
 }
