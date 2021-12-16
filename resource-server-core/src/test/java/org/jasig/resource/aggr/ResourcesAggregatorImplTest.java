@@ -65,7 +65,7 @@ public class ResourcesAggregatorImplTest {
 		Diff d = new Diff(
 		        new FileReader(new ClassPathResource("skin-test1/skin.aggr.xml").getFile()),
 		        new FileReader(new File(outputDirectory, "skin.aggr.xml")));
-        assertTrue(d.toString(), d.similar());
+        assertTrue(d.toString().replace("/", File.separator), d.similar());
 	}
 
 	@Test
@@ -85,7 +85,7 @@ public class ResourcesAggregatorImplTest {
 		Diff d = new Diff(
                 new FileReader(new ClassPathResource("skin-testAllAbsolute/skin.aggr.xml").getFile()),
                 new FileReader(new File(outputDirectory, "skin.aggr.xml")));
-        assertTrue(d.toString(), d.similar());
+        assertTrue(d.toString().replace("/", File.separator), d.similar());
 	}
 
 	@Test
@@ -105,7 +105,7 @@ public class ResourcesAggregatorImplTest {
         Diff d = new Diff(
                 new FileReader(new ClassPathResource("skin-complex/superskin/skin.aggr.xml").getFile()),
                 new FileReader(new File(outputDirectory, "skin.aggr.xml")));
-        assertTrue(d.toString(), d.similar());
+        assertTrue(d.toString().replace("/", File.separator), d.similar());
 	}
 
     @Test
@@ -131,7 +131,7 @@ public class ResourcesAggregatorImplTest {
         Diff d = new Diff(
                 new FileReader(new ClassPathResource("skin-test-incl-overlay/skin.aggr.xml").getFile()),
                 new FileReader(new File(outputDirectory, "skin.aggr.xml")));
-        assertTrue(d.toString(), d.similar());
+        assertTrue(d.toString().replace("/", File.separator), d.similar());
     }
 
     @Test(expected=IOException.class)
