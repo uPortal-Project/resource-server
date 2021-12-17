@@ -26,11 +26,11 @@ import java.util.ListIterator;
 
 /**
  * Utility for determining the relative path between two files.
- * 
- * @author Eric Dalquist
- * @version $Revision$
+ * This is used for web URLs, so Windows backslash should not be used.
  */
 public class RelativePath {
+
+    public static final String separator = "/";
     /**
      * break a path down into individual elements and add to a list.
      * example : if a path is /a/b/c/d.txt, the breakdown will be [d.txt,c,b,a]
@@ -75,14 +75,14 @@ public class RelativePath {
 
         // for each remaining level in the home path, add a ..
         for (; basePathItr.hasPrevious(); basePathItr.previous()) {
-            relativePath.append("..").append(File.separator);
+            relativePath.append("..").append(separator);
         }
 
         // for each level in the file path, add the path
         while (filePathItr.hasPrevious()) {
             relativePath.append(filePathItr.previous());
             if (filePathItr.hasPrevious()) {
-                relativePath.append(File.separator);
+                relativePath.append(separator);
             }
         }
 
