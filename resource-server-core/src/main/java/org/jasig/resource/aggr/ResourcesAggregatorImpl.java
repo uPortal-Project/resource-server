@@ -21,16 +21,7 @@
  */
 package org.jasig.resource.aggr;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -364,9 +355,11 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
                         }
                         final Reader resourceIn = new InputStreamReader(bomIs, this.encoding);
                         if (element.isCompressed()) {
-                            IOUtils.copy(resourceIn, trimmingWriter);
-                        }
-                        else {
+                            final String resourceStr = IOUtils.toString(resourceIn);
+                            final String resourceEolFix = resourceStr.replaceAll("\\r", "");
+                            final InputStream isEolFix = IOUtils.toInputStream(resourceEolFix, this.encoding);
+                            IOUtils.copy(isEolFix, trimmingWriter, this.encoding);
+                        } else {
                             callback.compress(resourceIn, trimmingWriter);
                         }
                     }
@@ -376,7 +369,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
                     finally {
                         IOUtils.closeQuietly(fis);
                     }
-                    trimmingWriter.write(SystemUtils.LINE_SEPARATOR);
+                    trimmingWriter.write(IOUtils.LINE_SEPARATOR_UNIX); // Needs to be consistent regardless of OS
                 }
     		}
             finally {
@@ -460,7 +453,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
      * 
      * 2 {@link Css} objects are aggregatable if and only if:
      * <ol>
-     * <li>Neither object returns true for {@link #isAbsolute()}</li>
+     * <li>Neither object returns true for isAbsolute()</li>
      * <li>The values of their "conditional" properties are equivalent</li>
      * <li>The values of their "media" properties are equivalent</li>
      * <li>The "paths" of their values are equivalent</li>
@@ -498,7 +491,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
      * 
      * 2 {@link Js} objects are aggregatable if and only if:
      * <ol>
-     * <li>Neither object returns true for {@link #isAbsolute()}</li>
+     * <li>Neither object returns true for isAbsolute()</li>
      * <li>The values of their "conditional" properties are equivalent</li>
      * </ol>
      * 
@@ -506,7 +499,8 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
      * to compare each object's value. In short, the final file name in the value's path
      * need not be equal, but the rest of the path in the value must be equal.
      * 
-     * @param other
+     * @param first
+     * @param second
      * @return
      */
     protected boolean willAggregateWith(Js first, Js second) {
