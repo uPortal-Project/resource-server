@@ -56,7 +56,7 @@
                         <reportPlugins combine.children="append">
                             <plugin>
                                 <artifactId>maven-plugin-plugin</artifactId>
-                                <version>3.2</version>
+                                <version>3.6.2</version>
                             </plugin>
                         </reportPlugins>
                     </configuration>
