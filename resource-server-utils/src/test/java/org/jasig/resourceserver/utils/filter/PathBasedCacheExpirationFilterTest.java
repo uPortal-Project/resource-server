@@ -43,31 +43,31 @@ import org.springframework.mock.web.MockHttpServletResponse;
 public class PathBasedCacheExpirationFilterTest {
     private final FilterConfig filterConfig = Mockito.mock(FilterConfig.class);
     private final ServletContext servletContext = Mockito.mock(ServletContext.class);
-    
 
-    
+
+
     private PathBasedCacheExpirationFilter pathBasedCacheExpirationFilter;
 
     @Before
     public void setUp() throws Exception {
-        Mockito.when(filterConfig.getInitParameterNames()).thenReturn(new Enumeration<Object>() {
+        Mockito.when(filterConfig.getInitParameterNames()).thenReturn(new Enumeration<String>() {
             @Override
             public boolean hasMoreElements() {
                 return false;
             }
             @Override
-            public Object nextElement() {
+            public String nextElement() {
                 return null;
             }
         });
         Mockito.when(filterConfig.getServletContext()).thenReturn(servletContext);
         Mockito.when(filterConfig.getFilterName()).thenReturn("CacheExpirationFilter");
         Mockito.when(servletContext.getContextPath()).thenReturn("/ResourceServingWebapp");
-        
+
         this.pathBasedCacheExpirationFilter = new PathBasedCacheExpirationFilter();
         this.pathBasedCacheExpirationFilter.init(filterConfig);
     }
-    
+
     @After
     public void tearDown() throws Exception {
         this.pathBasedCacheExpirationFilter.destroy();
@@ -75,36 +75,37 @@ public class PathBasedCacheExpirationFilterTest {
 
     @Test
     public void testPathBasedCacheExpirationFilterHit() throws Exception {
-        final long expectedExpires = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(365);
-        
+        // Subtract 10 seconds to allow for slow test runs
+        final long expectedExpires = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(365) - 10000;
+
         final MockHttpServletRequest request = new MockHttpServletRequest();
         final MockHttpServletResponse response = new MockHttpServletResponse();
         final MockFilterChain chain = new MockFilterChain();
-        
+
         request.setServletPath("/rs/jqueryui/1.8/jquery-ui-1.8.js");
-        
+
         this.pathBasedCacheExpirationFilter.doFilter(request, response, chain);
-        
-        final Long expires = (Long)response.getHeaderValue("Expires");
+
+        final long expires = response.getDateHeader("Expires");
         final String cacheControl = response.getHeader("Cache-Control");
-        
+
         assertTrue(expires > expectedExpires);
         assertEquals("public, max-age=31536000", cacheControl);
     }
-    
+
     @Test
     public void testPathBasedCacheExpirationFilterMiss() throws Exception {
         final MockHttpServletRequest request = new MockHttpServletRequest();
         final MockHttpServletResponse response = new MockHttpServletResponse();
         final MockFilterChain chain = new MockFilterChain();
-        
+
         request.setServletPath("/index.html");
-        
+
         this.pathBasedCacheExpirationFilter.doFilter(request, response, chain);
-        
+
         final Long expires = (Long)response.getHeaderValue("Expires");
         final String cacheControl = response.getHeader("Cache-Control");
-        
+
         assertNull(expires);
         assertNull(cacheControl);
     }

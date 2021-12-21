@@ -19,6 +19,7 @@
 package org.jasig.resourceserver.utils.filter;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletContext;
@@ -36,22 +37,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.GenericFilterBean;
 
 /**
- * CacheExpirationFilter sets a far-future expiration timeout on the HTTP 
+ * CacheExpirationFilter sets a far-future expiration timeout on the HTTP
  * response of the filtered resource.  This filter is intended for resources
  * which will not be changed, such as versioned javascript and css files.  Any
  * resources protected by this filter should be renamed upon update.
- * 
+ *
  * init-params:<br/>
  *  cacheMaxAge - Sets the max age in seconds to be used in the cache headers for cached resources,
  *      defaults to 1 year (31536000).<br/>
- *      
+ *
  *  regenerateHeadersInterval - The interval in milliseconds to regenerate the cache headers,
  *      defaults to 1 second (1000).
- * 
+ *
  * @author Jen Bourey
  */
 public class CacheExpirationFilter extends GenericFilterBean {
-    private static final long YEAR_OF_MILLISECONDS = 365l * 24l * 60l * 60l * 1000l;
+    private static final long YEAR_OF_MILLISECONDS = TimeUnit.DAYS.toMillis(365);
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -95,12 +96,12 @@ public class CacheExpirationFilter extends GenericFilterBean {
             final ServletContext servletContext = this.getServletContext();
             this.resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(servletContext);
         }
-        
+
         this.updateHeaders();
     }
 
     /**
-     * 
+     *
      */
     private void updateHeaders() {
         //Generate cache control value
@@ -120,7 +121,7 @@ public class CacheExpirationFilter extends GenericFilterBean {
             final Included includedType = this.resourcesElementsProvider.getIncludedType(httpServletRequest);
             if (includedType == Included.AGGREGATED) {
                 final HttpServletResponse httpResponse = (HttpServletResponse) response;
-    
+
                 httpResponse.setDateHeader("Expires", this.cacheMaxAge + System.currentTimeMillis());
                 httpResponse.setHeader("Cache-Control", this.cachedControlString);
             }
