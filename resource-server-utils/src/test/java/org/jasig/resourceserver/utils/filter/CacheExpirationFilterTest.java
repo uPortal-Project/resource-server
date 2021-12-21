@@ -37,29 +37,29 @@ import org.springframework.mock.web.MockHttpServletResponse;
 public class CacheExpirationFilterTest extends TestCase {
     private final FilterConfig filterConfig = Mockito.mock(FilterConfig.class);
     private final ServletContext servletContext = Mockito.mock(ServletContext.class);
-    
+
     private CacheExpirationFilter cacheExpirationFilter;
-    
-    
+
+
     /* (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
     @Override
     protected void setUp() throws Exception {
-        Mockito.when(filterConfig.getInitParameterNames()).thenReturn(new Enumeration<Object>() {
+        Mockito.when(filterConfig.getInitParameterNames()).thenReturn(new Enumeration<String>() {
             @Override
             public boolean hasMoreElements() {
                 return false;
             }
             @Override
-            public Object nextElement() {
+            public String nextElement() {
                 return null;
             }
         });
         Mockito.when(filterConfig.getServletContext()).thenReturn(servletContext);
         Mockito.when(filterConfig.getFilterName()).thenReturn("CacheExpirationFilter");
         Mockito.when(servletContext.getContextPath()).thenReturn("/ResourceServingWebapp");
-        
+
         this.cacheExpirationFilter = new CacheExpirationFilter();
         this.cacheExpirationFilter.init(filterConfig);
     }
@@ -78,12 +78,12 @@ public class CacheExpirationFilterTest extends TestCase {
         final MockHttpServletRequest request = new MockHttpServletRequest();
         final MockHttpServletResponse response = new MockHttpServletResponse();
         final MockFilterChain chain = new MockFilterChain();
-        
+
         this.cacheExpirationFilter.doFilter(request, response, chain);
-        
-        final Long expires = (Long)response.getHeaderValue("Expires");
+
+        final long expires = response.getDateHeader("Expires");
         final String cacheControl = response.getHeader("Cache-Control");
-        
+
         assertTrue(expires > System.currentTimeMillis());
         assertEquals("public, max-age=31536000", cacheControl);
     }
