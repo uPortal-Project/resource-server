@@ -51,7 +51,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-plugin-plugin</artifactId>
-          <version>3.6.2</version>
+          <version>3.6.4</version>
           <configuration>
             <goalPrefix>plugin</goalPrefix>
             <outputDirectory>target/dir</outputDirectory>
@@ -65,7 +65,7 @@
             <reportPlugins combine.children="append">
               <plugin>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>3.6.2</version>
+                <version>3.6.4</version>
               </plugin>
             </reportPlugins>
           </configuration>
