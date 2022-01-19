@@ -23,23 +23,23 @@ This project includes:
   The famfamfam Silk Icons under the Creative Commons Attribution 3.0 License
     http://www.famfamfam.com/lab/icons/silk/
  
-  Commons Codec under The Apache Software License, Version 2.0
-  Commons IO under The Apache Software License, Version 2.0
+  Apache Commons Codec under Apache License, Version 2.0
+  Apache Commons IO under Apache License, Version 2.0
+  Apache Commons Lang under Apache License, Version 2.0
   Commons Lang under The Apache Software License, Version 2.0
+  javax.annotation API under CDDL + GPLv2 with classpath exception
   JAXB2 Basics - Runtime under BSD-Style License
-  JCL 1.1.1 implemented over SLF4J under MIT License
-  Maven Artifact under The Apache Software License, Version 2.0
-  Maven Model under The Apache Software License, Version 2.0
-  Maven Plugin API under The Apache Software License, Version 2.0
+  JCL 1.2 implemented over SLF4J under Apache License, Version 2.0
+  Maven Artifact under Apache License, Version 2.0
+  Maven Model under Apache License, Version 2.0
+  Maven Plugin API under Apache License, Version 2.0
+  org.eclipse.sisu.inject under Eclipse Public License, Version 1.0
+  org.eclipse.sisu.plexus under Eclipse Public License, Version 1.0
   Plexus :: Component Annotations under The Apache Software License, Version 2.0
-  Plexus Classworlds under The Apache Software License, Version 2.0
-  Plexus Common Utilities under The Apache Software License, Version 2.0
+  Plexus Classworlds under Apache License, Version 2.0
+  Plexus Common Utilities under Apache License, Version 2.0
   Resource Server API under Apache License Version 2.0
   Resource Server Core under Apache License Version 2.0
   Resource Server Plugin under Apache License Version 2.0
-  Sisu Guava - Core Library under The Apache Software License, Version 2.0
-  Sisu Guice - Core Library under The Apache Software License, Version 2.0
-  Sisu-Inject-Bean : Aggregate OSGi bundle under The Apache Software License, Version 2.0 or Eclipse Public License, Version 1.0
-  Sisu-Inject-Plexus : Aggregate OSGi bundle under Eclipse Public License, Version 1.0
   SLF4J API Module under MIT License
 
