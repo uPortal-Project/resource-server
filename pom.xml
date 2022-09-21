@@ -37,11 +37,11 @@
     <url>${jasig-site-base}/resource-server/${project.version}</url>
 
     <scm>
-        <connection>scm:git:git://github.com/Jasig/resource-server.git</connection>
-        <developerConnection>scm:git:git@github.com:Jasig/resource-server.git</developerConnection>
-        <url>https://github.com/Jasig/resource-server</url>
-      <tag>HEAD</tag>
-  </scm>
+        <connection>scm:git:https://github.com/uPortal-Project/resource-server.git</connection>
+        <developerConnection>scm:git:https://github.com/uPortal-Project/resource-server.git</developerConnection>
+        <url>https://github.com/uPortal-Project/resource-server.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <modules>
         <module>resource-server-api</module>
