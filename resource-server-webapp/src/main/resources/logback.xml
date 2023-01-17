@@ -27,7 +27,7 @@
 <!--    http://www.qos.ch/shop/products/professionalSupport         -->
 <!--                                                                -->
 <configuration scan="true" scanPeriod="30 seconds">
-  <contextName>ResourceServingWebapp</contextName>
+  <contextName>resource-server</contextName>
 
   <!-- 
    | Propagate log levels to java.util.logging 
