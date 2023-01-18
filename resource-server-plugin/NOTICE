@@ -27,12 +27,17 @@ This project includes:
   Apache Commons IO under Apache License, Version 2.0
   Apache Commons Lang under Apache License, Version 2.0
   Commons Lang under The Apache Software License, Version 2.0
+  Jakarta Activation under EDL 1.0
+  Jakarta XML Binding API under Eclipse Distribution License - v 1.0
+  JavaBeans Activation Framework API jar under CDDL/GPLv2+CE
   javax.annotation API under CDDL + GPLv2 with classpath exception
+  jaxb-api under CDDL 1.1 or GPL2 w/ CPE
   JAXB2 Basics - Runtime under BSD-Style License
   JCL 1.2 implemented over SLF4J under Apache License, Version 2.0
   Maven Artifact under Apache License, Version 2.0
   Maven Model under Apache License, Version 2.0
   Maven Plugin API under Apache License, Version 2.0
+  Old JAXB Runtime under Eclipse Distribution License - v 1.0
   org.eclipse.sisu.inject under Eclipse Public License, Version 1.0
   org.eclipse.sisu.plexus under Eclipse Public License, Version 1.0
   Plexus :: Component Annotations under The Apache Software License, Version 2.0

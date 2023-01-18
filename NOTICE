@@ -53,14 +53,17 @@ This project includes:
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
   Jackson-module-parameter-names under The Apache Software License, Version 2.0
-  Jakarta Activation API jar under EDL 1.0
+  Jakarta Activation under EDL 1.0
   Jakarta Annotations API under EPL 2.0 or GPL2 w/ CPE
   Jakarta XML Binding API under Eclipse Distribution License - v 1.0
   Java Servlet API under CDDL + GPLv2 with classpath exception
+  JavaBeans Activation Framework API jar under CDDL/GPLv2+CE
   JavaServer Pages(TM) API under CDDL + GPLv2 with classpath exception
   javax.annotation API under CDDL + GPLv2 with classpath exception
+  jaxb-api under CDDL 1.1 or GPL2 w/ CPE
   JAXB2 Basics - Runtime under BSD-Style License
   JCL 1.2 implemented over SLF4J under Apache License, Version 2.0
+  js under Mozilla Public License, Version 1.1
   JSON library from Android SDK under Apache License 2.0
   JSON Small and Fast Parser under The Apache Software License, Version 2.0
   JSONassert under The Apache Software License, Version 2.0
@@ -80,6 +83,7 @@ This project includes:
   mockito-core under The MIT License
   mockito-junit-jupiter under The MIT License
   Objenesis under Apache License, Version 2.0
+  Old JAXB Runtime under Eclipse Distribution License - v 1.0
   org.apiguardian:apiguardian-api under The Apache License, Version 2.0
   org.eclipse.sisu.inject under Eclipse Public License, Version 1.0
   org.eclipse.sisu.plexus under Eclipse Public License, Version 1.0
@@ -96,7 +100,6 @@ This project includes:
   Resource Server Plugin under Apache License Version 2.0
   Resource Server Utilities under Apache License Version 2.0
   Resource Server Webapp under Apache License, Version 2.0
-  Rhino under Mozilla Public License
   SLF4J API Module under MIT License
   SnakeYAML under Apache License, Version 2.0
   Spring AOP under Apache License, Version 2.0
@@ -123,7 +126,6 @@ This project includes:
   tomcat-embed-core under Apache License, Version 2.0
   tomcat-embed-el under Apache License, Version 2.0
   tomcat-embed-websocket under Apache License, Version 2.0
-  webjars-locator under MIT
   webjars-locator-core under MIT
   XMLUnit for Java under BSD License
   yui compressor under BSD License
