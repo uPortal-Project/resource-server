@@ -20,163 +20,163 @@
 
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.3</version>
-		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.6.3</version>
+    <relativePath /> <!-- lookup parent from repository -->
+  </parent>
 
-	<!-- These must also be defined here b/c this module inherits from the Spring Boot parent pom,
-	     not the resource-server parent pom. -->
-	<groupId>org.jasig.resourceserver</groupId>
-	<version>1.4.2-SNAPSHOT</version>
+  <!-- These must also be defined here b/c this module inherits from the Spring Boot parent pom,
+  not the resource-server parent pom. -->
+  <groupId>org.jasig.resourceserver</groupId>
+  <version>1.4.2-SNAPSHOT</version>
 
-	<artifactId>resource-server-webapp</artifactId>
-	<packaging>war</packaging>
+  <artifactId>resource-server-webapp</artifactId>
+  <packaging>war</packaging>
 
-	<name>Resource Server Webapp</name>
-	<description>Serves static resources with helpful features like cache control headers, gzip, and webjar support</description>
+  <name>Resource Server Webapp</name>
+  <description>Serves static resources with helpful features like cache control headers, gzip, and webjar support</description>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-                <jaxb-api.version>2.3.1</jaxb-api.version>
-                <jaxb-impl.version>2.3.3</jaxb-impl.version>
-	</properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+    <jaxb-api.version>2.3.1</jaxb-api.version>
+    <jaxb-impl.version>2.3.3</jaxb-impl.version>
+  </properties>
 
-	<distributionManagement>
-		<repository>
-			<id>sonatype-nexus-staging</id>
-			<name>Nexus Release Repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
+  <distributionManagement>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
 
-	<dependencies>
+  <dependencies>
 
-		<!-- Spring Boot dependencies -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-cache</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+    <!-- Spring Boot dependencies -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
 
 
-		<!-- Other dependencies -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>resource-server-content</artifactId>
-			<version>${project.version}</version>
-			<type>war</type>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>resource-server-utils</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>${jaxb-api.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<version>${jaxb-impl.version}</version>
-		</dependency>
+    <!-- Other dependencies -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>resource-server-content</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>resource-server-utils</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>${jaxb-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>${jaxb-impl.version}</version>
+    </dependency>
+    <!--
+      | Allows resources in webjars to be included without their version numbers;
+      | see https://www.webjars.org/documentation#springboot
+    +-->
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>webjars-locator-core</artifactId>
+      <version>0.52</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>ResourceServingWebapp</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <overlays>
+            <overlay>
+              <groupId>org.jasig.resourceserver</groupId>
+              <artifactId>resource-server-content</artifactId>
+              <!-- Prevent the resource-server-content module from adding a web.xml -->
+              <includes>
+                <include>rs/**</include>
+              </includes>
+            </overlay>
+          </overlays>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jasig.maven</groupId>
+        <artifactId>maven-notice-plugin</artifactId>
+        <configuration>
+          <noticeTemplate>../NOTICE.template</noticeTemplate>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.mycila.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
         <!--
-         | Allows resources in webjars to be included without their version numbers;
-         | see https://www.webjars.org/documentation#springboot
-         +-->
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>webjars-locator</artifactId>
-            <version>0.42</version>
-        </dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-	</dependencies>
-
-	<build>
-		<finalName>ResourceServingWebapp</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<overlays>
-						<overlay>
-							<groupId>org.jasig.resourceserver</groupId>
-							<artifactId>resource-server-content</artifactId>
-							<!-- Prevent the resource-server-content module from adding a web.xml -->
-							<includes>
-								<include>rs/**</include>
-							</includes>
-						</overlay>
-					</overlays>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.jasig.maven</groupId>
-				<artifactId>maven-notice-plugin</artifactId>
-				<configuration>
-					<noticeTemplate>../NOTICE.template</noticeTemplate>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
-				<!--
-				 | The following XML disables the maven-license-plugin in this sub-module,
-				 | because...
-				 |   - The files within it are processed (examined and updated) when
-				 |     maven-license-plugin runs at the root level;  and
-				 |   - This sub-project doesn't inherit from jasig-parent
-				 +-->
-				<executions>
-					<execution>
-						<id>disabled</id>
-						<phase />
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>3.0.1</version>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+          | The following XML disables the maven-license-plugin in this sub-module,
+          | because...
+          |   - The files within it are processed (examined and updated) when
+          |     maven-license-plugin runs at the root level;  and
+          |   - This sub-project doesn't inherit from jasig-parent
+        +-->
+        <executions>
+          <execution>
+            <id>disabled</id>
+            <phase />
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
