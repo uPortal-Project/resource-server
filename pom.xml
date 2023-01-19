@@ -38,7 +38,7 @@
 
   <scm>
     <connection>scm:git:git://github.com/uPortal-Project/resource-server.git</connection>
-    <developerConnection>scm:git:git://github.com/uPortal-Project/resource-server.git</developerConnection>
+    <developerConnection>scm:git:git@github.com:uPortal-Project/resource-server.git</developerConnection>
     <url>https://github.com/uPortal-Project/resource-server.git</url>
     <tag>HEAD</tag>
   </scm>
