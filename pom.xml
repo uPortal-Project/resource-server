@@ -18,7 +18,7 @@
     under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:merge="http://maven.apache.org/plugin-merge" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:merge="http://maven.apache.org/plugin-merge" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
     <groupId>org.jasig.parent</groupId>
@@ -29,7 +29,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jasig.resourceserver</groupId>
   <artifactId>resource-server-parent</artifactId>
-  <version>1.4.2-SNAPSHOT</version>
+  <version>1.5.0</version>
   <packaging>pom</packaging>
 
   <name>Resource Server Parent</name>
@@ -40,7 +40,7 @@
     <connection>scm:git:git://github.com/uPortal-Project/resource-server.git</connection>
     <developerConnection>scm:git:git@github.com:uPortal-Project/resource-server.git</developerConnection>
     <url>https://github.com/uPortal-Project/resource-server.git</url>
-    <tag>HEAD</tag>
+    <tag>resource-server-1.5.0</tag>
   </scm>
 
   <modules>
