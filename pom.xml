@@ -56,7 +56,7 @@
     <project.build.sourceVersion>1.8</project.build.sourceVersion>
     <project.build.targetVersion>1.8</project.build.targetVersion>
 
-    <jaxb2basicsVersion>0.12.0</jaxb2basicsVersion>
+    <jaxb2basicsVersion>0.13.1</jaxb2basicsVersion>
     <jaxb-api.version>2.3.1</jaxb-api.version>
     <jaxb-impl.version>2.3.3</jaxb-impl.version>
     <springVersion>5.3.19</springVersion>
