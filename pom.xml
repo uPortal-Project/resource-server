@@ -75,9 +75,9 @@
         <version>31.1-jre</version>
       </dependency>
       <dependency>
-        <groupId>com.yahoo.platform.yui</groupId>
-        <artifactId>yuicompressor</artifactId>
-        <version>2.4.8</version>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>1.15.0</version>
       </dependency>
       <dependency>
         <groupId>commons-codec</groupId>

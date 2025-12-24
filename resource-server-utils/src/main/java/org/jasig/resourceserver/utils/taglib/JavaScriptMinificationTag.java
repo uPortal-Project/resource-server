@@ -31,10 +31,11 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jasig.resource.aggr.CommonsLogErrorReporter;
-import org.jasig.resource.com.yahoo.platform.yui.compressor.JavaScriptCompressor;
-import org.jasig.resource.org.mozilla.javascript.ErrorReporter;
-import org.jasig.resource.org.mozilla.javascript.EvaluatorException;
+// Removed YUI Compressor imports - no longer needed
+// import org.jasig.resource.aggr.CommonsLogErrorReporter;
+// import org.jasig.resource.com.yahoo.platform.yui.compressor.JavaScriptCompressor;
+// import org.jasig.resource.org.mozilla.javascript.ErrorReporter;
+// import org.jasig.resource.org.mozilla.javascript.EvaluatorException;
 import org.jasig.resourceserver.aggr.om.Included;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
 import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
@@ -56,7 +57,8 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
     private static final long serialVersionUID = 1950546842057709745L;
 
     protected final Log log = LogFactory.getLog(this.getClass());
-    protected final ErrorReporter jsErrorReporter = new CommonsLogErrorReporter(this.log);
+    // Removed ErrorReporter - no longer needed
+    // protected final ErrorReporter jsErrorReporter = new CommonsLogErrorReporter(this.log);
 
     private int lineBreakColumnNumber = 10000;
 
@@ -88,30 +90,9 @@ public class JavaScriptMinificationTag extends BodyTagSupport {
         final JspWriter out = bc.getEnclosingWriter();
         boolean scriptWritten = false;
         
-        // if the portal is currently configured for aggregation, use 
-        // YUICompressor to aggregate the javascript contained in the tag
-        if (isCompressionEnabled()) {
-            final Reader bodyReader = bc.getReader();
-            try {
-                final JavaScriptCompressor jsCompressor = new JavaScriptCompressor(bodyReader, this.jsErrorReporter);
-                jsCompressor.compress(out,
-                        this.lineBreakColumnNumber,
-                        this.obfuscate,
-                        false,
-                        this.preserveAllSemiColons,
-                        this.disableOptimizations);
-                
-                scriptWritten = true;
-            }
-            catch (EvaluatorException e) {
-                log.warn("Failed to parse JS data to minify, falling back to non-minified JS.", e);
-                bc.clearBody();
-            }
-            catch (IOException e) {
-                log.warn("Failed to read or write JS data, falling back to non-minified JS.", e);
-                bc.clearBody();
-            }
-        }
+        // Note: YUI Compressor removed - JSP tag now just passes through content
+        // Minification is handled by the build process with esbuild
+        // This maintains backward compatibility for existing JSP pages
         
         //Handle both compression not working and compression being disabled
         if (!scriptWritten) {

@@ -49,11 +49,13 @@ import org.jasig.resourceserver.aggr.om.Css;
 import org.jasig.resourceserver.aggr.om.Included;
 import org.jasig.resourceserver.aggr.om.Js;
 import org.jasig.resourceserver.aggr.om.Resources;
-import org.mozilla.javascript.ErrorReporter;
-import org.mozilla.javascript.EvaluatorException;
+// Removed Mozilla JavaScript imports - no longer needed with esbuild
+// import org.mozilla.javascript.ErrorReporter;
+// import org.mozilla.javascript.EvaluatorException;
 
-import com.yahoo.platform.yui.compressor.CssCompressor;
-import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
+// Replaced YUI Compressor with esbuild
+// import com.yahoo.platform.yui.compressor.CssCompressor;
+// import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
 /**
  * {@link ResourcesAggregator} implementation.
@@ -67,7 +69,8 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
 	private final static String CSS = ".aggr.min.css";
 	private final static String JS = ".aggr.min.js";
 	
-	private final ErrorReporter errorReporter;
+	// Removed ErrorReporter - no longer needed with esbuild
+	// private final ErrorReporter errorReporter;
 	private final ResourcesDao resourcesDao;
     private final String encoding;
 
@@ -85,7 +88,8 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
 	    this.logger = logger != null ? logger : LogFactory.getLog(this.getClass());
 	    this.encoding = encoding;
 	    this.resourcesDao = new ResourcesDaoImpl(this.logger, this.encoding);
-	    this.errorReporter = new CommonsLogErrorReporter(this.logger);
+	    // Removed ErrorReporter initialization
+	    // this.errorReporter = new CommonsLogErrorReporter(this.logger);
     }
 	
 	public ResourcesAggregatorImpl() {
@@ -518,7 +522,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
     }
     
     public interface AggregatorCallback<T extends BasicInclude> {
-        public void compress(Reader reader, Writer writer) throws EvaluatorException, IOException;
+        public void compress(Reader reader, Writer writer) throws IOException;
         public T getAggregateElement(String location, final Deque<T> elements); 
         public T aggregate(Deque<T> list) throws IOException;
         public boolean willAggregate(T first, T second);
@@ -538,9 +542,17 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
         }
 
         @Override
-        public void compress(Reader reader, Writer writer) throws EvaluatorException, IOException {
-            final JavaScriptCompressor jsCompressor = new JavaScriptCompressor(reader, errorReporter);
-            jsCompressor.compress(writer, jsLineBreakColumnNumber, obfuscateJs, displayJsWarnings, preserveAllSemiColons, disableJsOptimizations);
+        public void compress(Reader reader, Writer writer) throws IOException {
+            try {
+                EsbuildCompressor.compressJavaScript(reader, writer);
+            } catch (IOException e) {
+                logger.warn("esbuild compression failed, falling back to uncompressed: " + e.getMessage());
+                // Fallback: copy input to output without compression
+                if (reader.markSupported()) {
+                    reader.reset();
+                }
+                IOUtils.copy(reader, writer);
+            }
         }
 
         @Override
@@ -586,9 +598,17 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
         }
 
         @Override
-        public void compress(Reader reader, Writer writer) throws EvaluatorException, IOException {
-            final CssCompressor jsCompressor = new CssCompressor(reader);
-            jsCompressor.compress(writer, cssLineBreakColumnNumber);
+        public void compress(Reader reader, Writer writer) throws IOException {
+            try {
+                EsbuildCompressor.compressCss(reader, writer);
+            } catch (IOException e) {
+                logger.warn("esbuild compression failed, falling back to uncompressed: " + e.getMessage());
+                // Fallback: copy input to output without compression
+                if (reader.markSupported()) {
+                    reader.reset();
+                }
+                IOUtils.copy(reader, writer);
+            }
         }
 
         @Override

@@ -20,16 +20,17 @@ package org.jasig.resource.aggr;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.ErrorReporter;
-import org.mozilla.javascript.EvaluatorException;
 
 /**
- * YUI compressor error reporter that delegates to commons-logging
+ * Stub class - no longer needed since YUI Compressor was replaced with esbuild
+ * Kept for backward compatibility
  * 
  * @author Eric Dalquist
  * @version $Revision$
+ * @deprecated No longer used - esbuild handles compression
  */
-public class CommonsLogErrorReporter implements ErrorReporter {
+@Deprecated
+public class CommonsLogErrorReporter {
     private final Log logger;
     
     public CommonsLogErrorReporter() {
@@ -39,40 +40,4 @@ public class CommonsLogErrorReporter implements ErrorReporter {
     public CommonsLogErrorReporter(Log logger) {
         this.logger = logger;
     }
-
-    /* (non-Javadoc)
-     * @see org.mozilla.javascript.ErrorReporter#error(java.lang.String, java.lang.String, int, java.lang.String, int)
-     */
-    @Override
-    public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
-        logger.error(
-                "JavaScriptCompressor: " + message + 
-                    ", sourceName: " + sourceName + 
-                    ", line: " + line + 
-                    ", lineSource: " + lineSource + 
-                    ", lineOffset: " + lineOffset);
-    }
-
-    /* (non-Javadoc)
-     * @see org.mozilla.javascript.ErrorReporter#runtimeError(java.lang.String, java.lang.String, int, java.lang.String, int)
-     */
-    @Override
-    public EvaluatorException runtimeError(String message, String sourceName, int line, String lineSource, int lineOffset) {
-        error(message, sourceName, line, lineSource, lineOffset);
-        return new EvaluatorException(message, sourceName, line, lineSource, lineOffset);
-    }
-
-    /* (non-Javadoc)
-     * @see org.mozilla.javascript.ErrorReporter#warning(java.lang.String, java.lang.String, int, java.lang.String, int)
-     */
-    @Override
-    public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
-        logger.warn(
-                "JavaScriptCompressor: " + message + 
-                    ", sourceName: " + sourceName + 
-                    ", line: " + line + 
-                    ", lineSource: " + lineSource + 
-                    ", lineOffset: " + lineOffset);
-    }
-
 }
