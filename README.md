@@ -1,7 +1,7 @@
 # Resource Server
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.jasig.resourceserver/resource-server-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.jasig.resourceserver/resource-server-parent)
-[![build status](https://github.com/uPortal-Project/resource-server/workflows/CI/badge.svg?branch=master)](https://github.com/uPortal-Project/resource-server/actions)
+[![CI](https://github.com/uPortal-Project/resource-server/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/uPortal-Project/resource-server/actions/workflows/CI.yml)
 
 ## Overview
 
