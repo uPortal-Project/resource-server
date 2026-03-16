@@ -81,7 +81,6 @@ public class EsbuildCompressor {
 
             boolean esbuildSucceeded = false;
             try {
-                logger.warn("Launching esbuild, working directory: " + pb.directory() + ", PATH: " + System.getenv("PATH"));
                 Process process = pb.start();
                 boolean finished = false;
                 try {
