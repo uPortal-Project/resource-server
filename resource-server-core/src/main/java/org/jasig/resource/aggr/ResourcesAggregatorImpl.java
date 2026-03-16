@@ -543,16 +543,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
 
         @Override
         public void compress(Reader reader, Writer writer) throws IOException {
-            try {
-                EsbuildCompressor.compressJavaScript(reader, writer);
-            } catch (IOException e) {
-                logger.warn("esbuild compression failed, falling back to uncompressed: " + e.getMessage());
-                // Fallback: copy input to output without compression
-                if (reader.markSupported()) {
-                    reader.reset();
-                }
-                IOUtils.copy(reader, writer);
-            }
+            EsbuildCompressor.compressJavaScript(reader, writer);
         }
 
         @Override
@@ -599,16 +590,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
 
         @Override
         public void compress(Reader reader, Writer writer) throws IOException {
-            try {
-                EsbuildCompressor.compressCss(reader, writer);
-            } catch (IOException e) {
-                logger.warn("esbuild compression failed, falling back to uncompressed: " + e.getMessage());
-                // Fallback: copy input to output without compression
-                if (reader.markSupported()) {
-                    reader.reset();
-                }
-                IOUtils.copy(reader, writer);
-            }
+            EsbuildCompressor.compressCss(reader, writer);
         }
 
         @Override

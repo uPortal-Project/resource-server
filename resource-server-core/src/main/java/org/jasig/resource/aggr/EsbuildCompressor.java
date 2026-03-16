@@ -69,40 +69,34 @@ public class EsbuildCompressor {
                 "--minify",
                 "--outfile=" + outputFile.toString()
             );
-            
-            // Execute esbuild
-            Process process = pb.start();
-            boolean finished = false;
+
+            boolean esbuildSucceeded = false;
             try {
-                finished = process.waitFor(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new IOException("esbuild process interrupted", e);
-            }
-            
-            if (!finished) {
-                process.destroyForcibly();
-                throw new IOException("esbuild process timed out after " + TIMEOUT_SECONDS + " seconds");
-            }
-            
-            int exitCode = process.exitValue();
-            if (exitCode != 0) {
-                // Log error output
-                String errorOutput = IOUtils.toString(process.getErrorStream(), "UTF-8");
-                logger.error("esbuild failed with exit code " + exitCode + ": " + errorOutput);
-                
-                // Fallback: copy input to output without compression
-                logger.warn("Falling back to uncompressed output due to esbuild failure");
-                // Re-read the input file since we can't reset the reader
-                try (FileReader fallbackReader = new FileReader(inputFile.toFile())) {
-                    IOUtils.copy(fallbackReader, writer);
+                Process process = pb.start();
+                boolean finished = false;
+                try {
+                    finished = process.waitFor(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw new IOException("esbuild process interrupted", e);
                 }
-                return;
+
+                if (!finished) {
+                    process.destroyForcibly();
+                    logger.warn("esbuild process timed out, falling back to uncompressed output");
+                } else if (process.exitValue() != 0) {
+                    String errorOutput = IOUtils.toString(process.getErrorStream(), "UTF-8");
+                    logger.warn("esbuild failed (exit code " + process.exitValue() + "), falling back to uncompressed output: " + errorOutput);
+                } else {
+                    esbuildSucceeded = true;
+                }
+            } catch (IOException e) {
+                logger.warn("esbuild not available, falling back to uncompressed output: " + e.getMessage());
             }
-            
-            // Copy compressed output to writer
-            try (FileReader fileReader = new FileReader(outputFile.toFile())) {
-                IOUtils.copy(fileReader, writer);
+
+            // Re-read from inputFile since the original reader is already consumed
+            try (FileReader fallbackReader = new FileReader(esbuildSucceeded ? outputFile.toFile() : inputFile.toFile())) {
+                IOUtils.copy(fallbackReader, writer);
             }
             
         } finally {
