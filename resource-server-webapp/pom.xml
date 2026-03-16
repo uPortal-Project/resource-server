@@ -146,7 +146,7 @@
         <executions>
           <execution>
             <id>prepare-webapp</id>
-            <phase>process-classes</phase>
+            <phase>prepare-package</phase>
             <goals>
               <goal>exploded</goal>
             </goals>
