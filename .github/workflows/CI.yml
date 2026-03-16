@@ -61,6 +61,6 @@ jobs:
         with:
           node-version: '18'
       - name: Install esbuild
-        run: npm install -g esbuild
+        run: npm install esbuild
       - name: Build and Test
         run: mvn -B package

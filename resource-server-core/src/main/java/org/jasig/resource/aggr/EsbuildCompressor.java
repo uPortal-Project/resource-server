@@ -34,7 +34,6 @@ import org.apache.commons.logging.LogFactory;
 public class EsbuildCompressor {
     private static final Log logger = LogFactory.getLog(EsbuildCompressor.class);
     
-    private static final String ESBUILD_COMMAND = "npx esbuild";
     private static final int TIMEOUT_SECONDS = 30;
     
     /**
@@ -72,6 +71,7 @@ public class EsbuildCompressor {
 
             boolean esbuildSucceeded = false;
             try {
+                logger.warn("Launching esbuild, working directory: " + pb.directory() + ", PATH: " + System.getenv("PATH"));
                 Process process = pb.start();
                 boolean finished = false;
                 try {

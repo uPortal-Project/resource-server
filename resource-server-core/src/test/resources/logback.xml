@@ -66,4 +66,8 @@
     <appender-ref ref="C"/>
   </logger>
   -->
+  
+  <logger name="org.jasig.resource.aggr.EsbuildCompressor" additivity="false" level="WARN">
+    <appender-ref ref="C"/>
+  </logger>
 </configuration>
