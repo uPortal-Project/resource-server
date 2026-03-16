@@ -61,13 +61,23 @@ public class EsbuildCompressor {
                 IOUtils.copy(reader, fileWriter);
             }
             
-            // Build esbuild command
-            ProcessBuilder pb = new ProcessBuilder(
-                "npx", "esbuild",
-                inputFile.toString(),
-                "--minify",
-                "--outfile=" + outputFile.toString()
-            );
+            // Build esbuild command - on Windows, .cmd scripts require cmd /c
+            final ProcessBuilder pb;
+            if (System.getProperty("os.name", "").toLowerCase().contains("win")) {
+                pb = new ProcessBuilder(
+                    "cmd", "/c", "npx", "esbuild",
+                    inputFile.toString(),
+                    "--minify",
+                    "--outfile=" + outputFile.toString()
+                );
+            } else {
+                pb = new ProcessBuilder(
+                    "npx", "esbuild",
+                    inputFile.toString(),
+                    "--minify",
+                    "--outfile=" + outputFile.toString()
+                );
+            }
 
             boolean esbuildSucceeded = false;
             try {
