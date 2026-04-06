@@ -45,10 +45,6 @@ public class RelativePathTest {
         
         final String relativePath = RelativePath.getRelativePath(baseDir, destDir);
         
-        final String testPath = ".." + File.separator
-                              + ".." + File.separator
-                              + "e" + File.separator
-                              + "f";
-        assertEquals(testPath, relativePath);
+        assertEquals("../../e/f", relativePath);
     }
 }
