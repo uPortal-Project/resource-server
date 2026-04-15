@@ -56,25 +56,38 @@
         <name>compressJs</name>
         <tag-class>org.jasig.resourceserver.utils.taglib.JavaScriptMinificationTag</tag-class>
         <body-content>JSP</body-content>
+        <description>
+            @deprecated since 1.5.1. This tag no longer minifies its body content
+            and simply passes the content through unchanged. YUI Compressor was
+            removed in 1.5.1 in favor of build-time esbuild minification of files
+            under /rs/**, which does NOT apply to inline JSP script content.
+            Portlet maintainers should remove usages of this tag; it will be
+            removed entirely in a future major release. The attributes below are
+            retained for backward compatibility but have no effect.
+        </description>
         <attribute>
            <name>lineBreakColumnNumber</name>
            <required>false</required>
            <rtexprvalue>true</rtexprvalue>
+           <description>@deprecated Has no effect since 1.5.1.</description>
         </attribute>
         <attribute>
           <name>obfuscate</name>
           <required>false</required>
           <rtexprvalue>true</rtexprvalue>
+          <description>@deprecated Has no effect since 1.5.1.</description>
         </attribute>
         <attribute>
           <name>preserveAllSemiColons</name>
           <required>false</required>
           <rtexprvalue>true</rtexprvalue>
+          <description>@deprecated Has no effect since 1.5.1.</description>
         </attribute>
         <attribute>
           <name>disableOptimizations</name>
           <required>false</required>
           <rtexprvalue>true</rtexprvalue>
+          <description>@deprecated Has no effect since 1.5.1.</description>
         </attribute>
     </tag>
 </taglib>

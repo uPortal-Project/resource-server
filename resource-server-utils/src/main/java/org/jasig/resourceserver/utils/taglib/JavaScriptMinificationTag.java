@@ -20,9 +20,8 @@ package org.jasig.resourceserver.utils.taglib;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyContent;
@@ -31,90 +30,89 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-// Removed YUI Compressor imports - no longer needed
-// import org.jasig.resource.aggr.CommonsLogErrorReporter;
-// import org.jasig.resource.com.yahoo.platform.yui.compressor.JavaScriptCompressor;
-// import org.jasig.resource.org.mozilla.javascript.ErrorReporter;
-// import org.jasig.resource.org.mozilla.javascript.EvaluatorException;
-import org.jasig.resourceserver.aggr.om.Included;
-import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
-import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
 
 /**
- * JavaScriptMinificationTag minifies blocks of in-page javascript.  This
- * tag is designed to be used to wrap javascript only and should be placed inside
- * the <code>&lt;script&gt;</code> tag.
- * 
- * This tag is aware of the Jasig resource aggregator system property convention
- * and will automatically disable minification when that property has been 
- * set to true.
- * 
+ * Backing class for the <code>&lt;rs:compressJs&gt;</code> JSP tag.
+ *
+ * <p><strong>@deprecated since 1.5.1.</strong> This tag no longer minifies its
+ * body content and simply passes the content through unchanged.</p>
+ *
+ * <p>YUI Compressor was removed in 1.5.1 in favor of build-time esbuild
+ * minification of files under <code>/rs/**</code>. That build-time minification
+ * does NOT apply to inline JSP script content, so preserving the previous
+ * behavior would require forking esbuild per tag invocation at request time,
+ * which has been judged too costly compared to the benefit.</p>
+ *
+ * <p>Portlet maintainers should remove usages of this tag. The tag is retained
+ * for binary/source compatibility in 1.5.x and will be removed entirely in a
+ * future major release.</p>
+ *
+ * <p>Attributes on the tag (<code>lineBreakColumnNumber</code>,
+ * <code>obfuscate</code>, <code>preserveAllSemiColons</code>,
+ * <code>disableOptimizations</code>) are retained for backward compatibility
+ * but have no effect.</p>
+ *
  * @author Jen Bourey, jbourey@unicon.net
- * @version $Revision$
+ * @deprecated Use build-time minification via esbuild for files under
+ *             <code>/rs/**</code>. Inline JSP scripts are no longer minified.
  */
+@Deprecated
 public class JavaScriptMinificationTag extends BodyTagSupport {
 
     private static final long serialVersionUID = 1950546842057709745L;
 
-    protected final Log log = LogFactory.getLog(this.getClass());
-    // Removed ErrorReporter - no longer needed
-    // protected final ErrorReporter jsErrorReporter = new CommonsLogErrorReporter(this.log);
+    private static final Log log = LogFactory.getLog(JavaScriptMinificationTag.class);
+
+    /** Used to log the deprecation warning exactly once per JVM. */
+    private static final AtomicBoolean DEPRECATION_LOGGED = new AtomicBoolean(false);
 
     private int lineBreakColumnNumber = 10000;
-
     private boolean obfuscate = true;
     private boolean preserveAllSemiColons = true;
     private boolean disableOptimizations = false;
 
+    /** @deprecated Has no effect since 1.5.1. */
+    @Deprecated
     public void setLineBreakColumnNumber(int lineBreakColumnNumber) {
         this.lineBreakColumnNumber = lineBreakColumnNumber;
     }
 
+    /** @deprecated Has no effect since 1.5.1. */
+    @Deprecated
     public void setObfuscate(boolean obfuscate) {
         this.obfuscate = obfuscate;
     }
 
+    /** @deprecated Has no effect since 1.5.1. */
+    @Deprecated
     public void setPreserveAllSemiColons(boolean preserveAllSemiColons) {
         this.preserveAllSemiColons = preserveAllSemiColons;
     }
 
+    /** @deprecated Has no effect since 1.5.1. */
+    @Deprecated
     public void setDisableOptimizations(boolean disableOptimizations) {
         this.disableOptimizations = disableOptimizations;
     }
 
     @Override
     public int doAfterBody() throws JspException {
-        final BodyContent bc = this.getBodyContent();
+        if (DEPRECATION_LOGGED.compareAndSet(false, true)) {
+            log.warn("<rs:compressJs> is deprecated since resource-server 1.5.1 and"
+                    + " no longer minifies inline JSP script content. The tag now"
+                    + " passes content through unchanged. Remove usages; the tag"
+                    + " will be removed in a future major release.");
+        }
 
-        // getJspWriter to output content
+        final BodyContent bc = this.getBodyContent();
         final JspWriter out = bc.getEnclosingWriter();
-        boolean scriptWritten = false;
-        
-        // Note: YUI Compressor removed - JSP tag now just passes through content
-        // Minification is handled by the build process with esbuild
-        // This maintains backward compatibility for existing JSP pages
-        
-        //Handle both compression not working and compression being disabled
-        if (!scriptWritten) {
-            final Reader bodyReader = bc.getReader();
-            try {
-                IOUtils.copy(bodyReader, out);
-            }
-            catch (IOException e) {
-                throw new JspException("Failed to write JS data to JSP", e);
-            }
+        final Reader bodyReader = bc.getReader();
+        try {
+            IOUtils.copy(bodyReader, out);
+        } catch (IOException e) {
+            throw new JspException("Failed to write JS data to JSP", e);
         }
 
         return SKIP_BODY;
-    }
-    
-    protected boolean isCompressionEnabled() {
-        //See if the ResourcesElementsProvider was provided as a request attribute, if so use the include type support provided there
-        final ServletContext servletContext = this.pageContext.getServletContext();
-        final ResourcesElementsProvider resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(servletContext);
-
-        final HttpServletRequest request = (HttpServletRequest)this.pageContext.getRequest();
-        final Included includedType = resourcesElementsProvider.getIncludedType(request);
-        return Included.AGGREGATED.equals(includedType);
     }
 }
