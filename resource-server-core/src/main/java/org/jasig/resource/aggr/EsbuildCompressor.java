@@ -62,21 +62,22 @@ public class EsbuildCompressor {
             }
             
             // Build esbuild command - on Windows, .cmd scripts require cmd /c
+            // Use granular flags for JS to avoid renaming identifiers, which can break
+            // property access patterns (e.g. layout.navigation.tabs.externalId).
+            // CSS uses --minify since identifier renaming is not a concern there.
             final ProcessBuilder pb;
             if (System.getProperty("os.name", "").toLowerCase().contains("win")) {
-                pb = new ProcessBuilder(
-                    "cmd", "/c", "npx", "esbuild",
-                    inputFile.toString(),
-                    "--minify",
-                    "--outfile=" + outputFile.toString()
-                );
+                pb = type.equals("js")
+                    ? new ProcessBuilder("cmd", "/c", "npx", "esbuild", inputFile.toString(),
+                        "--minify-syntax", "--minify-whitespace", "--outfile=" + outputFile)
+                    : new ProcessBuilder("cmd", "/c", "npx", "esbuild", inputFile.toString(),
+                        "--minify", "--outfile=" + outputFile);
             } else {
-                pb = new ProcessBuilder(
-                    "npx", "esbuild",
-                    inputFile.toString(),
-                    "--minify",
-                    "--outfile=" + outputFile.toString()
-                );
+                pb = type.equals("js")
+                    ? new ProcessBuilder("npx", "esbuild", inputFile.toString(),
+                        "--minify-syntax", "--minify-whitespace", "--outfile=" + outputFile)
+                    : new ProcessBuilder("npx", "esbuild", inputFile.toString(),
+                        "--minify", "--outfile=" + outputFile);
             }
 
             boolean esbuildSucceeded = false;

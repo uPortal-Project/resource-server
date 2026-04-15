@@ -74,14 +74,6 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
 	private final ResourcesDao resourcesDao;
     private final String encoding;
 
-	private int cssLineBreakColumnNumber = 10000;
-	private int jsLineBreakColumnNumber = 10000;
-
-	private boolean obfuscateJs = true;
-	private boolean displayJsWarnings = true;
-	private boolean preserveAllSemiColons = true;
-	private boolean disableJsOptimizations = false;
-	
 	private String digestAlgorithm = "MD5";
 	
 	public ResourcesAggregatorImpl(Log logger, String encoding) {
@@ -106,69 +98,6 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
         this.digestAlgorithm = digestAlgorithm;
     }
 
-
-    public int getCssLineBreakColumnNumber() {
-		return cssLineBreakColumnNumber;
-	}
-	/**
-	 * Maximum line length for minified CSS files, will wrap at this length, defaults to 10000
-	 * @see CssCompressor#compress(java.io.Writer, int)
-	 */
-	public void setCssLineBreakColumnNumber(int cssLineBreakColumnNumber) {
-		this.cssLineBreakColumnNumber = cssLineBreakColumnNumber;
-	}
-
-	public int getJsLineBreakColumnNumber() {
-		return jsLineBreakColumnNumber;
-	}
-	/**
-	 * Maximum line length for minified JS files, will wrap at this length, defaults to 10000
-	 * @see JavaScriptCompressor#compress(java.io.Writer, int, boolean, boolean, boolean, boolean)
-	 */
-	public void setJsLineBreakColumnNumber(int jsLineBreakColumnNumber) {
-		this.jsLineBreakColumnNumber = jsLineBreakColumnNumber;
-	}
-
-	public boolean isObfuscateJs() {
-		return obfuscateJs;
-	}
-	/**
-	 * If the JavaScript should be munged, obfuscating local symbols, defaults to true
-	 */
-	public void setObfuscateJs(boolean obfuscateJs) {
-		this.obfuscateJs = obfuscateJs;
-	}
-
-	public boolean isDisplayJsWarnings() {
-		return displayJsWarnings;
-	}
-	/**
-	 * If JS syntax warnings should be displayed, defaults to true
-	 */
-	public void setDisplayJsWarnings(boolean displayJsWarnings) {
-		this.displayJsWarnings = displayJsWarnings;
-	}
-
-	public boolean isPreserveAllSemiColons() {
-		return preserveAllSemiColons;
-	}
-	/**
-	 * If unnecessary semicolons should be preserved, defaults to true
-	 */
-	public void setPreserveAllSemiColons(boolean preserveAllSemiColons) {
-		this.preserveAllSemiColons = preserveAllSemiColons;
-	}
-
-	public boolean isDisableJsOptimizations() {
-		return disableJsOptimizations;
-	}
-	/**
-	 * Disable micro-optimizations, defaults to false
-	 */
-	public void setDisableJsOptimizations(boolean disableJsOptimizations) {
-		this.disableJsOptimizations = disableJsOptimizations;
-	}
-	
 
 	@Override
     public void aggregate(File resourcesXml, File outputBaseDirectory) throws IOException, AggregationException {
