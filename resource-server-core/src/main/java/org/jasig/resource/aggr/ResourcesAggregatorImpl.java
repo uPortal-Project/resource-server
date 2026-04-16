@@ -36,11 +36,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.BOMInputStream;
-import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jasig.resourceserver.aggr.AggregationException;
 import org.jasig.resourceserver.aggr.ResourcesDao;
 import org.jasig.resourceserver.aggr.ResourcesDaoImpl;
@@ -64,7 +63,7 @@ import org.jasig.resourceserver.aggr.om.Resources;
  *
  */
 public class ResourcesAggregatorImpl implements ResourcesAggregator {
-	protected final Log logger;
+	protected final Logger logger;
 	
 	private final static String CSS = ".aggr.min.css";
 	private final static String JS = ".aggr.min.js";
@@ -76,8 +75,8 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
 
 	private String digestAlgorithm = "MD5";
 	
-	public ResourcesAggregatorImpl(Log logger, String encoding) {
-	    this.logger = logger != null ? logger : LogFactory.getLog(this.getClass());
+	public ResourcesAggregatorImpl(Logger logger, String encoding) {
+	    this.logger = logger != null ? logger : LoggerFactory.getLogger(this.getClass());
 	    this.encoding = encoding;
 	    this.resourcesDao = new ResourcesDaoImpl(this.logger, this.encoding);
 	    // Removed ErrorReporter initialization
@@ -359,7 +358,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
                 .append(" from ")
                 .append(generatePathList(elements));
             
-            this.logger.debug(msg);
+            this.logger.debug(msg.toString());
         }
     }
 

@@ -33,8 +33,8 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jasig.resourceserver.aggr.om.BasicInclude;
 import org.jasig.resourceserver.aggr.om.Css;
 import org.jasig.resourceserver.aggr.om.Included;
@@ -61,7 +61,7 @@ public class ResourcesDaoImpl implements ResourcesDao {
     private final CssResourceLoadCallback CSS_INSTANCE = new CssResourceLoadCallback();
     private final JsResourceLoadCallback JS_INSTANCE = new JsResourceLoadCallback();
     
-    protected final Log logger;
+    protected final Logger logger;
     
     private Map<File, Resources> loadedResources = new ConcurrentHashMap<File, Resources>();
     private String schemaLocation;
@@ -77,8 +77,8 @@ public class ResourcesDaoImpl implements ResourcesDao {
         this(null, encoding);
     }
     
-    public ResourcesDaoImpl(Log logger, String encoding) {
-        this.logger = logger != null ? logger : LogFactory.getLog(this.getClass());
+    public ResourcesDaoImpl(Logger logger, String encoding) {
+        this.logger = logger != null ? logger : LoggerFactory.getLogger(this.getClass());
         this.encoding = encoding;
         
         try {

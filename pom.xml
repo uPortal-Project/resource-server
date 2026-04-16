@@ -21,9 +21,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:merge="http://maven.apache.org/plugin-merge" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
-    <groupId>org.jasig.parent</groupId>
-    <artifactId>jasig-parent</artifactId>
-    <version>41</version>
+    <groupId>org.jasig.portlet</groupId>
+    <artifactId>uportal-portlet-parent</artifactId>
+    <version>43</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -53,8 +53,8 @@
   </modules>
 
   <properties>
-    <project.build.sourceVersion>1.8</project.build.sourceVersion>
-    <project.build.targetVersion>1.8</project.build.targetVersion>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
 
     <jaxb2basicsVersion>0.12.0</jaxb2basicsVersion>
     <jaxb-api.version>2.3.1</jaxb-api.version>
@@ -133,17 +133,7 @@
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>2.0.3</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
         <artifactId>jul-to-slf4j</artifactId>
-        <version>2.0.3</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>log4j-over-slf4j</artifactId>
         <version>2.0.3</version>
       </dependency>
       <dependency>
@@ -262,6 +252,16 @@
         <groupId>xmlunit</groupId>
         <artifactId>xmlunit</artifactId>
         <version>1.6</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-compress</artifactId>
+        <version>1.27.1</version>
+      </dependency>
+      <dependency>
+        <groupId>io.mvnpm</groupId>
+        <artifactId>esbuild-java-bundle-original</artifactId>
+        <version>1.5.2</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

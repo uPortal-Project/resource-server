@@ -58,8 +58,18 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.mvnpm</groupId>
+            <artifactId>esbuild-java-bundle-original</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.mvnpm</groupId>
+                    <artifactId>esbuild-java</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         

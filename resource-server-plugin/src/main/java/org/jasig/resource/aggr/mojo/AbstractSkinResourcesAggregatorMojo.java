@@ -62,7 +62,7 @@ public abstract class AbstractSkinResourcesAggregatorMojo extends AbstractMojo {
     
     protected ResourcesAggregator createResourcesAggregator() {
         final Log log = this.getLog();
-        final CommonsLogToMavenLog logWrapper = new CommonsLogToMavenLog(log);
+        final MavenLoggerToSlf4j logWrapper = new MavenLoggerToSlf4j(log, ResourcesAggregatorImpl.class.getName());
 
         final ResourcesAggregatorImpl aggr = new ResourcesAggregatorImpl(logWrapper, this.encoding);
         

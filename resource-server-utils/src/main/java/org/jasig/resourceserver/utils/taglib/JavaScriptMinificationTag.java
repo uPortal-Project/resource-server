@@ -19,102 +19,38 @@
 package org.jasig.resourceserver.utils.taglib;
 
 import java.io.IOException;
-import java.io.Reader;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-// Removed YUI Compressor imports - no longer needed
-// import org.jasig.resource.aggr.CommonsLogErrorReporter;
-// import org.jasig.resource.com.yahoo.platform.yui.compressor.JavaScriptCompressor;
-// import org.jasig.resource.org.mozilla.javascript.ErrorReporter;
-// import org.jasig.resource.org.mozilla.javascript.EvaluatorException;
-import org.jasig.resourceserver.aggr.om.Included;
-import org.jasig.resourceserver.utils.aggr.ResourcesElementsProvider;
-import org.jasig.resourceserver.utils.aggr.ResourcesElementsProviderUtils;
 
 /**
- * JavaScriptMinificationTag minifies blocks of in-page javascript.  This
- * tag is designed to be used to wrap javascript only and should be placed inside
- * the <code>&lt;script&gt;</code> tag.
- * 
- * This tag is aware of the Jasig resource aggregator system property convention
- * and will automatically disable minification when that property has been 
- * set to true.
- * 
+ * JSP tag that previously minified inline JavaScript using YUI Compressor.
+ * Minification is now handled at build time by esbuild; this tag passes
+ * content through unchanged and is retained for backward compatibility.
+ *
  * @author Jen Bourey, jbourey@unicon.net
  * @version $Revision$
+ * @deprecated In-page JS minification via this tag is no longer performed.
+ *             Use build-time minification instead.
  */
+@Deprecated
 public class JavaScriptMinificationTag extends BodyTagSupport {
 
     private static final long serialVersionUID = 1950546842057709745L;
 
-    protected final Log log = LogFactory.getLog(this.getClass());
-    // Removed ErrorReporter - no longer needed
-    // protected final ErrorReporter jsErrorReporter = new CommonsLogErrorReporter(this.log);
-
-    private int lineBreakColumnNumber = 10000;
-
-    private boolean obfuscate = true;
-    private boolean preserveAllSemiColons = true;
-    private boolean disableOptimizations = false;
-
-    public void setLineBreakColumnNumber(int lineBreakColumnNumber) {
-        this.lineBreakColumnNumber = lineBreakColumnNumber;
-    }
-
-    public void setObfuscate(boolean obfuscate) {
-        this.obfuscate = obfuscate;
-    }
-
-    public void setPreserveAllSemiColons(boolean preserveAllSemiColons) {
-        this.preserveAllSemiColons = preserveAllSemiColons;
-    }
-
-    public void setDisableOptimizations(boolean disableOptimizations) {
-        this.disableOptimizations = disableOptimizations;
-    }
-
     @Override
     public int doAfterBody() throws JspException {
         final BodyContent bc = this.getBodyContent();
-
-        // getJspWriter to output content
         final JspWriter out = bc.getEnclosingWriter();
-        boolean scriptWritten = false;
-        
-        // Note: YUI Compressor removed - JSP tag now just passes through content
-        // Minification is handled by the build process with esbuild
-        // This maintains backward compatibility for existing JSP pages
-        
-        //Handle both compression not working and compression being disabled
-        if (!scriptWritten) {
-            final Reader bodyReader = bc.getReader();
-            try {
-                IOUtils.copy(bodyReader, out);
-            }
-            catch (IOException e) {
-                throw new JspException("Failed to write JS data to JSP", e);
-            }
+        try {
+            IOUtils.copy(bc.getReader(), out);
+        } catch (IOException e) {
+            throw new JspException("Failed to write JS data to JSP", e);
         }
-
         return SKIP_BODY;
-    }
-    
-    protected boolean isCompressionEnabled() {
-        //See if the ResourcesElementsProvider was provided as a request attribute, if so use the include type support provided there
-        final ServletContext servletContext = this.pageContext.getServletContext();
-        final ResourcesElementsProvider resourcesElementsProvider = ResourcesElementsProviderUtils.getOrCreateResourcesElementsProvider(servletContext);
-
-        final HttpServletRequest request = (HttpServletRequest)this.pageContext.getRequest();
-        final Included includedType = resourcesElementsProvider.getIncludedType(request);
-        return Included.AGGREGATED.equals(includedType);
     }
 }
