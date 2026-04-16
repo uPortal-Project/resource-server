@@ -103,9 +103,10 @@ public class EsbuildCompressor {
     }
 
     private static String[] buildCommand(Path binary, Path input, Path output, String[] minifyFlags) {
-        final String[] cmd = new String[minifyFlags.length + 2];
+        final String[] cmd = new String[minifyFlags.length + 3];
         cmd[0] = binary.toString();
-        System.arraycopy(minifyFlags, 0, cmd, 1, minifyFlags.length);
+        cmd[1] = input.toString();
+        System.arraycopy(minifyFlags, 0, cmd, 2, minifyFlags.length);
         cmd[cmd.length - 1] = "--outfile=" + output;
         return cmd;
     }

@@ -20,12 +20,12 @@
 
 -->
 <resources xmlns="http://www.jasig.org/uportal/web/skin">
-    <css compressed="true">../common/css/5x3VytVlKQ9bY85GnpIVaA.aggr.min.css</css>
-    <css conditional="condition!" compressed="true">../common/css/Sva8OqInNO94AzBxyFrm5g.aggr.min.css</css>
+    <css compressed="true">../common/css/G9ZA2ImQ-S4IvQFwfbvEdg.aggr.min.css</css>
+    <css conditional="condition!" compressed="true">../common/css/BteqNvCzfQWAEmSUVhdZhw.aggr.min.css</css>
     <css resource="true">/rs/1.css</css>
     <css resource="true">/rs/2.css</css>
-    <css media="alternate" compressed="true">css/5x3VytVlKQ9bY85GnpIVaA.aggr.min.css</css>
-    <js compressed="true">3oiOu4KykZ6ocroIgSMV5Q.aggr.min.js</js>
+    <css media="alternate" compressed="true">css/G9ZA2ImQ-S4IvQFwfbvEdg.aggr.min.css</css>
+    <js compressed="true">a9lsSOXy-Fudj4LM5oHS2g.aggr.min.js</js>
     <js>/universal.js</js>
-    <js compressed="true">fL--Zb5OqWTCIevxtsspvg.aggr.min.js</js>
+    <js compressed="true">fF4tv4gmvDJ1XU4Nh9dc3w.aggr.min.js</js>
 </resources>
