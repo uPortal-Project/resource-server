@@ -56,7 +56,7 @@
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
 
-    <jaxb2basicsVersion>0.12.0</jaxb2basicsVersion>
+    <jaxb2basicsVersion>2.0.12</jaxb2basicsVersion>
     <jaxb-api.version>2.3.1</jaxb-api.version>
     <jaxb-impl.version>2.3.3</jaxb-impl.version>
     <springVersion>5.3.20</springVersion>
