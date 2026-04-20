@@ -261,7 +261,7 @@
       <dependency>
         <groupId>io.mvnpm</groupId>
         <artifactId>esbuild-java-bundle-original</artifactId>
-        <version>1.5.2</version>
+        <version>1.5.6</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
