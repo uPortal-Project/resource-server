@@ -77,14 +77,21 @@ public class EsbuildCompressor {
 
             boolean succeeded = false;
             try {
-                final Process process = new ProcessBuilder(command).start();
+                final Process process = new ProcessBuilder(command).redirectErrorStream(true).start();
+                final StringBuilder output = new StringBuilder();
+                final Thread drainer = new Thread(() -> {
+                    try { output.append(IOUtils.toString(process.getInputStream(), StandardCharsets.UTF_8)); }
+                    catch (IOException ignored) {}
+                });
+                drainer.start();
                 final boolean finished = process.waitFor(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+                drainer.join(TIMEOUT_SECONDS * 1000);
                 if (!finished) {
                     process.destroyForcibly();
                     logger.warn("esbuild timed out, falling back to uncompressed output");
                 } else if (process.exitValue() != 0) {
                     logger.warn("esbuild failed (exit {}), falling back to uncompressed output: {}",
-                            process.exitValue(), IOUtils.toString(process.getErrorStream(), StandardCharsets.UTF_8));
+                            process.exitValue(), output);
                 } else {
                     succeeded = true;
                 }

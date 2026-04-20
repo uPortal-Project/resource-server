@@ -20,6 +20,7 @@ package org.jasig.resource.aggr;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -58,5 +59,15 @@ public class EsbuildCompressorTest {
         assertTrue("Minified CSS should be smaller than input", minified.length() < input.length());
         assertFalse("Minified CSS should not contain block comments", minified.contains("/*"));
         assertTrue("Minified CSS should preserve selector", minified.contains(".selector"));
+    }
+
+    @Test
+    public void testInvalidJsFallsBackToInput() throws Exception {
+        final String input = "this is not valid javascript }{}{";
+        final StringWriter output = new StringWriter();
+
+        EsbuildCompressor.compressJavaScript(new StringReader(input), output);
+
+        assertEquals("Invalid JS should fall back to uncompressed input", input, output.toString());
     }
 }
