@@ -282,6 +282,9 @@ build/Release
 node_modules/
 jspm_packages/
 
+# frontend-maven-plugin downloads
+resource-server-webapp/node/
+
 # Typescript v1 declaration files
 typings/
 

@@ -36,11 +36,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.BOMInputStream;
-import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jasig.resourceserver.aggr.AggregationException;
 import org.jasig.resourceserver.aggr.ResourcesDao;
 import org.jasig.resourceserver.aggr.ResourcesDaoImpl;
@@ -49,11 +48,13 @@ import org.jasig.resourceserver.aggr.om.Css;
 import org.jasig.resourceserver.aggr.om.Included;
 import org.jasig.resourceserver.aggr.om.Js;
 import org.jasig.resourceserver.aggr.om.Resources;
-import org.mozilla.javascript.ErrorReporter;
-import org.mozilla.javascript.EvaluatorException;
+// Removed Mozilla JavaScript imports - no longer needed with esbuild
+// import org.mozilla.javascript.ErrorReporter;
+// import org.mozilla.javascript.EvaluatorException;
 
-import com.yahoo.platform.yui.compressor.CssCompressor;
-import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
+// Replaced YUI Compressor with esbuild
+// import com.yahoo.platform.yui.compressor.CssCompressor;
+// import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
 /**
  * {@link ResourcesAggregator} implementation.
@@ -62,30 +63,24 @@ import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
  *
  */
 public class ResourcesAggregatorImpl implements ResourcesAggregator {
-	protected final Log logger;
+	protected final Logger logger;
 	
 	private final static String CSS = ".aggr.min.css";
 	private final static String JS = ".aggr.min.js";
 	
-	private final ErrorReporter errorReporter;
+	// Removed ErrorReporter - no longer needed with esbuild
+	// private final ErrorReporter errorReporter;
 	private final ResourcesDao resourcesDao;
     private final String encoding;
 
-	private int cssLineBreakColumnNumber = 10000;
-	private int jsLineBreakColumnNumber = 10000;
-
-	private boolean obfuscateJs = true;
-	private boolean displayJsWarnings = true;
-	private boolean preserveAllSemiColons = true;
-	private boolean disableJsOptimizations = false;
-	
 	private String digestAlgorithm = "MD5";
 	
-	public ResourcesAggregatorImpl(Log logger, String encoding) {
-	    this.logger = logger != null ? logger : LogFactory.getLog(this.getClass());
+	public ResourcesAggregatorImpl(Logger logger, String encoding) {
+	    this.logger = logger != null ? logger : LoggerFactory.getLogger(this.getClass());
 	    this.encoding = encoding;
 	    this.resourcesDao = new ResourcesDaoImpl(this.logger, this.encoding);
-	    this.errorReporter = new CommonsLogErrorReporter(this.logger);
+	    // Removed ErrorReporter initialization
+	    // this.errorReporter = new CommonsLogErrorReporter(this.logger);
     }
 	
 	public ResourcesAggregatorImpl() {
@@ -102,69 +97,6 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
         this.digestAlgorithm = digestAlgorithm;
     }
 
-
-    public int getCssLineBreakColumnNumber() {
-		return cssLineBreakColumnNumber;
-	}
-	/**
-	 * Maximum line length for minified CSS files, will wrap at this length, defaults to 10000
-	 * @see CssCompressor#compress(java.io.Writer, int)
-	 */
-	public void setCssLineBreakColumnNumber(int cssLineBreakColumnNumber) {
-		this.cssLineBreakColumnNumber = cssLineBreakColumnNumber;
-	}
-
-	public int getJsLineBreakColumnNumber() {
-		return jsLineBreakColumnNumber;
-	}
-	/**
-	 * Maximum line length for minified JS files, will wrap at this length, defaults to 10000
-	 * @see JavaScriptCompressor#compress(java.io.Writer, int, boolean, boolean, boolean, boolean)
-	 */
-	public void setJsLineBreakColumnNumber(int jsLineBreakColumnNumber) {
-		this.jsLineBreakColumnNumber = jsLineBreakColumnNumber;
-	}
-
-	public boolean isObfuscateJs() {
-		return obfuscateJs;
-	}
-	/**
-	 * If the JavaScript should be munged, obfuscating local symbols, defaults to true
-	 */
-	public void setObfuscateJs(boolean obfuscateJs) {
-		this.obfuscateJs = obfuscateJs;
-	}
-
-	public boolean isDisplayJsWarnings() {
-		return displayJsWarnings;
-	}
-	/**
-	 * If JS syntax warnings should be displayed, defaults to true
-	 */
-	public void setDisplayJsWarnings(boolean displayJsWarnings) {
-		this.displayJsWarnings = displayJsWarnings;
-	}
-
-	public boolean isPreserveAllSemiColons() {
-		return preserveAllSemiColons;
-	}
-	/**
-	 * If unnecessary semicolons should be preserved, defaults to true
-	 */
-	public void setPreserveAllSemiColons(boolean preserveAllSemiColons) {
-		this.preserveAllSemiColons = preserveAllSemiColons;
-	}
-
-	public boolean isDisableJsOptimizations() {
-		return disableJsOptimizations;
-	}
-	/**
-	 * Disable micro-optimizations, defaults to false
-	 */
-	public void setDisableJsOptimizations(boolean disableJsOptimizations) {
-		this.disableJsOptimizations = disableJsOptimizations;
-	}
-	
 
 	@Override
     public void aggregate(File resourcesXml, File outputBaseDirectory) throws IOException, AggregationException {
@@ -426,7 +358,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
                 .append(" from ")
                 .append(generatePathList(elements));
             
-            this.logger.debug(msg);
+            this.logger.debug(msg.toString());
         }
     }
 
@@ -518,7 +450,7 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
     }
     
     public interface AggregatorCallback<T extends BasicInclude> {
-        public void compress(Reader reader, Writer writer) throws EvaluatorException, IOException;
+        public void compress(Reader reader, Writer writer) throws IOException;
         public T getAggregateElement(String location, final Deque<T> elements); 
         public T aggregate(Deque<T> list) throws IOException;
         public boolean willAggregate(T first, T second);
@@ -538,9 +470,8 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
         }
 
         @Override
-        public void compress(Reader reader, Writer writer) throws EvaluatorException, IOException {
-            final JavaScriptCompressor jsCompressor = new JavaScriptCompressor(reader, errorReporter);
-            jsCompressor.compress(writer, jsLineBreakColumnNumber, obfuscateJs, displayJsWarnings, preserveAllSemiColons, disableJsOptimizations);
+        public void compress(Reader reader, Writer writer) throws IOException {
+            EsbuildCompressor.compressJavaScript(reader, writer);
         }
 
         @Override
@@ -586,9 +517,8 @@ public class ResourcesAggregatorImpl implements ResourcesAggregator {
         }
 
         @Override
-        public void compress(Reader reader, Writer writer) throws EvaluatorException, IOException {
-            final CssCompressor jsCompressor = new CssCompressor(reader);
-            jsCompressor.compress(writer, cssLineBreakColumnNumber);
+        public void compress(Reader reader, Writer writer) throws IOException {
+            EsbuildCompressor.compressCss(reader, writer);
         }
 
         @Override

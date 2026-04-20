@@ -34,30 +34,6 @@ import org.jasig.resource.aggr.ResourcesAggregatorImpl;
 public abstract class AbstractSkinResourcesAggregatorMojo extends AbstractMojo {
 
     /**
-     * @parameter default-value="10000"
-     */
-    protected int cssLineBreakColumnNumber = 10000;
-    /**
-     * @parameter default-value="false"
-     */
-    protected boolean disableJsOptimizations = false;
-    /**
-     * @parameter default-value="true"
-     */
-    protected boolean displayJsWarnings = true;
-    /**
-     * @parameter default-value="10000"
-     */
-    protected int jsLineBreakColumnNumber = 10000;
-    /**
-     * @parameter default-value="true"
-     */
-    protected boolean obfuscateJs = true;
-    /**
-     * @parameter default-value="true"
-     */
-    protected boolean preserveAllSemiColons = true;
-    /**
      * @parameter default-value="MD5"
      */
     protected String digestAlgorithm = "MD5";
@@ -86,16 +62,10 @@ public abstract class AbstractSkinResourcesAggregatorMojo extends AbstractMojo {
     
     protected ResourcesAggregator createResourcesAggregator() {
         final Log log = this.getLog();
-        final CommonsLogToMavenLog logWrapper = new CommonsLogToMavenLog(log);
+        final MavenLoggerToSlf4j logWrapper = new MavenLoggerToSlf4j(log, ResourcesAggregatorImpl.class.getName());
 
         final ResourcesAggregatorImpl aggr = new ResourcesAggregatorImpl(logWrapper, this.encoding);
         
-        aggr.setCssLineBreakColumnNumber(cssLineBreakColumnNumber);
-        aggr.setDisableJsOptimizations(disableJsOptimizations);
-        aggr.setDisplayJsWarnings(displayJsWarnings);
-        aggr.setJsLineBreakColumnNumber(jsLineBreakColumnNumber);
-        aggr.setObfuscateJs(obfuscateJs);
-        aggr.setPreserveAllSemiColons(preserveAllSemiColons);
         aggr.setDigestAlgorithm(digestAlgorithm);
         
         return aggr;
