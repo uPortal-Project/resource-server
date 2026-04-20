@@ -1,5 +1,5 @@
 const esbuild = require('esbuild');
-const glob = require('glob');
+const { globSync } = require('glob');
 const path = require('path');
 const fs = require('fs');
 
@@ -13,7 +13,7 @@ if (!fs.existsSync(targetDir)) {
 console.log(`Working in target directory: ${targetDir}`);
 
 // Get all JS and CSS files in target, excluding YUI compressor excludes
-const allJsFiles = glob.sync(`${targetDir}rs/**/*.js`, {
+const allJsFiles = globSync(`${targetDir}rs/**/*.js`, {
   ignore: [
     '**/*.min.js',
     '**/rs/ckeditor/**',
@@ -23,7 +23,7 @@ const allJsFiles = glob.sync(`${targetDir}rs/**/*.js`, {
   ]
 });
 
-const allCssFiles = glob.sync(`${targetDir}rs/**/*.css`, {
+const allCssFiles = globSync(`${targetDir}rs/**/*.css`, {
   ignore: [
     '**/*.min.css',
     '**/rs/ckeditor/**',
