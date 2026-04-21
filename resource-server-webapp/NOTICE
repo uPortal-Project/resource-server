@@ -24,27 +24,37 @@ This project includes:
     http://www.famfamfam.com/lab/icons/silk/
  
   Apache Commons Codec under Apache License, Version 2.0
-  Apache Commons IO under Apache License, Version 2.0
+  Apache Commons Compress under Apache-2.0
+  Apache Commons IO under Apache-2.0
+  Apache Commons Lang under Apache License, Version 2.0
   Apache Log4j API under Apache License, Version 2.0
   Apache Log4j to SLF4J Adapter under Apache License, Version 2.0
   asm under BSD-3-Clause
   ASM based accessors helper used by json-smart under The Apache Software License, Version 2.0
   AssertJ fluent assertions under Apache License, Version 2.0
+  bootstrap under MIT
   Byte Buddy (without dependencies) under Apache License, Version 2.0
   Byte Buddy agent under Apache License, Version 2.0
   Checker Qual under The MIT License
   ClassGraph under The MIT License (MIT)
   Commons Lang under The Apache Software License, Version 2.0
+  datatables.net under MIT
+  datatables.net-bs5 under MIT
+  datatables.net-searchpanes under MIT
+  datatables.net-searchpanes-bs5 under MIT
+  datatables.net-select under MIT
+  datatables.net-select-bs5 under MIT
   Ehcache Core under The Apache Software License, Version 2.0
   Ehcache Web Filters under The Apache Software License, Version 2.0
   error-prone annotations under Apache 2.0
+  Esbuild wrapper for Java bundled with original binaries under MIT License
   FindBugs-jsr305 under The Apache Software License, Version 2.0
   Guava InternalFutureFailureAccess and InternalFutures under The Apache Software License, Version 2.0
   Guava ListenableFuture only under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under Apache License, Version 2.0
   Hamcrest under BSD License 3
   Hamcrest Core under BSD License 3
-  J2ObjC Annotations under The Apache Software License, Version 2.0
+  J2ObjC Annotations under Apache License, Version 2.0
   Jackson datatype: jdk8 under The Apache Software License, Version 2.0
   Jackson datatype: JSR310 under The Apache Software License, Version 2.0
   Jackson-annotations under The Apache Software License, Version 2.0
@@ -52,12 +62,15 @@ This project includes:
   jackson-databind under The Apache Software License, Version 2.0
   Jackson-module-parameter-names under The Apache Software License, Version 2.0
   Jakarta Activation under EDL 1.0
+  Jakarta Activation API jar under EDL 1.0
   Jakarta Annotations API under EPL 2.0 or GPL2 w/ CPE
   Jakarta XML Binding API under Eclipse Distribution License - v 1.0
   JavaBeans Activation Framework API jar under CDDL/GPLv2+CE
   jaxb-api under CDDL 1.1 or GPL2 w/ CPE
   JAXB2 Basics - Runtime under BSD-Style License
-  JCL 1.2 implemented over SLF4J under Apache License, Version 2.0
+  jquery under MIT
+  jquery-migrate under MIT
+  jquery-ui under MIT
   JSON library from Android SDK under Apache License 2.0
   JSON Small and Fast Parser under The Apache Software License, Version 2.0
   JSONassert under The Apache Software License, Version 2.0
