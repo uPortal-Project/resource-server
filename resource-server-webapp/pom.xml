@@ -266,8 +266,9 @@
         </executions>
       </plugin>
       <plugin>
+        <!-- Renamed from maven-notice-plugin to notice-maven-plugin; v2.0.0 inherited from uportal-portlet-parent works on Java 11. -->
         <groupId>org.jasig.maven</groupId>
-        <artifactId>maven-notice-plugin</artifactId>
+        <artifactId>notice-maven-plugin</artifactId>
         <configuration>
           <noticeTemplate>../NOTICE.template</noticeTemplate>
         </configuration>

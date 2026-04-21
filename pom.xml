@@ -290,8 +290,14 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <!--
+            | Artifact was renamed from maven-notice-plugin to notice-maven-plugin.
+            | The old 1.1.0 coordinate depends on javax.xml.bind.JAXBException which
+            | was removed from the JDK in Java 9+, so it fails on Java 11. The new
+            | artifactId inherits v2.0.0 from uportal-portlet-parent.
+          +-->
           <groupId>org.jasig.maven</groupId>
-          <artifactId>maven-notice-plugin</artifactId>
+          <artifactId>notice-maven-plugin</artifactId>
           <configuration>
             <noticeTemplate>NOTICE.template</noticeTemplate>
           </configuration>

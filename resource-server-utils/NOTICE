@@ -23,8 +23,10 @@ This project includes:
   The famfamfam Silk Icons under the Creative Commons Attribution 3.0 License
     http://www.famfamfam.com/lab/icons/silk/
  
-  Apache Commons Codec under Apache License, Version 2.0
-  Apache Commons IO under Apache License, Version 2.0
+  Apache Commons Codec under Apache-2.0
+  Apache Commons Compress under Apache-2.0
+  Apache Commons IO under Apache-2.0
+  Apache Commons Lang under Apache-2.0
   Byte Buddy (without dependencies) under Apache License, Version 2.0
   Byte Buddy agent under Apache License, Version 2.0
   Checker Qual under The MIT License
@@ -32,13 +34,14 @@ This project includes:
   Ehcache Core under The Apache Software License, Version 2.0
   Ehcache Web Filters under The Apache Software License, Version 2.0
   error-prone annotations under Apache 2.0
+  Esbuild wrapper for Java bundled with original binaries under MIT License
   Expression Language 3.0 API under CDDL + GPLv2 with classpath exception
   FindBugs-jsr305 under The Apache Software License, Version 2.0
   Guava InternalFutureFailureAccess and InternalFutures under The Apache Software License, Version 2.0
   Guava ListenableFuture only under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under Apache License, Version 2.0
   Hamcrest Core under New BSD License
-  J2ObjC Annotations under The Apache Software License, Version 2.0
+  J2ObjC Annotations under Apache License, Version 2.0
   Jakarta Activation under EDL 1.0
   Jakarta XML Binding API under Eclipse Distribution License - v 1.0
   Java Servlet API under CDDL + GPLv2 with classpath exception
@@ -46,17 +49,16 @@ This project includes:
   JavaServer Pages(TM) API under CDDL + GPLv2 with classpath exception
   jaxb-api under CDDL 1.1 or GPL2 w/ CPE
   JAXB2 Basics - Runtime under BSD-Style License
-  JCL 1.2 implemented over SLF4J under Apache License, Version 2.0
   JUnit under Eclipse Public License 1.0
   Logback Classic Module under Eclipse Public License - v 1.0 or GNU Lesser General Public License
   Logback Core Module under Eclipse Public License - v 1.0 or GNU Lesser General Public License
-  mockito-core under The MIT License
+  mockito-core under MIT
   Objenesis under Apache License, Version 2.0
   Old JAXB Runtime under Eclipse Distribution License - v 1.0
   Resource Server API under Apache License Version 2.0
   Resource Server Core under Apache License Version 2.0
   Resource Server Utilities under Apache License Version 2.0
-  SLF4J API Module under MIT License
+  SLF4J API Module under MIT
   Spring AOP under Apache License, Version 2.0
   Spring Beans under Apache License, Version 2.0
   Spring Commons Logging Bridge under Apache License, Version 2.0
