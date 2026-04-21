@@ -43,6 +43,19 @@
     <tag>HEAD</tag>
   </scm>
 
+  <!--
+    | Required by the Central Publisher Portal; without it, the 'manual
+    | upload' step returns HTTP 400 with 'Developers information is missing'
+    | for every submodule. Inherited by child modules via standard POM
+    | inheritance. Matches the pattern uPortal uses in its build.gradle.
+  +-->
+  <developers>
+    <developer>
+      <organization>uPortal Developers</organization>
+      <organizationUrl>https://github.com/uPortal-Project/resource-server/graphs/contributors</organizationUrl>
+    </developer>
+  </developers>
+
   <modules>
     <module>resource-server-api</module>
     <module>resource-server-content</module>
