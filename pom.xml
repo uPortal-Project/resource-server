@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.jasig.portlet</groupId>
     <artifactId>uportal-portlet-parent</artifactId>
-    <version>43</version>
+    <version>44</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -42,19 +42,6 @@
     <url>https://github.com/uPortal-Project/resource-server.git</url>
     <tag>HEAD</tag>
   </scm>
-
-  <!--
-    | Required by the Central Publisher Portal; without it, the 'manual
-    | upload' step returns HTTP 400 with 'Developers information is missing'
-    | for every submodule. Inherited by child modules via standard POM
-    | inheritance. Matches the pattern uPortal uses in its build.gradle.
-  +-->
-  <developers>
-    <developer>
-      <organization>uPortal Developers</organization>
-      <organizationUrl>https://github.com/uPortal-Project/resource-server/graphs/contributors</organizationUrl>
-    </developer>
-  </developers>
 
   <modules>
     <module>resource-server-api</module>
@@ -278,26 +265,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <!--
-    | Central Publisher Portal (OSSRH Staging API compatibility service).
-    | Shadows the stale oss.sonatype.org URLs inherited from
-    | org.sonatype.oss:oss-parent:9 (via uportal-portlet-parent). Server id
-    | 'sonatype-nexus-staging' is preserved so existing ~/.m2/settings.xml
-    | credentials keep working; the URL is what changed.
-  +-->
-  <distributionManagement>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Central Portal Release Repository</name>
-      <url>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/</url>
-    </repository>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Central Portal Snapshot Repository</name>
-      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
 
   <build>
     <pluginManagement>
