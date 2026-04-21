@@ -360,6 +360,15 @@
             <exclude>**/src/test/resources/skin-test1/jquery.hoverIntent.bom.js</exclude>
             <exclude>.idea/**</exclude>  <!-- for intelliJ Idea -->
             <exclude>overlays/**</exclude>  <!-- for intelliJ Idea -->
+            <!--
+              | frontend-maven-plugin installs a Node binary and its bundled npm
+              | into resource-server-webapp/node/. Applying a license header there
+              | breaks shebangs (e.g. npm-cli.js), causing `npm install` to fail
+              | with 'SyntaxError: Invalid or unexpected token'. Node.js only
+              | recognizes a shebang when it is literally the first line.
+            +-->
+            <exclude>**/node/**</exclude>
+            <exclude>**/node_modules/**</exclude>
           </excludes>
           <mapping>
             <tld>XML_STYLE</tld>
