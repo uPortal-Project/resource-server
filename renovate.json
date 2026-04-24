@@ -1,11 +1,51 @@
 {
-    "extends": [
-      "config:base",
-      ":rebaseStalePrs",
-      ":preserveSemverRanges"
-    ],
-    "maven": {
-      "enabled": true
+  "extends": [
+    "config:base",
+    ":rebaseStalePrs",
+    ":preserveSemverRanges"
+  ],
+  "maven": {
+    "enabled": true
+  },
+  "renovateFork": true,
+  "packageRules": [
+    {
+      "matchPackagePrefixes": ["org.springframework:"],
+      "allowedVersions": "< 6.0",
+      "description": "This library is pinned to Spring Framework 5.3.x. Spring 6+ requires Jakarta EE + Java 17+; consumers (portlets) are still on javax.servlet and Java 11."
     },
-    "renovateFork": true
+    {
+      "matchPackageNames": [
+        "com.sun.xml.bind:jaxb-impl",
+        "jakarta.xml.bind:jakarta.xml.bind-api",
+        "org.glassfish.jaxb:jaxb-runtime"
+      ],
+      "allowedVersions": "< 3.0",
+      "description": "The 2.x releases preserve the javax.xml.bind.* package namespace. 3+ moves to jakarta.xml.bind as part of Jakarta EE 9+."
+    },
+    {
+      "matchPackageNames": ["javax.servlet:javax.servlet-api"],
+      "allowedVersions": "< 5.0",
+      "description": "Servlet API 5+ is in the Jakarta EE namespace. Consumers of this library run on Tomcat 8.5/9 (Servlet 3.1) under javax.servlet."
+    },
+    {
+      "matchPackageNames": ["javax.servlet.jsp:javax.servlet.jsp-api"],
+      "allowedVersions": "< 3.0",
+      "description": "JSP API 3.x moves to the jakarta.servlet.jsp package. Consumers remain on javax."
+    },
+    {
+      "matchPackageNames": ["org.codehaus.plexus:plexus-archiver"],
+      "allowedVersions": "< 4.10.0",
+      "description": "plexus-archiver 4.10+ requires a newer commons-io than the one bundled with maven-war-plugin 3.4.0."
+    },
+    {
+      "matchPackageNames": [
+        "org.mockito:mockito-core",
+        "org.mockito:mockito-inline",
+        "org.mockito:mockito-junit-jupiter"
+      ],
+      "allowedVersions": "< 5.0",
+      "description": "Mockito 5 uses the inline MockMaker by default; its bundled byte-buddy references ClassFileVersion.JAVA_V21. Stay on Mockito 4.x until byte-buddy can be reconciled."
+    }
+  ]
 }
