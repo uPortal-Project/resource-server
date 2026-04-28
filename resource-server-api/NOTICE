@@ -32,8 +32,8 @@ This project includes:
   jaxb-api under CDDL 1.1 or GPL2 w/ CPE
   JAXB2 Basics - Runtime under BSD-Style License
   JUnit under Eclipse Public License 1.0
-  Logback Classic Module under Eclipse Public License - v 1.0 or GNU Lesser General Public License
-  Logback Core Module under Eclipse Public License - v 1.0 or GNU Lesser General Public License
+  Logback Classic Module under Eclipse Public License - v 2.0 or GNU Lesser General Public License
+  Logback Core Module under Eclipse Public License - v 2.0 or GNU Lesser General Public License
   Old JAXB Runtime under Eclipse Distribution License - v 1.0
   Resource Server API under Apache License Version 2.0
   SLF4J API Module under MIT
