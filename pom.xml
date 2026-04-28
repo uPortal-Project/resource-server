@@ -246,7 +246,7 @@
             <reportPlugins combine.children="append">
               <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.10.0</version>
+                <version>3.12.0</version>
                 <configuration>
                   <doclint>none</doclint>
                   <links merge:children="BOTH" merge:removeDuplicates="true">
