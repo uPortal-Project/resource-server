@@ -6,6 +6,6 @@
   },
   "devDependencies": {
     "esbuild": "^0.28.0",
-    "glob": "^10.3.0"
+    "glob": "^13.0.0"
   }
 }
