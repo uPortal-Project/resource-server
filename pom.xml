@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.jasig.portlet</groupId>
     <artifactId>uportal-portlet-parent</artifactId>
-    <version>48</version>
+    <version>49</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -278,29 +278,29 @@
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
         <configuration>
-          <basedir>${basedir}</basedir>
-          <header>${jasig-short-license-url}</header>
-          <aggregate>true</aggregate>
-          <excludes>
-            <exclude>LICENSE</exclude>
-            <exclude>NOTICE</exclude>
-            <exclude>**/src/main/webapp/rs/**</exclude>
+          <!--
+            | Parent v49 provides basedir, header URL, aggregate=true, and
+            | the standard excludes (LICENSE, NOTICE, .idea/**, overlays/**,
+            | **/src/main/webapp/rs/**) plus the <tld> mapping. Local block
+            | keeps only resource-server-specific excludes.
+            |
+            | combine.children="append" ensures the parent's <excludes>
+            | list merges with our additions instead of being replaced.
+            | Without it the parent's **/src/main/webapp/rs/** is dropped
+            | and ~6500 vendored frontend assets fail license:check.
+            |
+            | **/node/**, **/node_modules/**: frontend-maven-plugin installs
+            | a Node binary and its bundled npm into resource-server-webapp/
+            | node/. Applying a license header there breaks shebangs (e.g.
+            | npm-cli.js), causing `npm install` to fail with 'SyntaxError:
+            | Invalid or unexpected token'. Node.js only recognizes a shebang
+            | when it is literally the first line.
+          +-->
+          <excludes combine.children="append">
             <exclude>**/src/test/resources/skin-test1/jquery.hoverIntent.bom.js</exclude>
-            <exclude>.idea/**</exclude>  <!-- for intelliJ Idea -->
-            <exclude>overlays/**</exclude>  <!-- for intelliJ Idea -->
-            <!--
-              | frontend-maven-plugin installs a Node binary and its bundled npm
-              | into resource-server-webapp/node/. Applying a license header there
-              | breaks shebangs (e.g. npm-cli.js), causing `npm install` to fail
-              | with 'SyntaxError: Invalid or unexpected token'. Node.js only
-              | recognizes a shebang when it is literally the first line.
-            +-->
             <exclude>**/node/**</exclude>
             <exclude>**/node_modules/**</exclude>
           </excludes>
-          <mapping>
-            <tld>XML_STYLE</tld>
-          </mapping>
         </configuration>
       </plugin>
       <plugin>
