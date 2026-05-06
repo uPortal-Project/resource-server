@@ -55,7 +55,7 @@ public interface ResourcesElementsProvider {
     /**
      * Default context path used for the Resource Server if no {@link #RESOURCE_CONTEXT_INIT_PARAM} is specified 
      */
-    public static final String DEFAULT_RESOURCE_CONTEXT = "/ResourceServingWebapp";
+    public static final String DEFAULT_RESOURCE_CONTEXT = "/resource-server";
     
     /**
      * Resolve the full path to the specified resource based on the availability of the resource-server.
