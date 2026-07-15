@@ -146,7 +146,7 @@
     <dependency>
       <groupId>org.webjars.npm</groupId>
       <artifactId>ckeditor4</artifactId>
-      <version>4.22.1</version>
+      <version>4.25.1</version>
     </dependency>
     <dependency>
       <groupId>org.webjars.npm</groupId>
