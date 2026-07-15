@@ -167,12 +167,12 @@
     <dependency>
       <groupId>org.webjars.npm</groupId>
       <artifactId>datatables.net</artifactId>
-      <version>2.3.7</version>
+      <version>2.3.8</version>
     </dependency>
     <dependency>
       <groupId>org.webjars.npm</groupId>
       <artifactId>datatables.net-bs5</artifactId>
-      <version>2.3.7</version>
+      <version>2.3.8</version>
     </dependency>
     <dependency>
       <groupId>org.webjars.npm</groupId>
