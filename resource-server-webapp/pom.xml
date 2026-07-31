@@ -167,7 +167,7 @@
     <dependency>
       <groupId>org.webjars.npm</groupId>
       <artifactId>datatables.net</artifactId>
-      <version>2.3.8</version>
+      <version>3.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.webjars.npm</groupId>
