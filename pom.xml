@@ -53,7 +53,7 @@
   </modules>
 
   <properties>
-    <jaxb2basicsVersion>2.0.16</jaxb2basicsVersion>
+    <jaxb2basicsVersion>4.0.16</jaxb2basicsVersion>
     <jaxb-api.version>2.3.1</jaxb-api.version>
     <jaxb-impl.version>2.3.9</jaxb-impl.version>
     <springVersion>5.3.39</springVersion>
