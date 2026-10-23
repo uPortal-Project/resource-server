@@ -45,7 +45,6 @@
 
   <modules>
     <module>resource-server-api</module>
-    <module>resource-server-content</module>
     <module>resource-server-core</module>
     <module>resource-server-plugin</module>
     <module>resource-server-utils</module>

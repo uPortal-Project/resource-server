@@ -108,12 +108,14 @@
 
 
     <!-- Other dependencies -->
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>resource-server-content</artifactId>
-      <version>${project.version}</version>
-      <type>war</type>
-    </dependency>
+    <!--
+      | NOTE: resource-server-webapp no longer bundles the legacy static /rs/ content
+      | (formerly supplied by the resource-server-content WAR overlay). That content has
+      | moved into the deploying application (e.g. uPortal-start), which overlays it onto
+      | this WAR. This module is now purely the serving "engine" (servlet, cache/gzip
+      | filters, webjar resolver, and the /rs/ + /webjars/ resource handlers); it serves
+      | whatever /rs/ content is overlaid onto it, and ships none of its own.
+    +-->
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>resource-server-utils</artifactId>
@@ -210,18 +212,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <overlays>
-            <overlay>
-              <groupId>org.jasig.resourceserver</groupId>
-              <artifactId>resource-server-content</artifactId>
-              <!-- Prevent the resource-server-content module from adding a web.xml -->
-              <includes>
-                <include>rs/**</include>
-              </includes>
-            </overlay>
-          </overlays>
-        </configuration>
+        <!--
+          | The resource-server-content WAR overlay was removed: this webapp no longer
+          | bundles the legacy static /rs/ content. The deploying application (e.g.
+          | uPortal-start) now supplies and overlays that content. The `exploded`
+          | execution below is retained because the frontend minify step runs against
+          | the exploded webapp; with no /rs/ present it simply has nothing to minify.
+        +-->
         <executions>
           <execution>
             <id>prepare-webapp</id>
