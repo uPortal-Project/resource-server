@@ -244,6 +244,11 @@ buildNumber.properties
 
 # Exclude maven wrapper
 !/.mvn/wrapper/maven-wrapper.jar
+# A global ~/.gitignore may ignore .mvn entirely; keep the wrapper's
+# pinned-version properties file tracked so ./mvnw works.
+!/.mvn/
+!/.mvn/wrapper/
+!/.mvn/wrapper/maven-wrapper.properties
 
 ### Node ###
 # Logs
