@@ -108,12 +108,14 @@
 
 
     <!-- Other dependencies -->
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>resource-server-content</artifactId>
-      <version>${project.version}</version>
-      <type>war</type>
-    </dependency>
+    <!--
+      | NOTE: resource-server-webapp no longer bundles the legacy static /rs/ content
+      | (formerly supplied by the resource-server-content WAR overlay). That content has
+      | moved into the deploying application (e.g. uPortal-start), which overlays it onto
+      | this WAR. This module is now purely the serving "engine" (servlet, cache/gzip
+      | filters, webjar resolver, and the /rs/ + /webjars/ resource handlers); it serves
+      | whatever /rs/ content is overlaid onto it, and ships none of its own.
+    +-->
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>resource-server-utils</artifactId>
@@ -206,69 +208,6 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <overlays>
-            <overlay>
-              <groupId>org.jasig.resourceserver</groupId>
-              <artifactId>resource-server-content</artifactId>
-              <!-- Prevent the resource-server-content module from adding a web.xml -->
-              <includes>
-                <include>rs/**</include>
-              </includes>
-            </overlay>
-          </overlays>
-        </configuration>
-        <executions>
-          <execution>
-            <id>prepare-webapp</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>exploded</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <version>1.15.4</version>
-        <executions>
-          <execution>
-            <id>install node and npm</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>install-node-and-npm</goal>
-            </goals>
-            <configuration>
-              <nodeVersion>v18.19.0</nodeVersion>
-              <npmVersion>10.2.3</npmVersion>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm install</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>install</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>minify resources</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>run minify</arguments>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <!-- Renamed from maven-notice-plugin to notice-maven-plugin; v2.0.0 inherited from uportal-portlet-parent works on Java 11. -->

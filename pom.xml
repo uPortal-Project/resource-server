@@ -45,7 +45,6 @@
 
   <modules>
     <module>resource-server-api</module>
-    <module>resource-server-content</module>
     <module>resource-server-core</module>
     <module>resource-server-plugin</module>
     <module>resource-server-utils</module>
@@ -288,18 +287,9 @@
             | list merges with our additions instead of being replaced.
             | Without it the parent's **/src/main/webapp/rs/** is dropped
             | and ~6500 vendored frontend assets fail license:check.
-            |
-            | **/node/**, **/node_modules/**: frontend-maven-plugin installs
-            | a Node binary and its bundled npm into resource-server-webapp/
-            | node/. Applying a license header there breaks shebangs (e.g.
-            | npm-cli.js), causing `npm install` to fail with 'SyntaxError:
-            | Invalid or unexpected token'. Node.js only recognizes a shebang
-            | when it is literally the first line.
           +-->
           <excludes combine.children="append">
             <exclude>**/src/test/resources/skin-test1/jquery.hoverIntent.bom.js</exclude>
-            <exclude>**/node/**</exclude>
-            <exclude>**/node_modules/**</exclude>
           </excludes>
         </configuration>
       </plugin>
