@@ -210,64 +210,6 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <!--
-          | The resource-server-content WAR overlay was removed: this webapp no longer
-          | bundles the legacy static /rs/ content. The deploying application (e.g.
-          | uPortal-start) now supplies and overlays that content. The `exploded`
-          | execution below is retained because the frontend minify step runs against
-          | the exploded webapp; with no /rs/ present it simply has nothing to minify.
-        +-->
-        <executions>
-          <execution>
-            <id>prepare-webapp</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>exploded</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <version>1.15.4</version>
-        <executions>
-          <execution>
-            <id>install node and npm</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>install-node-and-npm</goal>
-            </goals>
-            <configuration>
-              <nodeVersion>v18.19.0</nodeVersion>
-              <npmVersion>10.2.3</npmVersion>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm install</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>install</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>minify resources</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>run minify</arguments>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <!-- Renamed from maven-notice-plugin to notice-maven-plugin; v2.0.0 inherited from uportal-portlet-parent works on Java 11. -->
         <groupId>org.jasig.maven</groupId>
         <artifactId>notice-maven-plugin</artifactId>
