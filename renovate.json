@@ -46,6 +46,24 @@
       ],
       "allowedVersions": "< 5.0",
       "description": "Mockito 5 uses the inline MockMaker by default; its bundled byte-buddy references ClassFileVersion.JAVA_V21. Stay on Mockito 4.x until byte-buddy can be reconciled."
+    },
+    {
+      "matchPackageNames": [
+        "org.webjars.npm:datatables.net",
+        "org.webjars.npm:datatables.net-bs5",
+        "org.webjars.npm:datatables.net-searchpanes",
+        "org.webjars.npm:datatables.net-searchpanes-bs5"
+      ],
+      "allowedVersions": "< 3.0.0",
+      "description": "The DataTables webjars (core + bootstrap5 styling + searchpanes/select extensions) are a single coordinated set: the extensions peer-depend on a compatible core version range, so one piece cannot cross a major boundary while the others stay behind (e.g. select v4 requires datatables.net-bs5 [3.1.0,4.0.0) but searchpanes 2.x requires [2.0.0,3.0.0), which cannot resolve). Keep the core + searchpanes artifacts on 2.x. Moving DataTables to 3.x+ must be done as a coordinated bump of all six artifacts together, alongside the consuming uPortal skin."
+    },
+    {
+      "matchPackageNames": [
+        "org.webjars.npm:datatables.net-select",
+        "org.webjars.npm:datatables.net-select-bs5"
+      ],
+      "allowedVersions": "< 4.0.0",
+      "description": "Part of the coordinated DataTables webjar set (see the datatables.net rule above). select v4 requires datatables.net-bs5 3.x, but the core is pinned on 2.x, so select must stay on 3.x until the whole set migrates together."
     }
   ]
 }
