@@ -61,7 +61,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jasig.resourceserver.aggr.ResourcesDao;
 import org.jasig.resourceserver.aggr.ResourcesDaoImpl;
 import org.jasig.resourceserver.aggr.om.BasicInclude;
